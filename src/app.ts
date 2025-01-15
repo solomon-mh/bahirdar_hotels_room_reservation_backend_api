@@ -1,13 +1,19 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { StatusCodes } from 'http-status-codes';
+import { userRoutes } from './users/users.routes';
 
 export function createApp() {
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -19,6 +25,17 @@ export function createApp() {
   // test route
   app.use('/test', (req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Hello World' });
+  });
+
+  // all routes
+  app.use('/api/v1/users', userRoutes);
+
+  // not found route
+  app.all('*', (req: Request, res: Response) => {
+    res.status(404).json({
+      status: 'fail',
+      message: `Can't find ${req.originalUrl} on this server!`,
+    });
   });
 
   return app;
