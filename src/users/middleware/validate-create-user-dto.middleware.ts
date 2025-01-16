@@ -3,6 +3,25 @@ import { IUser } from '../interfaces/user.interface';
 import { Gender } from '../enums/gender.enum';
 import { UserRole } from '../enums/user-role.enum';
 
+export const AddressZodSchema = z.object({
+  city: z
+    .string()
+    .min(4, { message: 'city should be at least 4 characters' })
+    .max(255, { message: 'city should be at most 255 characters' }),
+  subcity: z
+    .string()
+    .min(4, { message: 'subcity should be at least 4 characters' })
+    .max(255, { message: 'subcity should be at most 255 characters' }),
+  woreda: z
+    .string()
+    .min(1, { message: 'woreda should be at least 1 characters' })
+    .max(255, { message: 'woreda should be at most 255 characters' }),
+  street: z
+    .string()
+    .min(4, { message: 'street should be at least 4 characters' })
+    .max(255, { message: 'street should be at most 255 characters' }),
+});
+
 export const createUserSchema = z.object({
   firstName: z
     .string()
@@ -27,24 +46,7 @@ export const createUserSchema = z.object({
       message: 'Invalid role',
     })
   ),
-  address: z.object({
-    city: z
-      .string()
-      .min(4, { message: 'city should be at least 4 characters' })
-      .max(255, { message: 'city should be at most 255 characters' }),
-    subcity: z
-      .string()
-      .min(4, { message: 'subcity should be at least 4 characters' })
-      .max(255, { message: 'subcity should be at most 255 characters' }),
-    woreda: z
-      .string()
-      .min(1, { message: 'woreda should be at least 1 characters' })
-      .max(255, { message: 'woreda should be at most 255 characters' }),
-    street: z
-      .string()
-      .min(4, { message: 'street should be at least 4 characters' })
-      .max(255, { message: 'street should be at most 255 characters' }),
-  }),
+  address: AddressZodSchema,
 });
 
 export function validateCreateUserDto(createUserDto: IUser) {
