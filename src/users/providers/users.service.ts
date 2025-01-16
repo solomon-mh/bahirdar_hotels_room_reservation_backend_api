@@ -27,4 +27,10 @@ export class UsersService {
     const user = await UserModel.findByIdAndDelete(id);
     return user;
   }
+
+  // find one
+  async findOne(query: Partial<IUser>) {
+    const user = await UserModel.findOne(query);
+    return user;
+  }
 }
