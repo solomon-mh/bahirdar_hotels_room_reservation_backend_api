@@ -5,6 +5,7 @@ import cors from 'cors';
 import { StatusCodes } from 'http-status-codes';
 import { userRoutes } from './users/users.routes';
 import { hotelRoutes } from './hotels/hotels.routes';
+import { roomRoutes } from './rooms/room.routes';
 
 export function createApp() {
   const app = express();
@@ -31,6 +32,7 @@ export function createApp() {
   // all routes
   app.use('/api/v1/users', userRoutes);
   app.use('/api/v1/hotels', hotelRoutes);
+  app.use('/api/v1/rooms', roomRoutes);
 
   // not found route
   app.all('*', (req: Request, res: Response) => {
