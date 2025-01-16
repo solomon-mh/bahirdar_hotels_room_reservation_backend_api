@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-import { AddressInterface } from './address.interface';
+import { AddressInterface } from '../../lib/shared/address.interface';
 
-export interface Hotel {
+export interface IHotel {
   _id?: string;
   name: string;
   hotelStar?: number;

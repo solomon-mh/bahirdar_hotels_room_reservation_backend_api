@@ -1,13 +1,13 @@
 import mongoose, { Model } from 'mongoose';
 import UserModel from '../users/users.model';
-import { Hotel } from './interfaces/hotel.interface';
+import { IHotel } from './interfaces/hotel.interface';
 import { Document } from 'mongoose';
 import { Schema } from 'mongoose';
 import { AddressSchema } from '../lib/shared/address.schema';
 
-export interface IHotelModel extends mongoose.Model<Hotel & Document> {}
+export interface IHotelModel extends mongoose.Model<IHotel & Document> {}
 
-const HotelSchema: Schema<Hotel> = new Schema<Hotel>(
+const HotelSchema: Schema<IHotel> = new Schema<IHotel>(
   {
     name: {
       type: String,
