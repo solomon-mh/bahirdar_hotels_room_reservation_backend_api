@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { UsersService } from './providers/users.service';
 import { IUser } from './interfaces/user.interface';
+import { validateCreateUserDto } from './middleware/validate-create-user-dto.middleware';
+import { validateUpdateUserDto } from './middleware/validate-update-user-dto.middleware';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -54,6 +56,20 @@ export class UsersController {
     console.log('create user...');
     try {
       const createUserDto = req.body as IUser;
+      const validationResult = validateCreateUserDto(createUserDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (error) => error.message
+        );
+        res.status(400).json({
+          status: 'fail',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
+
       const user = await this.usersService.createUser(createUserDto);
 
       res.status(201).json({
@@ -73,6 +89,21 @@ export class UsersController {
     console.log('update user...');
     try {
       const updateUserDto = req.body as Partial<IUser>;
+
+      const validationResult = validateUpdateUserDto(updateUserDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (error) => error.message
+        );
+        res.status(400).json({
+          status: 'fail',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
+
       const user = await this.usersService.updateUser(
         req.params.id,
         updateUserDto
