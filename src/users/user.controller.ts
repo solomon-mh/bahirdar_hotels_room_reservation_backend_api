@@ -70,7 +70,31 @@ export class UsersController {
         return;
       }
 
-      const user = await this.usersService.createUser(createUserDto);
+      let user = await this.usersService.findOne({
+        email: createUserDto.email,
+      });
+
+      if (user) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Email already exists',
+        });
+        return;
+      }
+
+      user = await this.usersService.findOne({
+        username: createUserDto.username,
+      });
+
+      if (user) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Username already used by another user',
+        });
+        return;
+      }
+
+      user = await this.usersService.createUser(createUserDto);
 
       res.status(201).json({
         status: 'success',
