@@ -2,10 +2,18 @@ import * as z from 'zod';
 import { BookingStatus } from '../enums/booking-status.enum';
 
 export const CreateBookingSchema = z.object({
-  user: z.string().uuid({ message: 'Invalid user id' }),
-  room: z.string().uuid({ message: 'Invalid room id' }),
-  checkIn: z.string().datetime({ message: 'Invalid date format' }),
-  checkOut: z.string().datetime({ message: 'Invalid date format' }),
+  user: z
+    .string({ message: 'user id is required' })
+    .uuid({ message: 'Invalid user id' }),
+  room: z
+    .string({ message: 'room id is required' })
+    .uuid({ message: 'Invalid room id' }),
+  checkIn: z
+    .string({ message: 'check in date is required' })
+    .datetime({ message: 'Invalid date format' }),
+  checkOut: z
+    .string({ message: 'check out date is required' })
+    .datetime({ message: 'Invalid date format' }),
   status: z.enum(
     Object.values(BookingStatus) as [BookingStatus, ...BookingStatus[]],
     {
