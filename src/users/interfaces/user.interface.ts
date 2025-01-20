@@ -18,6 +18,8 @@ export interface IUser {
   profilePicture: string;
   address: AddressInterface;
 
+  isOnboarding?: boolean;
+
   passwordResetToken: string;
   passwordResetExpires: Date;
 
