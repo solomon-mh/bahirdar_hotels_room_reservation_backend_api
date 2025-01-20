@@ -18,6 +18,10 @@ router.get('/current-user', (req, res) =>
   usersController.getCurrentUser(req, res)
 );
 
+router.post('/complete-onboarding', (req, res) =>
+  usersController.completeOnboarding(req, res)
+);
+
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN));
 
