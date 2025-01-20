@@ -2,6 +2,7 @@ import express from 'express';
 import { ReviewService } from './providers/review.service';
 import { ReviewController } from './review.controller';
 import { AuthController } from '../auth/auth.controller';
+import { UserRole } from '../users/enums/user-role.enum';
 
 const router = express.Router();
 
@@ -16,8 +17,18 @@ router.get('/:id', (req, res) => reviewController.getReview(req, res));
 // protected routes
 router.use((req, res, next) => authController.protect(req, res, next));
 
-router.post('/', (req, res) => reviewController.createReview(req, res));
-router.patch('/:id', (req, res) => reviewController.updateReview(req, res));
-router.delete('/:id', (req, res) => reviewController.deleteReview(req, res));
+router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
+  reviewController.createReview(req, res)
+);
+router.patch(
+  '/:id',
+  authController.restrictTo(UserRole.USER, UserRole.ADMIN),
+  (req, res) => reviewController.updateReview(req, res)
+);
+router.delete(
+  '/:id',
+  authController.restrictTo(UserRole.USER, UserRole.ADMIN),
+  (req, res) => reviewController.deleteReview(req, res)
+);
 
 export const reviewRoutes = router;
