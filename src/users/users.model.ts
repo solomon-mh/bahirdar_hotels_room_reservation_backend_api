@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import mongoose, { Schema, Model, Document } from 'mongoose';
+import validator from 'validator';
 
 import { IUser } from './interfaces/user.interface';
 import { Gender } from './enums/gender.enum';
@@ -38,6 +39,7 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       trim: true,
       required: [true, 'Email is required'],
       unique: true,
+      validate: [validator.isEmail, 'Please provide a valid email'],
     },
     phoneNumber: {
       type: String,
