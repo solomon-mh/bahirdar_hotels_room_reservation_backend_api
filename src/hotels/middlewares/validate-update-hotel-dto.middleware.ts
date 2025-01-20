@@ -3,8 +3,8 @@ import { CreateHotelSchema } from './validate-create-hotel-dto.middleware';
 
 const UpdateHotelSchema = CreateHotelSchema.partial();
 
-export function validateUpdateHotelDto(udpateHotelDto: Partial<IHotel>) {
-  const result = UpdateHotelSchema.safeParse(udpateHotelDto);
+export function validateUpdateHotelDto(updateHotelDto: Partial<IHotel>) {
+  const result = UpdateHotelSchema.safeParse(updateHotelDto);
 
   return result;
 }
