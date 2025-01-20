@@ -15,12 +15,10 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     firstName: {
       type: String,
       trim: true,
-      required: [true, 'First name is required'],
     },
     lastName: {
       type: String,
       trim: true,
-      required: [true, 'Last name is required'],
     },
     username: {
       type: String,
@@ -30,11 +28,9 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     },
     dateOfBirth: {
       type: Date,
-      required: [true, 'Date of birth is required'],
     },
     gender: {
       type: String,
-      required: [true, 'gender is required'],
       enum: Gender,
     },
     email: {
@@ -46,7 +42,6 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     phoneNumber: {
       type: String,
       trim: true,
-      required: [true, 'Phone number is required'],
     },
     password: {
       type: String,
@@ -54,7 +49,6 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     },
     role: {
       type: String,
-      required: [true, 'Role is required'],
       enum: UserRole,
       default: UserRole.USER,
     },
@@ -64,7 +58,11 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     },
     address: {
       type: AddressSchema,
-      required: [true, 'Address is required'],
+    },
+
+    isOnboarding: {
+      type: Boolean,
+      default: true,
     },
 
     passwordResetToken: String,

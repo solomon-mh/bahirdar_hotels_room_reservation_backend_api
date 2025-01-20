@@ -5,6 +5,7 @@ import { updateMyPasswordProvider } from './providers/update-my-password.provide
 import { loginProvider } from './providers/login.provider';
 import { forgotPasswordProvider } from './providers/forgot-password.provider';
 import { resetPasswordProvider } from './providers/reset-password.provider';
+import { signupProvider } from './providers/signup.provider';
 
 declare global {
   namespace Express {
@@ -65,5 +66,9 @@ export class AuthController {
 
   async resetPassword(req: Request, res: Response) {
     resetPasswordProvider(req, res);
+  }
+
+  async signup(req: Request, res: Response) {
+    signupProvider(req, res);
   }
 }
