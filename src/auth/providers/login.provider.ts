@@ -46,6 +46,7 @@ export async function loginProvider(req: Request, res: Response) {
       status: 'success',
       message: 'Logged in successfully',
       token,
+      data: user,
     });
   } catch (err) {
     res.status(500).json({
