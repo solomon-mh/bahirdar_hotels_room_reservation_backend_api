@@ -21,11 +21,9 @@ const HotelSchema: Schema<IHotel> = new Schema<IHotel>(
     },
     imageCover: {
       type: String,
-      required: [true, 'A hotel must have a cover image'],
     },
     hotelImages: {
       type: [String],
-      required: [true, 'A hotel must have additional images'],
     },
     address: {
       type: AddressSchema,

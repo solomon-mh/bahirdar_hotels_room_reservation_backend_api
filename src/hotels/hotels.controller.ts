@@ -4,6 +4,13 @@ import { IHotel } from './interfaces/hotel.interface';
 import { validateCreateHotelDto } from './middlewares/validate-create-hotel-dto.middleware';
 import { validateUpdateHotelDto } from './middlewares/validate-update-hotel-dto.middleware';
 import { UsersService } from '../users/providers/users.service';
+import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
+import { uploadFileLocal } from '../lib/utils/file-upload.util';
+
+// Define MulterFiles type
+export type MulterFiles = {
+  [key in HotelImageUploadNames]?: Express.Multer.File[];
+};
 
 export class HotelsController {
   constructor(
@@ -91,6 +98,20 @@ export class HotelsController {
         return;
       }
 
+      const files = req.files as MulterFiles;
+
+      if (files?.[HotelImageUploadNames.IMAGE_COVER]) {
+        const image = files[HotelImageUploadNames.IMAGE_COVER][0];
+        const imageUrl = uploadFileLocal(image);
+        createHotelDto.imageCover = imageUrl;
+      }
+
+      if (files?.[HotelImageUploadNames.HOTEL_IMAGES]) {
+        const images = files[HotelImageUploadNames.HOTEL_IMAGES];
+        const imageUrls = images.map((image) => uploadFileLocal(image));
+        createHotelDto.hotelImages = imageUrls;
+      }
+
       const hotel = await this.hotelsService.createHotel(createHotelDto);
       res.status(201).json({
         status: 'success',
@@ -137,6 +158,23 @@ export class HotelsController {
           });
           return;
         }
+      }
+
+      const files = req.files as MulterFiles;
+
+      if (files?.[HotelImageUploadNames.IMAGE_COVER]) {
+        const image = files[HotelImageUploadNames.IMAGE_COVER][0];
+        const imageUrl = uploadFileLocal(image);
+        updateHotelDto.imageCover = imageUrl;
+      }
+
+      if (files?.[HotelImageUploadNames.HOTEL_IMAGES]) {
+        const images = files[HotelImageUploadNames.HOTEL_IMAGES];
+        const imageUrls = images.map((image) => uploadFileLocal(image));
+        updateHotelDto.hotelImages = [
+          ...(updateHotelDto.hotelImages || []),
+          ...imageUrls,
+        ];
       }
 
       const hotel = await this.hotelsService.updateHotel(
