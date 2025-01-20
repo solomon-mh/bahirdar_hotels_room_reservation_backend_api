@@ -5,6 +5,7 @@ import {
   validateOnboardingDto,
 } from '../middleware/validate-complete-onboarding-dto.middleware';
 import { UsersService } from './users.service';
+import { uploadFileLocal } from '../../lib/utils/file-upload.util';
 
 const usersService = new UsersService();
 
@@ -39,6 +40,12 @@ export async function completeOnboardingProvider(req: Request, res: Response) {
     data.gender = gender;
     data.address = address;
     data.phoneNumber = phoneNumber;
+
+    const file = req.file as Express.Multer.File;
+    if (file) {
+      data.profilePicture = uploadFileLocal(file);
+      console.log(file);
+    }
 
     const onboardedUser = usersService.updateUser(user._id!, data);
 

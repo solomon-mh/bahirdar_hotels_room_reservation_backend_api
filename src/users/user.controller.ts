@@ -5,6 +5,7 @@ import { validateCreateUserDto } from './middleware/validate-create-user-dto.mid
 import { validateUpdateUserDto } from './middleware/validate-update-user-dto.middleware';
 import { completeOnboardingProvider } from './providers/complete-onboarding.provider';
 import { getCurrentUserProvider } from './providers/current-user.provider';
+import { uploadFileLocal } from '../lib/utils/file-upload.util';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -128,6 +129,12 @@ export class UsersController {
           errors: validationErrors,
         });
         return;
+      }
+
+      const file = req.file as Express.Multer.File;
+      if (file) {
+        updateUserDto.profilePicture = uploadFileLocal(file);
+        console.log(file);
       }
 
       const user = await this.usersService.updateUser(
