@@ -179,4 +179,33 @@ export class UsersController {
       });
     }
   }
+
+  // get current user
+  async getCurrentUser(req: Request, res: Response) {
+    console.log('get current user...');
+    try {
+      const id = req.user._id;
+
+      if (!id) {
+        res.status(400).json({
+          status: 'error',
+          message: 'You are not logged in',
+        });
+        return;
+      }
+
+      const user = await this.usersService.getUser(id);
+
+      res.status(200).json({
+        status: 'success',
+        data: user,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 'error',
+        message: (err as Error).message,
+        description: 'Error getting current user',
+      });
+    }
+  }
 }
