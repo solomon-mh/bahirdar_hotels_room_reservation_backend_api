@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import UserModel from '../../user/users.model';
+import UserModel from '../../users/users.model';
 import sendEmail from '../../lib/utils/mail.util';
 
 export const forgotPasswordProvider = async (req: Request, res: Response) => {

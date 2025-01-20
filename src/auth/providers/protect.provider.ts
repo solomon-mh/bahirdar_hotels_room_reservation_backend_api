@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verifyJWT } from '../../lib/utils/token.util';
-import UserModel from '../../user/users.model';
-import { IUser } from '../../user/interfaces/user.interface';
+import UserModel from '../../users/users.model';
+import { IUser } from '../../users/interfaces/user.interface';
 
 // PROTECT ROUTES
 export async function protectRoutes(

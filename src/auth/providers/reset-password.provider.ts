@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import crypto from 'crypto';
-import UserModel from '../../user/users.model';
+import UserModel from '../../users/users.model';
 
 export async function resetPasswordProvider(req: Request, res: Response) {
   console.log('reset password...');

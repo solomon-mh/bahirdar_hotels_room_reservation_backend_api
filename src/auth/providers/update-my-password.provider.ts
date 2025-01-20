@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import UserModel from '../../user/users.model';
+import UserModel from '../../users/users.model';
 import { isCorrectPassword } from '../../lib/utils/password.util';
 
 export async function updateMyPasswordProvider(req: Request, res: Response) {

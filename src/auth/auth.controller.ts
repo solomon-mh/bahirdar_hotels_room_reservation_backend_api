@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IUser } from '../user/interfaces/user.interface';
+import { IUser } from '../users/interfaces/user.interface';
 import { protectRoutes } from './providers/protect.provider';
 import { updateMyPasswordProvider } from './providers/update-my-password.provider';
 import { loginProvider } from './providers/login.provider';

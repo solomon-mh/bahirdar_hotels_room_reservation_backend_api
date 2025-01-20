@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { createJWT } from '../../lib/utils/token.util';
-import UserModel from '../../user/users.model';
-import { IUser } from '../../user/interfaces/user.interface';
+import UserModel from '../../users/users.model';
+import { IUser } from '../../users/interfaces/user.interface';
 import { isCorrectPassword } from '../../lib/utils/password.util';
 
 export async function loginProvider(req: Request, res: Response) {
