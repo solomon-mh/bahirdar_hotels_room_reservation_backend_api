@@ -11,6 +11,7 @@ export interface IRoom {
   capacity: number;
   description: string;
   pricePerNight: number;
+  images: string[];
 
   createdAt?: Date;
   updatedAt?: Date;

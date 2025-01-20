@@ -3,6 +3,7 @@ import { RoomsService } from './providers/room.service';
 import { IRoom } from './interface/room.interface';
 import { validateCreateRoomDto } from './middlewares/validate-create-room-dto.middleware';
 import { validateUpdateRoomDto } from './middlewares/validate-update-room-dto.middleware';
+import { uploadFileLocal } from '../lib/utils/file-upload.util';
 
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
@@ -70,6 +71,22 @@ export class RoomsController {
         return;
       }
 
+      const files = req.files as Express.Multer.File[];
+
+      if (files?.length) {
+        const images = files.map((file) => uploadFileLocal(file));
+        createRoomDto.images = images;
+      }
+
+      // validate images
+      if (!createRoomDto.images || createRoomDto.images.length === 0) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'room images are required',
+        });
+        return;
+      }
+
       const room = await this.roomsService.createRoom(createRoomDto);
 
       res.status(201).json({
@@ -102,6 +119,13 @@ export class RoomsController {
           errors: validationErrors,
         });
         return;
+      }
+
+      const files = req.files as Express.Multer.File[];
+
+      if (files?.length) {
+        const images = files.map((file) => uploadFileLocal(file));
+        updateRoomDto.images = [...(updateRoomDto.images || []), ...images];
       }
 
       const room = await this.roomsService.updateRoom(
