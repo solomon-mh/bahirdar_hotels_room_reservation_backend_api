@@ -1,8 +1,17 @@
 import { Request, Response } from 'express';
 import { BookingsService } from './providers/bookings.service';
+import { IBooking } from './interfaces/booking.interface';
+import { IUser } from '../users/interfaces/user.interface';
+import { Types } from 'mongoose';
+import { validateCreateBookingDto } from './middlewares/validate-create-bookings-dto.middleware';
+import { validateUpdateBookingDto } from './middlewares/validate-update-booking-dto.middleware';
+import { RoomsService } from '../rooms/providers/room.service';
 
 export class BookingsController {
-  constructor(private readonly bookingsService: BookingsService) {}
+  constructor(
+    private readonly bookingsService: BookingsService,
+    private readonly roomsService: RoomsService
+  ) {}
 
   // get all bookings
   async getAllBookings(req: Request, res: Response) {
@@ -51,7 +60,39 @@ export class BookingsController {
   async createBooking(req: Request, res: Response) {
     console.log('create booking...');
     try {
-      const booking = await this.bookingsService.createBooking(req.body);
+      const createBookingDto: IBooking = req.body;
+      const user: IUser = req.user;
+      createBookingDto.user = new Types.ObjectId(user._id!);
+
+      const validationResult = validateCreateBookingDto(createBookingDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (error) => error.message
+        );
+        res.status(400).json({
+          status: 'error',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
+
+      const room = await this.roomsService.findRoom(
+        createBookingDto.room.toString()
+      );
+
+      if (!room) {
+        res.status(404).json({
+          status: 'error',
+          message: 'Room not found',
+        });
+        return;
+      }
+
+      const booking = await this.bookingsService.createBooking(
+        createBookingDto
+      );
 
       res.status(201).json({
         status: 'success',
@@ -69,6 +110,36 @@ export class BookingsController {
   async updateBooking(req: Request, res: Response) {
     console.log('update booking...');
     try {
+      const updateBookingDto: Partial<IBooking> = req.body;
+
+      const validationResult = validateUpdateBookingDto(updateBookingDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (error) => error.message
+        );
+        res.status(400).json({
+          status: 'error',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
+
+      if (updateBookingDto.room) {
+        const room = await this.roomsService.findRoom(
+          updateBookingDto.room.toString()
+        );
+
+        if (!room) {
+          res.status(404).json({
+            status: 'error',
+            message: 'Room not found',
+          });
+          return;
+        }
+      }
+
       const booking = await this.bookingsService.updateBooking(
         req.params.id,
         req.body
