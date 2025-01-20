@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import { userRoutes } from './users/users.routes';
 import { hotelRoutes } from './hotels/hotels.routes';
 import { roomRoutes } from './rooms/room.routes';
+import { bookingRoutes } from './bookings/bookings.routes';
 
 export function createApp() {
   const app = express();
@@ -33,6 +34,7 @@ export function createApp() {
   app.use('/api/v1/users', userRoutes);
   app.use('/api/v1/hotels', hotelRoutes);
   app.use('/api/v1/rooms', roomRoutes);
+  app.use('/api/v1/bookings', bookingRoutes);
 
   // not found route
   app.all('*', (req: Request, res: Response) => {
