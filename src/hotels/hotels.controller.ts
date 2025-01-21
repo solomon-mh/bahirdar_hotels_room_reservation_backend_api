@@ -100,22 +100,28 @@ export class HotelsController {
 
       const files = req.files as MulterFiles;
 
-      if (files?.[HotelImageUploadNames.IMAGE_COVER]) {
-        const image = files[HotelImageUploadNames.IMAGE_COVER][0];
-        const imageUrl = uploadFileLocal(image);
-        createHotelDto.imageCover = imageUrl;
+      if (
+        !files?.[HotelImageUploadNames.IMAGE_COVER]?.length ||
+        !files?.[HotelImageUploadNames.HOTEL_IMAGES]?.length
+      ) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'hotel cover image and additional images are required',
+        });
+        return;
       }
 
-      if (files?.[HotelImageUploadNames.HOTEL_IMAGES]) {
-        const images = files[HotelImageUploadNames.HOTEL_IMAGES];
-        const imageUrls = images.map((image) => uploadFileLocal(image));
-        createHotelDto.hotelImages = imageUrls;
-      }
+      const image = files[HotelImageUploadNames.IMAGE_COVER][0];
+      createHotelDto.imageCover = uploadFileLocal(image);
+
+      const images = files[HotelImageUploadNames.HOTEL_IMAGES];
+      const imageUrls = images.map((image) => uploadFileLocal(image));
+      createHotelDto.hotelImages = imageUrls;
 
       const hotel = await this.hotelsService.createHotel(createHotelDto);
       res.status(201).json({
         status: 'success',
-        message: 'hotel created successfuly',
+        message: 'hotel created successfully',
         data: hotel,
       });
     } catch (err) {
