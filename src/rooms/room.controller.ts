@@ -4,6 +4,7 @@ import { IRoom } from './interface/room.interface';
 import { validateCreateRoomDto } from './middlewares/validate-create-room-dto.middleware';
 import { validateUpdateRoomDto } from './middlewares/validate-update-room-dto.middleware';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
+import { IRoomModel } from './room.model';
 
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
@@ -141,6 +142,10 @@ export class RoomsController {
         return;
       }
 
+      // update hotel | price per night and number of rooms
+      const Room = room.constructor as IRoomModel;
+      await Room.calcMinPriceAndNumOfRooms(room.hotel);
+
       res.status(200).json({
         status: 'success',
         data: room,
@@ -166,6 +171,10 @@ export class RoomsController {
         });
         return;
       }
+
+      // update hotel | price per night and number of rooms
+      const Room = room.constructor as IRoomModel;
+      await Room.calcMinPriceAndNumOfRooms(room.hotel);
 
       res.status(204).json({
         status: 'success',
