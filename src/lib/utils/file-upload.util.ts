@@ -1,33 +1,6 @@
-import { Readable } from 'stream';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import cloudinary from '../config/cloudinary.config';
-
-export async function uploadFile(file: Express.Multer.File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: 'student_profiles' },
-      (error, result) => {
-        if (error) return reject(error);
-        if (result) {
-          resolve(result.secure_url);
-        } else {
-          reject(new Error('Upload failed, result is undefined'));
-        }
-      }
-    );
-
-    const readableStream = new Readable({
-      read() {
-        this.push(file.buffer);
-        this.push(null);
-      },
-    });
-
-    readableStream.pipe(uploadStream);
-  });
-}
 
 export function uploadFileLocal(file: Express.Multer.File) {
   const filePath =
@@ -38,7 +11,13 @@ export function uploadFileLocal(file: Express.Multer.File) {
   return photoUrl;
 }
 
-export function multerUpload({ dirName }: { dirName: string }) {
+export function multerUpload({
+  dirName,
+  isImage,
+}: {
+  dirName: string;
+  isImage: boolean;
+}) {
   const uploadDirRelative = `public/uploads/${dirName}`;
   const uploadsDirRoot = path.resolve(
     __dirname,
@@ -65,16 +44,20 @@ export function multerUpload({ dirName }: { dirName: string }) {
         );
       },
     }),
-    fileFilter: (req, file, cb) => {
-      if (file.mimetype.startsWith('image')) {
-        cb(null, true);
-      } else {
-        cb(null, false);
-      }
-    },
-    limits: {
-      fileSize: 1024 * 1024 * 3, // 3MB
-    },
+    fileFilter: isImage
+      ? (req, file, cb) => {
+          if (file.mimetype.startsWith('image')) {
+            cb(null, true);
+          } else {
+            cb(null, false);
+          }
+        }
+      : undefined,
+    limits: isImage
+      ? {
+          fileSize: 1024 * 1024 * 3, // 3MB
+        }
+      : undefined,
   });
 
   return upload;

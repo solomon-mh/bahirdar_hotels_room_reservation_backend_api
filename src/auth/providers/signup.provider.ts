@@ -32,6 +32,7 @@ export async function signupProvider(req: Request, res: Response) {
       isOnboarding: user.isOnboarding,
       message:
         'login and continue with the onboarding process and start using the app',
+      data: user,
     });
   } catch (error) {
     console.log(error);

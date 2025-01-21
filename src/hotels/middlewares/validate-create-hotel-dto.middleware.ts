@@ -24,9 +24,7 @@ export const CreateHotelSchema = z.object({
   facilities: z
     .array(z.string(), { message: 'hotel facilities are required' })
     .min(3, { message: 'hotel must have at least 3 facilities' }),
-  manager: z
-    .string({ message: 'hotel manager is required' })
-    .uuid({ message: 'Invalid manager id' }),
+  manager: z.string({ message: 'hotel manager is required' }),
 });
 
 export function validateCreateHotelDto(createHotelDto: IHotel) {

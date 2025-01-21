@@ -36,6 +36,10 @@ const RoomSchema: Schema<IRoom> = new Schema<IRoom>(
       type: Number,
       required: true,
     },
+    images: {
+      type: [String],
+      required: [true, 'A room must have images'],
+    },
   },
   {
     timestamps: true,

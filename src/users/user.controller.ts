@@ -3,6 +3,9 @@ import { UsersService } from './providers/users.service';
 import { IUser } from './interfaces/user.interface';
 import { validateCreateUserDto } from './middleware/validate-create-user-dto.middleware';
 import { validateUpdateUserDto } from './middleware/validate-update-user-dto.middleware';
+import { completeOnboardingProvider } from './providers/complete-onboarding.provider';
+import { getCurrentUserProvider } from './providers/current-user.provider';
+import { uploadFileLocal } from '../lib/utils/file-upload.util';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -128,6 +131,12 @@ export class UsersController {
         return;
       }
 
+      const file = req.file as Express.Multer.File;
+      if (file) {
+        updateUserDto.profilePicture = uploadFileLocal(file);
+        console.log(file);
+      }
+
       const user = await this.usersService.updateUser(
         req.params.id,
         updateUserDto
@@ -182,30 +191,11 @@ export class UsersController {
 
   // get current user
   async getCurrentUser(req: Request, res: Response) {
-    console.log('get current user...');
-    try {
-      const id = req.user._id;
+    getCurrentUserProvider(req, res);
+  }
 
-      if (!id) {
-        res.status(400).json({
-          status: 'error',
-          message: 'You are not logged in',
-        });
-        return;
-      }
-
-      const user = await this.usersService.getUser(id);
-
-      res.status(200).json({
-        status: 'success',
-        data: user,
-      });
-    } catch (err) {
-      res.status(500).json({
-        status: 'error',
-        message: (err as Error).message,
-        description: 'Error getting current user',
-      });
-    }
+  // complete on boarding
+  async completeOnboarding(req: Request, res: Response) {
+    completeOnboardingProvider(req, res);
   }
 }

@@ -52,10 +52,23 @@ export const createUserSchema = z.object({
       message: 'Invalid role',
     })
   ),
+  password: z
+    .string({ message: 'password is required' })
+    .min(8, { message: 'password should be at least 8 characters' }),
+  passwordConfirm: z
+    .string({ message: 'passwordConfirm is required' })
+    .min(8, { message: 'passwordConfirm should be at least 8 characters' }),
   address: AddressZodSchema,
 });
 
+const refinedCreateUserSchema = createUserSchema.refine(
+  (data) => data.password === data.passwordConfirm,
+  {
+    message: 'password and passwordConfirm should match',
+  }
+);
+
 export function validateCreateUserDto(createUserDto: IUser) {
-  const data = createUserSchema.safeParse(createUserDto);
+  const data = refinedCreateUserSchema.safeParse(createUserDto);
   return data;
 }
