@@ -48,5 +48,14 @@ export function createApp() {
     });
   });
 
+  // global error handler middleware
+  app.use((err: Error, req: Request, res: Response, next: any) => {
+    console.error(err.stack);
+    res.status(500).json({
+      status: 'error',
+      message: (err as Error).message,
+    });
+  });
+
   return app;
 }
