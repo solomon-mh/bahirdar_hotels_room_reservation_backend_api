@@ -115,9 +115,8 @@ export class HotelsController {
       const hotel = await this.hotelsService.createHotel(createHotelDto);
       res.status(201).json({
         status: 'success',
-        data: {
-          hotel,
-        },
+        message: 'hotel created successfuly',
+        data: hotel,
       });
     } catch (err) {
       console.log(err);
