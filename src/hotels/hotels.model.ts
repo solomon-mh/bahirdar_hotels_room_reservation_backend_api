@@ -21,9 +21,11 @@ const HotelSchema: Schema<IHotel> = new Schema<IHotel>(
     },
     imageCover: {
       type: String,
+      required: [true, 'A hotel must have a cover image'],
     },
     hotelImages: {
       type: [String],
+      required: [true, 'A hotel must have some images'],
     },
     address: {
       type: AddressSchema,
@@ -34,7 +36,7 @@ const HotelSchema: Schema<IHotel> = new Schema<IHotel>(
       trim: true,
       required: [true, 'A hotel must have a summary'],
       minlength: [
-        50,
+        20,
         'A hotel summary must have more or equal then 20 characters',
       ],
     },
