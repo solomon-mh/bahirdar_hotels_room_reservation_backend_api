@@ -10,6 +10,11 @@ export interface IBooking {
   checkOut: Date;
   status: BookingStatus;
 
+  numOfNights?: number;
+  hotel?: Types.ObjectId;
+  totalPrice?: number;
+  pricePerNight?: number;
+
   createdAt?: Date;
   updatedAt?: Date;
 }
