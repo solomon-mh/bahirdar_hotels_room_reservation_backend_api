@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { FavoritesService } from './providers/favorites.service';
 import { IFavorite } from './interfaces/favorites.interface';
+import { getFavoriteByUserProvider } from './providers/get-favorite-by-user.provider';
 
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
@@ -130,5 +131,10 @@ export class FavoritesController {
         message: (err as Error).message,
       });
     }
+  }
+
+  // getFavoriteByUser
+  async getFavoriteByUser(req: Request, res: Response) {
+    getFavoriteByUserProvider(req, res);
   }
 }

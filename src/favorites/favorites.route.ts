@@ -12,6 +12,10 @@ const authController = new AuthController();
 
 router.use((req, res, next) => authController.protect(req, res, next));
 
+router.get('/user', (req, res) =>
+  favoritesController.getFavoriteByUser(req, res)
+);
+
 router.get('/', (req, res) => favoritesController.getAllFavorites(req, res));
 router.get('/:id', (req, res) => favoritesController.getFavorite(req, res));
 router.post('/', (req, res) => favoritesController.createFavorite(req, res));
