@@ -6,6 +6,7 @@ import { validateUpdateUserDto } from './middleware/validate-update-user-dto.mid
 import { completeOnboardingProvider } from './providers/complete-onboarding.provider';
 import { getCurrentUserProvider } from './providers/current-user.provider';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
+import { getManagerWithDetailProvider } from './providers/get-manager-with-detail.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -197,5 +198,10 @@ export class UsersController {
   // complete on boarding
   async completeOnboarding(req: Request, res: Response) {
     completeOnboardingProvider(req, res);
+  }
+
+  // get manager with detail
+  async getManagerWithDetails(req: Request, res: Response) {
+    getManagerWithDetailProvider(req, res);
   }
 }
