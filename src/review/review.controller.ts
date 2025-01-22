@@ -5,6 +5,7 @@ import { validateCreateReviewDto } from './middlewares/validate-create-review-dt
 import { validateUpdateReviewDto } from './middlewares/validate-update-review-dto.middleware';
 import { IUser } from '../users/interfaces/user.interface';
 import { Types } from 'mongoose';
+import { IReviewModel } from './review.model';
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
@@ -124,6 +125,10 @@ export class ReviewController {
         return;
       }
 
+      // UPDATE THE HOTEL BASED ON THE RATING GIVEN ON THE REVIEW
+      const Review = review.constructor as IReviewModel;
+      Review.calcAvgRating(review.hotel);
+
       res.status(200).json({
         status: 'success',
         data: review,
@@ -151,6 +156,10 @@ export class ReviewController {
         });
         return;
       }
+
+      // UPDATE THE HOTEL BASED ON THE RATING GIVEN ON THE REVIEW
+      const Review = review.constructor as IReviewModel;
+      Review.calcAvgRating(review.hotel);
 
       res.status(200).json({
         status: 'success',
