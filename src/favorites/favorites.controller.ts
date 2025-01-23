@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { FavoritesService } from './providers/favorites.service';
 import { IFavorite } from './interfaces/favorites.interface';
 import { getFavoriteByUserProvider } from './providers/get-favorite-by-user.provider';
+import { Types } from 'mongoose';
+import { validateCreateFavoriteDto } from './middlewares/validate-create-favorite.middleware';
 
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
@@ -57,7 +59,22 @@ export class FavoritesController {
     console.log('create favorite...');
     try {
       const createFavoriteDto = req.body as IFavorite;
-      // todo: validation
+      createFavoriteDto.user = new Types.ObjectId(req.user._id);
+      const validationResult = validateCreateFavoriteDto(createFavoriteDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors
+          .map((err) => err.message)
+          .join(', ');
+
+        res.status(400).json({
+          status: 'fail',
+          message: 'validation faild',
+          errors: validationErrors,
+        });
+        return;
+      }
+
       const favorite = await this.favoritesService.create(createFavoriteDto);
 
       res.status(201).json({
@@ -78,6 +95,7 @@ export class FavoritesController {
     console.log('update favorite...');
     try {
       const updateFavoriteDto = req.body as IFavorite;
+      updateFavoriteDto.user = new Types.ObjectId(req.user._id);
 
       const favorite = await this.favoritesService.update(
         req.params.id,
