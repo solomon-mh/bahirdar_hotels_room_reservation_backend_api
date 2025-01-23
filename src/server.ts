@@ -1,7 +1,7 @@
 import 'dotenv/config';
-
 import { createApp } from './app';
 import { connectToMongoDB } from './mongo-connection';
+import './lib/config/environment.config';
 
 const PORT = process.env.PORT || 5000;
 
