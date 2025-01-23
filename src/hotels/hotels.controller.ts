@@ -6,6 +6,7 @@ import { validateUpdateHotelDto } from './middlewares/validate-update-hotel-dto.
 import { UsersService } from '../users/providers/users.service';
 import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
+import { UserRole } from '../users/enums/user-role.enum';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -223,6 +224,15 @@ export class HotelsController {
         });
         return;
       }
+
+      // WE UPDATE THE MANAGER TO A USER AND DELETE THE LINKED HOTEL
+      await this.usersService.updateUser(
+        (hotel as unknown as IHotel).manager.toString(),
+        {
+          role: UserRole.USER,
+          hotel: undefined,
+        }
+      );
 
       res.status(204).json({
         status: 'success',

@@ -9,6 +9,7 @@ import { roomRoutes } from './rooms/room.routes';
 import { bookingRoutes } from './bookings/bookings.routes';
 import { reviewRoutes } from './review/review.routes';
 import { authRoutes } from './auth/auth.route';
+import { favoritesRoutes } from './favorites/favorites.route';
 
 export function createApp() {
   const app = express();
@@ -39,6 +40,7 @@ export function createApp() {
   app.use('/api/v1/bookings', bookingRoutes);
   app.use('/api/v1/reviews', reviewRoutes);
   app.use('/api/v1/auth', authRoutes);
+  app.use('/api/v1/favorites', favoritesRoutes);
 
   // not found route
   app.all('*', (req: Request, res: Response) => {

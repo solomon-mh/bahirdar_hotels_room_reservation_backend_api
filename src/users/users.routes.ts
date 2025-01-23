@@ -25,6 +25,10 @@ router.post('/complete-onboarding', upload.single('image'), (req, res) =>
   usersController.completeOnboarding(req, res)
 );
 
+router.get('/manager-with-detail', (req, res) =>
+  usersController.getManagerWithDetails(req, res)
+);
+
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN));
 

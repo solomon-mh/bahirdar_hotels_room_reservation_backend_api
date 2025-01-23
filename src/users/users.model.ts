@@ -67,6 +67,11 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       default: true,
     },
 
+    hotel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Hotel',
+    },
+
     passwordResetToken: String,
     passwordResetExpires: Date,
   },

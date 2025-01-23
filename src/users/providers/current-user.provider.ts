@@ -1,22 +1,28 @@
 import { Request, Response } from 'express';
 import { UsersService } from './users.service';
+import { UserRole } from '../enums/user-role.enum';
+import UserModel from '../users.model';
 
 const usersService = new UsersService();
 
 export async function getCurrentUserProvider(req: Request, res: Response) {
   console.log('get current user...');
   try {
-    const id = req.user._id;
+    const currentUser = req.user;
 
-    if (!id) {
-      res.status(400).json({
-        status: 'error',
-        message: 'You are not logged in',
-      });
-      return;
+    let user;
+
+    if (
+      currentUser.role === UserRole.ADMIN ||
+      currentUser.role === UserRole.USER
+    ) {
+      user = await usersService.getUser(currentUser._id!);
+    } else if (
+      currentUser.role === UserRole.CASHIER ||
+      currentUser.role === UserRole.MANAGER
+    ) {
+      user = await UserModel.findById(currentUser._id!).populate('hotel');
     }
-
-    const user = await usersService.getUser(id);
 
     res.status(200).json({
       status: 'success',

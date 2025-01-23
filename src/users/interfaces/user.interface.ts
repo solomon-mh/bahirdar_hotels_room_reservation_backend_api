@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { AddressInterface } from '../../lib/shared/address.interface';
 import { Gender } from '../enums/gender.enum';
 import { UserRole } from '../enums/user-role.enum';
@@ -22,6 +23,8 @@ export interface IUser {
 
   passwordResetToken: string;
   passwordResetExpires: Date;
+
+  hotel?: Types.ObjectId;
 
   createdAt?: Date;
   updatedAt?: Date;
