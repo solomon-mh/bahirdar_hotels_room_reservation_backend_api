@@ -1,12 +1,13 @@
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+import { envConfig } from '../config/environment.config';
 
 export function uploadFileLocal(file: Express.Multer.File) {
   const filePath =
     file.destination.split('/').slice(1).join('/') + '/' + file.filename;
 
-  const photoUrl = `${process.env.BACKEND_URL as string}/${filePath}`;
+  const photoUrl = `${envConfig.BACKEND_URL}/${filePath}`;
 
   return photoUrl;
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserModel from '../../users/users.model';
 import sendEmail from '../../lib/utils/mail.util';
+import { envConfig } from '../../lib/config/environment.config';
 
 export const forgotPasswordProvider = async (req: Request, res: Response) => {
   try {
@@ -29,11 +30,11 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
     await user.save({ validateBeforeSave: false });
 
     try {
-      const resetURL = `${process.env.BACKEND_URL}/api/users/resetPassword/${resetToken}`;
+      const resetURL = `${envConfig.BACKEND_URL}/api/users/resetPassword/${resetToken}`;
 
       const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
-      const html = `<h1>Forgot your password?</h1><p>Submit a PATCH request with your new password and passwordConfirm to: <a href="${process.env.RESET_PASSWORD_FRONTEND_URL}/${resetToken}" target='_blank'>${resetURL}</a></p>`;
+      const html = `<h1>Forgot your password?</h1><p>Submit a PATCH request with your new password and passwordConfirm to: <a href="${envConfig.RESET_PASSWORD_FRONTEND_URL}/${resetToken}" target='_blank'>${resetURL}</a></p>`;
 
       await sendEmail({
         email: (user as any).email as string,

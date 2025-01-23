@@ -10,11 +10,11 @@ export const environmentSchema = z.object({
   BACKEND_URL: z.string().default('http://localhost:5000'),
   JWT_SECRET: z.string({ message: 'JWT_SECRET is required' }),
   JWT_EXPIRES_IN: z.string({ message: 'JWT_EXPIRES_IN is required' }),
-  JWT_COOKIE_EXPIRES_IN: z.string({
+  JWT_COOKIE_EXPIRES_IN: z.coerce.number({
     message: 'JWT_COOKIE_EXPIRES_IN is required',
   }),
   EMAIL_HOST: z.string({ message: 'EMAIL_HOST is required' }),
-  EMAIL_PORT: z.string({ message: 'EMAIL_PORT is required' }),
+  EMAIL_PORT: z.coerce.number({ message: 'EMAIL_PORT is required' }),
   EMAIL_USERNAME: z.string({ message: 'EMAIL_USERNAME is required' }),
   EMAIL_PASSWORD: z.string({ message: 'EMAIL_PASSWORD is required' }),
   EMAIL_FROM: z.string({ message: 'EMAIL_FROM is required' }),

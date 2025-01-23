@@ -6,6 +6,7 @@ import { loginProvider } from './providers/login.provider';
 import { forgotPasswordProvider } from './providers/forgot-password.provider';
 import { resetPasswordProvider } from './providers/reset-password.provider';
 import { signupProvider } from './providers/signup.provider';
+import { envConfig } from '../lib/config/environment.config';
 
 declare global {
   namespace Express {
@@ -24,7 +25,7 @@ export class AuthController {
     res.cookie('token', 'loggedOut', {
       expires: new Date(Date.now()),
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: envConfig.NODE_ENV === 'production',
     });
 
     res.status(200).json({

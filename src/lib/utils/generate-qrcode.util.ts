@@ -2,6 +2,7 @@ import QRCode from 'qrcode';
 import fs from 'fs';
 import path from 'path';
 import { uploadFile } from './file-upload.util';
+import { envConfig } from '../config/environment.config';
 
 export async function generateAndUploadQRCode(data: string): Promise<string> {
   try {
@@ -64,7 +65,7 @@ export async function generateAndUploadQRCodeLocal(
     fs.writeFileSync(filePath, buffer);
 
     // Step 7: Construct the URL for the uploaded file
-    const photoUrl = `${process.env.BACKEND_URL}/uploads/certifications/${fileName}`;
+    const photoUrl = `${envConfig.BACKEND_URL}/uploads/certifications/${fileName}`;
 
     console.log('QR Code uploaded successfully:', photoUrl);
     return photoUrl;

@@ -2,8 +2,9 @@ import 'dotenv/config';
 import { createApp } from './app';
 import { connectToMongoDB } from './mongo-connection';
 import './lib/config/environment.config';
+import { envConfig } from './lib/config/environment.config';
 
-const PORT = process.env.PORT || 5000;
+const PORT = envConfig.PORT;
 
 async function startServer() {
   try {

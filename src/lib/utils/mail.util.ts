@@ -1,5 +1,6 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { envConfig } from '../config/environment.config';
 
 interface IEmailOptions {
   email: string;
@@ -9,21 +10,21 @@ interface IEmailOptions {
 }
 const sendEmail = async (options: IEmailOptions) => {
   let transporter: Transporter;
-  if (process.env.NODE_ENV === 'production') {
+  if (envConfig.NODE_ENV === 'production') {
     transporter = nodemailer.createTransport({
       service: 'SendGrid',
       auth: {
-        user: process.env.SENDGRID_USERNAME,
-        pass: process.env.SENDGRID_PASSWORD,
+        user: envConfig.SENDGRID_USERNAME,
+        pass: envConfig.SENDGRID_PASSWORD,
       },
     });
   } else {
     const smtpOptions: SMTPTransport.Options = {
-      host: process.env.EMAIL_HOST as string,
-      port: parseInt(process.env.EMAIL_PORT as string, 10), // Port must be a number
+      host: envConfig.EMAIL_HOST,
+      port: envConfig.EMAIL_PORT, // Port must be a number
       auth: {
-        user: process.env.EMAIL_USERNAME as string,
-        pass: process.env.EMAIL_PASSWORD as string,
+        user: envConfig.EMAIL_USERNAME,
+        pass: envConfig.EMAIL_PASSWORD,
       },
     };
 
@@ -31,7 +32,7 @@ const sendEmail = async (options: IEmailOptions) => {
   }
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM as string,
+    from: envConfig.EMAIL_FROM,
     to: options.email,
     subject: options.subject,
     text: options.message,
