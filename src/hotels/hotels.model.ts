@@ -4,6 +4,7 @@ import { IHotel } from './interfaces/hotel.interface';
 import { Document } from 'mongoose';
 import { Schema } from 'mongoose';
 import { AddressSchema } from '../lib/shared/address.schema';
+import { HotelLocation } from './enums/hotel-location.enum';
 
 export interface IHotelModel extends mongoose.Model<IHotel & Document> {}
 
@@ -30,6 +31,16 @@ const HotelSchema: Schema<IHotel> = new Schema<IHotel>(
     address: {
       type: AddressSchema,
       required: [true, 'A hotel must have an address'],
+    },
+    location: {
+      // GeoJson
+      type: {
+        type: String,
+        default: HotelLocation.POINT,
+        enum: HotelLocation,
+      },
+      // longitude first then latitude
+      coordinates: [Number],
     },
     summary: {
       type: String,
