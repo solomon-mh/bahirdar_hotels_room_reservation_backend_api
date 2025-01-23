@@ -2,32 +2,31 @@ import { Request, Response } from 'express';
 import UserModel from '../users.model';
 import { Types } from 'mongoose';
 
-export async function getUserWithBookingProvider(req: Request, res: Response) {
-  console.log('get user with booking...');
+export async function getUserWithFavoritesProvider(
+  req: Request,
+  res: Response
+) {
+  console.log('get user with favorites...');
   try {
     const userId = req.user._id!;
 
     const data = await UserModel.aggregate([
-      // get user by id
-      {
-        $match: {
-          _id: new Types.ObjectId(userId),
-        },
-      },
-      // look up to bookings
+      // find user by id
+      { $match: { _id: new Types.ObjectId(userId) } },
+      // lookup favorites
       {
         $lookup: {
-          from: 'bookings',
+          from: 'favorites',
           localField: '_id',
           foreignField: 'user',
-          as: 'bookings',
+          as: 'favorites',
         },
       },
     ]);
 
     res.status(200).json({
       status: 'success',
-      message: 'User with bookings',
+      message: 'User with favorites',
       data: data[0],
     });
   } catch (err) {

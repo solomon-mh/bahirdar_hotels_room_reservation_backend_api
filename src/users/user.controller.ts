@@ -8,6 +8,7 @@ import { getCurrentUserProvider } from './providers/current-user.provider';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { getManagerWithDetailProvider } from './providers/get-manager-with-detail.provider';
 import { getUserWithBookingProvider } from './providers/user-with-bookings.provider';
+import { getUserWithFavoritesProvider } from './providers/user-with-favorites.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -209,5 +210,10 @@ export class UsersController {
   // get user with booking
   async getUserWithBookings(req: Request, res: Response) {
     getUserWithBookingProvider(req, res);
+  }
+
+  // get user with favorites
+  async getUserWithFavorites(req: Request, res: Response) {
+    getUserWithFavoritesProvider(req, res);
   }
 }
