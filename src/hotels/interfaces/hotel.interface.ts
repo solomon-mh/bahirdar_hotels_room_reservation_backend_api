@@ -23,4 +23,6 @@ export interface IHotel {
     // longitude first then latitude
     coordinates: number[];
   };
+  latitude?: number;
+  longitude?: number;
 }
