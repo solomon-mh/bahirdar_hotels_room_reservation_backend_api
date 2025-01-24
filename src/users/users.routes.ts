@@ -21,6 +21,10 @@ router.get('/current-user', (req, res) =>
   usersController.getCurrentUser(req, res)
 );
 
+router.get('/user-with-bookings', (req, res) =>
+  usersController.getUserWithBookings(req, res)
+);
+
 router.post('/complete-onboarding', upload.single('image'), (req, res) =>
   usersController.completeOnboarding(req, res)
 );

@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { envConfig } from './lib/config/environment.config';
 
 dotenv.config();
 
-const MONGODB_URI =
-  process.env.MONGODB_URI ||
-  'mongodb://localhost:27017/HotelBookingFinalYearProjectDb';
+const MONGODB_URI = envConfig.MONGO_URI;
 
 export async function connectToMongoDB() {
   try {

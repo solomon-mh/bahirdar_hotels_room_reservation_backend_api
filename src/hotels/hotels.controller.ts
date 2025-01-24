@@ -7,6 +7,7 @@ import { UsersService } from '../users/providers/users.service';
 import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { UserRole } from '../users/enums/user-role.enum';
+import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -245,5 +246,10 @@ export class HotelsController {
         message: (err as Error).message,
       });
     }
+  }
+
+  // get hotel with rooms
+  getHotelWithRooms(req: Request, res: Response) {
+    getHotelWithRoomsProvider(req, res);
   }
 }

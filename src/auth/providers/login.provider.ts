@@ -3,6 +3,7 @@ import { createJWT } from '../../lib/utils/token.util';
 import UserModel from '../../users/users.model';
 import { IUser } from '../../users/interfaces/user.interface';
 import { isCorrectPassword } from '../../lib/utils/password.util';
+import { envConfig } from '../../lib/config/environment.config';
 
 export async function loginProvider(req: Request, res: Response) {
   try {
@@ -31,15 +32,10 @@ export async function loginProvider(req: Request, res: Response) {
 
     res.cookie('token', token, {
       expires: new Date(
-        Date.now() +
-          Number(process.env.JWT_COOKIE_EXPIRES_IN as string) *
-            24 *
-            60 *
-            60 *
-            1000
+        Date.now() + envConfig.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
       ),
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: envConfig.NODE_ENV === 'production',
     });
 
     res.status(200).json({

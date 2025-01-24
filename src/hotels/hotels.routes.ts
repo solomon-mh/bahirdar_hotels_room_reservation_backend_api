@@ -17,6 +17,9 @@ const authController = new AuthController();
 const upload = multerUpload({ dirName: 'hotels', isImage: true });
 
 router.get('/', (req, res) => hotelsController.getAllHotels(req, res));
+router.get('/with-rooms/:id', (req, res) =>
+  hotelsController.getHotelWithRooms(req, res)
+);
 router.get('/:id', (req, res) => hotelsController.getHotel(req, res));
 
 // protected routes

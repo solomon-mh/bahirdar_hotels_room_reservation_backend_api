@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
+import { envConfig } from '../config/environment.config';
 
 export interface DecodedToken {
   id: string;
@@ -9,15 +10,15 @@ export interface DecodedToken {
 }
 
 export const createJWT = (payload: { id: string; role: string }) => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+  const token = jwt.sign(payload, envConfig.JWT_SECRET, {
+    expiresIn: envConfig.JWT_EXPIRES_IN,
   });
 
   return token;
 };
 
 export const verifyJWT = (token: string): DecodedToken => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+  const decoded = jwt.verify(token, envConfig.JWT_SECRET);
 
   return decoded as DecodedToken;
 };

@@ -2,13 +2,9 @@ import * as z from 'zod';
 import { IReview } from '../interfaces/review.interface';
 
 export const CreateReviewSchema = z.object({
-  user: z
-    .string({ message: 'user id is required' })
-    .uuid({ message: 'Invalid user id' }),
-  hotel: z
-    .string({ message: 'hotel id is required' })
-    .uuid({ message: 'Invalid hotel id' }),
-  rating: z
+  user: z.string({ message: 'user id is required' }),
+  hotel: z.string({ message: 'hotel id is required' }),
+  rating: z.coerce
     .number({ message: 'Rating is required' })
     .int()
     .min(1, { message: 'Rating must be at least 1' })
