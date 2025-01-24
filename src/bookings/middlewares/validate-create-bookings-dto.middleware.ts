@@ -2,7 +2,6 @@ import * as z from 'zod';
 import { BookingStatus } from '../enums/booking-status.enum';
 
 export const CreateBookingSchema = z.object({
-  user: z.string({ message: 'user id is required' }),
   room: z.string({ message: 'room id is required' }),
   checkIn: z
     .string({ message: 'check in date is required' })
