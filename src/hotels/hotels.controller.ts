@@ -8,6 +8,7 @@ import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { UserRole } from '../users/enums/user-role.enum';
 import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
+import { HotelLocation } from './enums/hotel-location.enum';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -165,6 +166,15 @@ export class HotelsController {
           });
           return;
         }
+      }
+
+      if (updateHotelDto.latitude && updateHotelDto.longitude) {
+        updateHotelDto.location = {
+          type: HotelLocation.POINT,
+          coordinates: [updateHotelDto.longitude, updateHotelDto.latitude],
+        };
+        updateHotelDto.latitude = undefined;
+        updateHotelDto.longitude = undefined;
       }
 
       const files = req.files as MulterFiles;
