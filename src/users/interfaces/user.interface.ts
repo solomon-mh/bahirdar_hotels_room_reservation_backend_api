@@ -19,6 +19,9 @@ export interface IUser {
   profilePicture: string;
   address: AddressInterface;
 
+  idPhoto: string;
+  isVerified: boolean;
+
   isOnboarding?: boolean;
 
   passwordResetToken: string;

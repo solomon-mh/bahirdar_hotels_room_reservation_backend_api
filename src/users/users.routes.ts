@@ -4,6 +4,7 @@ import { UsersController } from './user.controller';
 import { AuthController } from '../auth/auth.controller';
 import { UserRole } from './enums/user-role.enum';
 import { multerUpload } from '../lib/utils/file-upload.util';
+import { UserPhoto } from './enums/user-photo.enum';
 
 const router = express.Router();
 
@@ -25,8 +26,13 @@ router.get('/user-with-bookings', (req, res) =>
   usersController.getUserWithBookings(req, res)
 );
 
-router.post('/complete-onboarding', upload.single('image'), (req, res) =>
-  usersController.completeOnboarding(req, res)
+router.post(
+  '/complete-onboarding',
+  upload.fields([
+    { name: UserPhoto.PROFILE_PICTURE, maxCount: 1 },
+    { name: UserPhoto.ID_PHOTO, maxCount: 1 },
+  ]),
+  (req, res) => usersController.completeOnboarding(req, res)
 );
 
 router.get('/manager-with-detail', (req, res) =>
