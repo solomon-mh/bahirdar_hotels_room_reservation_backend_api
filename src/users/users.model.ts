@@ -77,6 +77,10 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+    verifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
 
     passwordResetToken: String,
     passwordResetExpires: Date,

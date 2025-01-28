@@ -22,6 +22,8 @@ export interface IUser {
   idPhoto: string;
   isVerified: boolean;
 
+  verifiedBy: Types.ObjectId;
+
   isOnboarding?: boolean;
 
   passwordResetToken: string;
