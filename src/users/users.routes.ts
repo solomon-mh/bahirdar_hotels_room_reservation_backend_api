@@ -42,6 +42,10 @@ router.get('/manager-with-detail', (req, res) =>
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN));
 
+router.patch('/verify-user-account/:id', (req, res) =>
+  usersController.verifyUserAccount(req, res)
+);
+
 router.get('/', (req, res) => usersController.getAllUsers(req, res));
 router.get('/:id', (req, res) => usersController.getUser(req, res));
 router.post('/', (req, res) => usersController.createUser(req, res));
