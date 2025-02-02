@@ -72,6 +72,16 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       ref: 'Hotel',
     },
 
+    idPhoto: String,
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+
     passwordResetToken: String,
     passwordResetExpires: Date,
   },

@@ -19,6 +19,11 @@ export interface IUser {
   profilePicture: string;
   address: AddressInterface;
 
+  idPhoto: string;
+  isVerified: boolean;
+
+  verifiedBy: Types.ObjectId;
+
   isOnboarding?: boolean;
 
   passwordResetToken: string;

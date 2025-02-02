@@ -6,6 +6,11 @@ import {
 } from '../middleware/validate-complete-onboarding-dto.middleware';
 import { UsersService } from './users.service';
 import { uploadFileLocal } from '../../lib/utils/file-upload.util';
+import { UserPhoto } from '../enums/user-photo.enum';
+
+export type UserMulterFiles = {
+  [key in UserPhoto]?: Express.Multer.File[];
+};
 
 const usersService = new UsersService();
 
@@ -41,11 +46,29 @@ export async function completeOnboardingProvider(req: Request, res: Response) {
     data.address = address;
     data.phoneNumber = phoneNumber;
 
-    const file = req.file as Express.Multer.File;
-    if (file) {
-      data.profilePicture = uploadFileLocal(file);
-      console.log(file);
+    const files = req.file as UserMulterFiles;
+
+    if (!files?.[UserPhoto.ID_PHOTO]) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'identity photo is required',
+      });
+      return;
     }
+
+    if (!files?.[UserPhoto.PROFILE_PICTURE]) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'profile picture is required',
+      });
+      return;
+    }
+
+    const idPhoto = files[UserPhoto.ID_PHOTO]![0];
+    const profilePicture = files[UserPhoto.PROFILE_PICTURE]![0];
+
+    data.idPhoto = uploadFileLocal(idPhoto);
+    data.profilePicture = uploadFileLocal(profilePicture);
 
     const onboardedUser = usersService.updateUser(user._id!, data);
 

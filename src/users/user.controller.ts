@@ -9,6 +9,7 @@ import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { getManagerWithDetailProvider } from './providers/get-manager-with-detail.provider';
 import { getUserWithBookingProvider } from './providers/user-with-bookings.provider';
 import { getUserWithFavoritesProvider } from './providers/user-with-favorites.provider';
+import { verifyUserAccountProvider } from './providers/verify-user-account.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -215,5 +216,10 @@ export class UsersController {
   // get user with favorites
   async getUserWithFavorites(req: Request, res: Response) {
     getUserWithFavoritesProvider(req, res);
+  }
+
+  // verify user account
+  verifyUserAccount(req: Request, res: Response) {
+    verifyUserAccountProvider(req, res);
   }
 }
