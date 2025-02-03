@@ -16,16 +16,18 @@ const bookingsController = new BookingsController(
 
 const authController = new AuthController();
 
-router.get('/', (req, res) => bookingsController.getAllBookings(req, res));
-router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
-
 // protected routes
 router.use((req, res, next) => authController.protect(req, res, next));
 
+router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
+router.patch('/:id', (req, res) => bookingsController.updateBooking(req, res));
 router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   bookingsController.createBooking(req, res)
 );
-router.patch('/:id', (req, res) => bookingsController.updateBooking(req, res));
+
+// admin routes
+router.use(authController.restrictTo(UserRole.ADMIN));
+router.get('/', (req, res) => bookingsController.getAllBookings(req, res));
 router.delete('/:id', (req, res) => bookingsController.deleteBooking(req, res));
 
 export const bookingRoutes = router;
