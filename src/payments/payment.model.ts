@@ -11,6 +11,16 @@ export interface IPaymentModel extends Model<IPayment, {}, IPaymentMethods> {}
 
 const PaymentSchema = new Schema<IPayment, IPaymentModel>(
   {
+    hotelId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Hotel',
+      required: [true, 'Hotel ID is required'],
+    },
+    roomId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Room',
+      required: [true, 'Room ID is required'],
+    },
     firstName: {
       type: String,
       trim: true,

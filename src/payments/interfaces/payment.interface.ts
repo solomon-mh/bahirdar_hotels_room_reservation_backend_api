@@ -4,6 +4,9 @@ import { Gender } from '../../lib/shared/gender.enum';
 export interface IPayment {
   _id?: Types.ObjectId;
 
+  hotelId: Types.ObjectId;
+  roomId: Types.ObjectId;
+
   firstName: string;
   lastName: string;
   email: string;
