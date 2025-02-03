@@ -1,18 +1,6 @@
 import { Request, Response } from 'express';
 import BookingModel from '../../bookings/bookings.model';
-import { IRoom } from '../../rooms/interface/room.interface';
-import { IUser } from '../../users/interfaces/user.interface';
-import { IHotel } from '../../hotels/interfaces/hotel.interface';
-import { IBooking } from '../../bookings/interfaces/booking.interface';
-import { Types } from 'mongoose';
-
-interface BookingDetail
-  extends Omit<IBooking, 'room' | 'user' | 'hotel' | '_id'> {
-  _id: Types.ObjectId;
-  room: IRoom;
-  user: IUser;
-  hotel: IHotel;
-}
+import { IBookingDetail } from '../../lib/shared/booking-detail.interface';
 
 export async function acceptBookingPaymentProvider(
   req: Request,
@@ -25,7 +13,7 @@ export async function acceptBookingPaymentProvider(
     const booking = (await BookingModel.findById(bookingId)
       .populate('room')
       .populate('user')
-      .populate('hotel')) as any as BookingDetail;
+      .populate('hotel')) as any as IBookingDetail;
 
     if (!booking) {
       res.status(404).json({ status: 'fail', message: 'Booking not found' });
