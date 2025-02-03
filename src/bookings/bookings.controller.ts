@@ -9,6 +9,7 @@ import { RoomsService } from '../rooms/providers/room.service';
 import { IRoom } from '../rooms/interface/room.interface';
 import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
 import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-all-bookings-with-room-user-hotel-detail.provider';
+import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-hotel.provider';
 
 export class BookingsController {
   constructor(
@@ -204,5 +205,10 @@ export class BookingsController {
   // get all bookings with room user hotel detail
   getAllBookingsWithRoomUserHotelDetail(req: Request, res: Response) {
     getAllBookingsWithRoomUserHotelDetailProvider(req, res);
+  }
+
+  // get all bookings of a hotel
+  getAllBookingsOfAHotel(req: Request, res: Response) {
+    getAllBookingsOfAHotelProvider(req, res);
   }
 }
