@@ -10,6 +10,7 @@ import { bookingRoutes } from './bookings/bookings.routes';
 import { reviewRoutes } from './review/review.routes';
 import { authRoutes } from './auth/auth.route';
 import { favoritesRoutes } from './favorites/favorites.route';
+import { paymentRoutes } from './payments/payments.route';
 
 export function createApp() {
   const app = express();
@@ -41,6 +42,7 @@ export function createApp() {
   app.use('/api/v1/reviews', reviewRoutes);
   app.use('/api/v1/auth', authRoutes);
   app.use('/api/v1/favorites', favoritesRoutes);
+  app.use('/api/v1/payments', paymentRoutes);
 
   // not found route
   app.all('*', (req: Request, res: Response) => {
