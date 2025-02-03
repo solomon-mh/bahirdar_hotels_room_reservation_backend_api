@@ -46,14 +46,15 @@
 
 > all booking routes. baseurl `{{Backend_url}}/api/v1/bookings`
 
-| Method | URL                                         | Description                   |
-| ------ | ------------------------------------------- | ----------------------------- |
-| GET    | `/`                                         | get all bookings              |
-| POST   | `/`                                         | Create a new booking          |
-| GET    | `/{id}`                                     | get booking by id             |
-| PATCH  | `/{id}`                                     | Update a booking by id        |
-| DELETE | `/{id}`                                     | Delete a booking by id        |
-| GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id |
+| Method | URL                                         | Description                                        |
+| ------ | ------------------------------------------- | -------------------------------------------------- |
+| GET    | `/`                                         | get all bookings                                   |
+| POST   | `/`                                         | Create a new booking                               |
+| GET    | `/{id}`                                     | get booking by id                                  |
+| PATCH  | `/{id}`                                     | Update a booking by id                             |
+| DELETE | `/{id}`                                     | Delete a booking by id                             |
+| GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id                      |
+| GET    | `/all-bookings-with-room-user-hotel-detail` | get all bookings with user, role, and hotel detail |
 
 ## REVIEWS
 
