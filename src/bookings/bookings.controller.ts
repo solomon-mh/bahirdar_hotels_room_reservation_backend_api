@@ -6,6 +6,9 @@ import { Types } from 'mongoose';
 import { validateCreateBookingDto } from './middlewares/validate-create-bookings-dto.middleware';
 import { validateUpdateBookingDto } from './middlewares/validate-update-booking-dto.middleware';
 import { RoomsService } from '../rooms/providers/room.service';
+import { IRoom } from '../rooms/interface/room.interface';
+import { get } from 'http';
+import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
 
 export class BookingsController {
   constructor(
@@ -78,9 +81,9 @@ export class BookingsController {
         return;
       }
 
-      const room = await this.roomsService.findRoom(
+      const room = (await this.roomsService.findRoom(
         createBookingDto.room.toString()
-      );
+      )) as IRoom;
 
       if (!room) {
         res.status(404).json({
@@ -90,9 +93,10 @@ export class BookingsController {
         return;
       }
 
-      const booking = await this.bookingsService.createBooking(
-        createBookingDto
-      );
+      const booking = await this.bookingsService.createBooking({
+        ...createBookingDto,
+        hotel: room.hotel,
+      });
 
       res.status(201).json({
         status: 'success',
@@ -190,5 +194,10 @@ export class BookingsController {
         message: (err as Error).message,
       });
     }
+  }
+
+  // get bookings with room user hotel detail
+  getBookingWithRoomUserHotelDetail(req: Request, res: Response) {
+    getBookingWithRoomUserHotelDetailProvider(req, res);
   }
 }
