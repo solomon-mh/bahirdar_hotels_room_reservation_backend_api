@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { IUser } from '../interfaces/user.interface';
-import { Gender } from '../enums/gender.enum';
+import { Gender } from '../../lib/shared/gender.enum';
 import { UserRole } from '../enums/user-role.enum';
 
 export const AddressZodSchema = z.object(

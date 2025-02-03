@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { AddressInterface } from '../../lib/shared/address.interface';
-import { Gender } from '../enums/gender.enum';
+import { Gender } from '../../lib/shared/gender.enum';
 import { UserRole } from '../enums/user-role.enum';
 
 export interface IUser {

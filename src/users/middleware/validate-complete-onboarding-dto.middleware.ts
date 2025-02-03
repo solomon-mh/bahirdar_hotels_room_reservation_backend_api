@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { Gender } from '../enums/gender.enum';
+import { Gender } from '../../lib/shared/gender.enum';
 import { AddressZodSchema } from './validate-create-user-dto.middleware';
 
 export const completeOnboardingSchema = z.object({
