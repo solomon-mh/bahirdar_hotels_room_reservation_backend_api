@@ -31,7 +31,7 @@ export async function acceptBookingPaymentProvider(
     const raw = JSON.stringify({
       amount,
       tx_ref,
-      callback_url: `${process.env.CHAPA_CALLBACK_URL}/api/payments/chapa/verifyBookingPayment`,
+      callback_url: `${process.env.CHAPA_CALLBACK_URL}`,
       return_url: `${process.env.FRONTEND_URL}/success/${tx_ref}`,
       'customization[title]': 'Payment for Booking',
     });
