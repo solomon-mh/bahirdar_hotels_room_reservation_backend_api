@@ -22,6 +22,14 @@ router.use((req, res, next) => authController.protect(req, res, next));
 router.get('/booking-with-room-user-hotel-detail/:id', (req, res) =>
   bookingsController.getBookingWithRoomUserHotelDetail(req, res)
 );
+
+router.get(
+  '/all-bookings-with-room-user-hotel-detail',
+  authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER, UserRole.CASHIER),
+  (req, res) =>
+    bookingsController.getAllBookingsWithRoomUserHotelDetail(req, res)
+);
+
 router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
 router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   bookingsController.createBooking(req, res)
@@ -29,6 +37,7 @@ router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
 
 // admin routes
 router.use(authController.restrictTo(UserRole.ADMIN));
+
 router.patch('/:id', (req, res) => bookingsController.updateBooking(req, res));
 router.get('/', (req, res) => bookingsController.getAllBookings(req, res));
 router.delete('/:id', (req, res) => bookingsController.deleteBooking(req, res));
