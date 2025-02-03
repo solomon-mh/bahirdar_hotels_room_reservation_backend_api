@@ -9,12 +9,11 @@ export const CreateBookingSchema = z.object({
   checkOut: z
     .string({ message: 'check out date is required' })
     .datetime({ message: 'Invalid date format' }),
-  status: z.enum(
-    Object.values(BookingStatus) as [BookingStatus, ...BookingStatus[]],
-    {
+  status: z
+    .enum(Object.values(BookingStatus) as [BookingStatus, ...BookingStatus[]], {
       message: 'Invalid status',
-    }
-  ),
+    })
+    .default(BookingStatus.PENDING),
 });
 
 export function validateCreateBookingDto(createBookingDto: any) {
