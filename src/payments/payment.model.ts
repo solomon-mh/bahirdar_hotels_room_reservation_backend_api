@@ -56,7 +56,7 @@ const PaymentSchema = new Schema<IPayment, IPaymentModel>(
       trim: true,
       required: [true, 'Hotel name is required'],
     },
-    summary: {
+    hotelSummary: {
       type: String,
       trim: true,
       required: [true, 'Summary is required'],

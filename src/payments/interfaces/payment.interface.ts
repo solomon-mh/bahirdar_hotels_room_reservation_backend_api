@@ -15,7 +15,7 @@ export interface IPayment {
   gender: Gender;
 
   hotelName: string;
-  summary: string;
+  hotelSummary: string;
   roomNumber: string;
   roomType: string;
   roomFacilities: string[];
