@@ -7,7 +7,6 @@ import { validateCreateBookingDto } from './middlewares/validate-create-bookings
 import { validateUpdateBookingDto } from './middlewares/validate-update-booking-dto.middleware';
 import { RoomsService } from '../rooms/providers/room.service';
 import { IRoom } from '../rooms/interface/room.interface';
-import { get } from 'http';
 import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
 
 export class BookingsController {

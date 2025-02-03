@@ -1,11 +1,20 @@
 import { Request, Response } from 'express';
 import UserModel from '../users.model';
 import { Types } from 'mongoose';
+import { UserRole } from '../enums/user-role.enum';
 
 export async function getUserWithBookingProvider(req: Request, res: Response) {
   console.log('get user with booking...');
   try {
-    const userId = req.user._id!;
+    const { id } = req.query;
+    const account = req.user;
+    let userId = req.user._id!;
+
+    if (account.role === UserRole.ADMIN) {
+      if (id) {
+        userId = id.toString();
+      }
+    }
 
     const data = await UserModel.aggregate([
       // get user by id
