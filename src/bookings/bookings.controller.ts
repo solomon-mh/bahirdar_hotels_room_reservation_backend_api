@@ -7,8 +7,8 @@ import { validateCreateBookingDto } from './middlewares/validate-create-bookings
 import { validateUpdateBookingDto } from './middlewares/validate-update-booking-dto.middleware';
 import { RoomsService } from '../rooms/providers/room.service';
 import { IRoom } from '../rooms/interface/room.interface';
-import { get } from 'http';
 import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
+import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-all-bookings-with-room-user-hotel-detail.provider';
 
 export class BookingsController {
   constructor(
@@ -199,5 +199,10 @@ export class BookingsController {
   // get bookings with room user hotel detail
   getBookingWithRoomUserHotelDetail(req: Request, res: Response) {
     getBookingWithRoomUserHotelDetailProvider(req, res);
+  }
+
+  // get all bookings with room user hotel detail
+  getAllBookingsWithRoomUserHotelDetail(req: Request, res: Response) {
+    getAllBookingsWithRoomUserHotelDetailProvider(req, res);
   }
 }

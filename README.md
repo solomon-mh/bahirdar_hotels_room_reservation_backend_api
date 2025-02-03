@@ -4,18 +4,18 @@
 
 > all user routes. baseurl `{{Backend_url}}/api/v1/users`
 
-| Method | URL                         | Description                                                   |
-| ------ | --------------------------- | ------------------------------------------------------------- |
-| GET    | `/`                         | get all users                                                 |
-| POST   | `/`                         | Create a new user                                             |
-| GET    | `/{id}`                     | get user by id                                                |
-| PATCH  | `/{id}`                     | Update a user by id                                           |
-| DELETE | `/{id}`                     | Delete a user by id                                           |
-| PATCH  | `/verify-user-account/{id}` | verify user account                                           |
-| GET    | `/manager-with-detail`      | get manager and cashier with hotel with detail                |
-| POST   | `/complete-onboarding`      | to complete the onboarding process and to verify your account |
-| GET    | `/user-with-bookings`       | get user with booking detail                                  |
-| GET    | `/current-user`             | get the currently logged in user                              |
+| Method | URL                              | Description                                                                                                     |
+| ------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| GET    | `/`                              | get all users                                                                                                   |
+| POST   | `/`                              | Create a new user                                                                                               |
+| GET    | `/{id}`                          | get user by id                                                                                                  |
+| PATCH  | `/{id}`                          | Update a user by id                                                                                             |
+| DELETE | `/{id}`                          | Delete a user by id                                                                                             |
+| PATCH  | `/verify-user-account/{id}`      | verify user account                                                                                             |
+| GET    | `/manager-with-detail`           | get manager and cashier with hotel with detail                                                                  |
+| POST   | `/complete-onboarding`           | to complete the onboarding process and to verify your account                                                   |
+| GET    | `/user-with-bookings?id=some_id` | get user with booking detail, the query id is not required admins use it to get the booking details of the user |
+| GET    | `/current-user`                  | get the currently logged in user                                                                                |
 
 ## HOTEL's
 
@@ -46,14 +46,15 @@
 
 > all booking routes. baseurl `{{Backend_url}}/api/v1/bookings`
 
-| Method | URL                                         | Description                   |
-| ------ | ------------------------------------------- | ----------------------------- |
-| GET    | `/`                                         | get all bookings              |
-| POST   | `/`                                         | Create a new booking          |
-| GET    | `/{id}`                                     | get booking by id             |
-| PATCH  | `/{id}`                                     | Update a booking by id        |
-| DELETE | `/{id}`                                     | Delete a booking by id        |
-| GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id |
+| Method | URL                                         | Description                                        |
+| ------ | ------------------------------------------- | -------------------------------------------------- |
+| GET    | `/`                                         | get all bookings                                   |
+| POST   | `/`                                         | Create a new booking                               |
+| GET    | `/{id}`                                     | get booking by id                                  |
+| PATCH  | `/{id}`                                     | Update a booking by id                             |
+| DELETE | `/{id}`                                     | Delete a booking by id                             |
+| GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id                      |
+| GET    | `/all-bookings-with-room-user-hotel-detail` | get all bookings with user, role, and hotel detail |
 
 ## REVIEWS
 
@@ -71,13 +72,14 @@
 
 > all favorite routes. baseurl `{{Backend_url}}/api/v1/favorites`
 
-| Method | URL     | Description             |
-| ------ | ------- | ----------------------- |
-| GET    | `/`     | get all favorites       |
-| POST   | `/`     | Create a new favorite   |
-| GET    | `/{id}` | get favorite by id      |
-| PATCH  | `/{id}` | Update a favorite by id |
-| DELETE | `/{id}` | Delete a favorite by id |
+| Method | URL     | Description                         |
+| ------ | ------- | ----------------------------------- |
+| GET    | `/`     | get all favorites                   |
+| POST   | `/`     | Create a new favorite               |
+| GET    | `/{id}` | get favorite by id                  |
+| PATCH  | `/{id}` | Update a favorite by id             |
+| DELETE | `/{id}` | Delete a favorite by id             |
+| GET    | `/user` | get favorites of the logged in user |
 
 ## PAYMENT's
 
