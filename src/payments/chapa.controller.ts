@@ -1,16 +1,21 @@
 import { Request, Response } from 'express';
-import { ChapaService } from './providers/chapa.service';
+import { acceptBookingPaymentProvider } from './providers/accept-booking-payment.provider';
+import { verifyBookingPaymentProvider } from './providers/verify-booking-payment.provider';
+import { verifySaveBookingPaymentProvider } from './providers/verify-save-booking-payent.provider';
 
 export class ChapaController {
-  constructor(private readonly chapaService: ChapaService) {}
-
   // accept booking payment
   acceptBookingPayment(req: Request, res: Response) {
-    this.chapaService.acceptBookingPayment(req, res);
+    acceptBookingPaymentProvider(req, res);
   }
 
   // verify booking payment
   verifyBookingPayment(req: Request, res: Response) {
-    this.chapaService.verifyBookingPayment(req, res);
+    verifyBookingPaymentProvider(req, res);
+  }
+
+  // verify save booking payment
+  verifySaveBookingPayment(req: Request, res: Response) {
+    verifySaveBookingPaymentProvider(req, res);
   }
 }
