@@ -86,8 +86,10 @@
 
 > all payment routes. baseurl `{{Backend_url}}/api/v1/payments`
 
-| Method | URL | Description |
-| ------ | --- | ----------- |
+| Method | URL                                         | Description                                     |
+| ------ | ------------------------------------------- | ----------------------------------------------- |
+| POST   | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
+| GET    | `/chapa/verify-booking-payment/{trx_ref}`   | verify payment                                  |
 
 ## NOTIFICATION's
 
