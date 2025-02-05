@@ -11,6 +11,7 @@ export interface IBooking {
   status: BookingStatus;
 
   isPaid: boolean;
+  paymentDate: Date;
 
   numOfNights?: number;
   hotel?: Types.ObjectId;

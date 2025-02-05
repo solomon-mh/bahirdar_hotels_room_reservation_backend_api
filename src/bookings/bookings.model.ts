@@ -38,6 +38,10 @@ const BookingSchema: Schema<IBooking> = new Schema<IBooking>(
       default: false,
     },
 
+    paymentDate: {
+      type: Date,
+    },
+
     // we calculate this from the two dates
     numOfNights: {
       type: Number,
