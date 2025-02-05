@@ -4,7 +4,7 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 import validator from 'validator';
 
 import { IUser } from './interfaces/user.interface';
-import { Gender } from './enums/gender.enum';
+import { Gender } from '../lib/shared/gender.enum';
 import { UserRole } from './enums/user-role.enum';
 import { DEFAULT_USER_AVATAR } from '../lib/constants/constants';
 import { AddressSchema } from '../lib/shared/address.schema';

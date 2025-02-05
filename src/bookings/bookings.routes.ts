@@ -30,6 +30,12 @@ router.get(
     bookingsController.getAllBookingsWithRoomUserHotelDetail(req, res)
 );
 
+router.get(
+  '/all-bookings-of-a-hotel/:hotelId',
+  authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER, UserRole.CASHIER),
+  (req, res) => bookingsController.getAllBookingsOfAHotel(req, res)
+);
+
 router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
 router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   bookingsController.createBooking(req, res)

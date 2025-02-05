@@ -55,6 +55,7 @@
 | DELETE | `/{id}`                                     | Delete a booking by id                             |
 | GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id                      |
 | GET    | `/all-bookings-with-room-user-hotel-detail` | get all bookings with user, role, and hotel detail |
+| GET    | `/all-bookings-of-a-hotel/{hotelId}`        | get all bookings of a hotel                        |
 
 ## REVIEWS
 
@@ -85,8 +86,10 @@
 
 > all payment routes. baseurl `{{Backend_url}}/api/v1/payments`
 
-| Method | URL | Description |
-| ------ | --- | ----------- |
+| Method | URL                                         | Description                                     |
+| ------ | ------------------------------------------- | ----------------------------------------------- |
+| POST   | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
+| GET    | `/chapa/verify-booking-payment/{trx_ref}`   | verify payment                                  |
 
 ## NOTIFICATION's
 
