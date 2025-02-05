@@ -26,9 +26,7 @@ export class UsersController {
       res.status(200).json({
         status: 'success',
         pagination: data.pagination,
-        data: {
-          users: data.users,
-        },
+        data: data.users,
       });
     } catch (err) {
       console.log(err);

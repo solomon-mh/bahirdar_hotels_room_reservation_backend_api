@@ -34,9 +34,7 @@ export class HotelsController {
         status: 'success',
         results: data.hotels.length,
         pagination: data.pagination,
-        data: {
-          hotels: data.hotels,
-        },
+        data: data.hotels,
       });
     } catch (err) {
       console.log(err);
