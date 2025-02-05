@@ -72,6 +72,19 @@ export class RoomsController {
         return;
       }
 
+      let room = await this.roomsService.findOne({
+        roomNumber: createRoomDto.roomNumber,
+        hotel: createRoomDto.hotel,
+      });
+
+      if (room) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Room already exists',
+        });
+        return;
+      }
+
       const files = req.files as Express.Multer.File[];
 
       if (files?.length) {
@@ -88,7 +101,7 @@ export class RoomsController {
         return;
       }
 
-      const room = await this.roomsService.createRoom(createRoomDto);
+      room = await this.roomsService.createRoom(createRoomDto);
 
       res.status(201).json({
         status: 'success',
