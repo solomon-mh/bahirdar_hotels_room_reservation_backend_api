@@ -2,14 +2,14 @@ import { getPaginationData } from '../../lib/utils/get-pagination-data.util';
 import { hotelSearchQueryHelper } from '../helpers/hotel-search-query.helper';
 import { mapSortParametersHelper } from '../helpers/map-sort-parameters.helper';
 import HotelModel from '../hotels.model';
-import { GetAllHotelQuery } from '../interfaces/get-all-hotel-query.interface';
+import { IGetAllHotelQuery } from '../interfaces/get-all-hotel-query.interface';
 import { IHotel } from '../interfaces/hotel.interface';
 
 export class HotelsService {
   // find all hotels
-  async findAllHotels(query: GetAllHotelQuery) {
+  async findAllHotels(query: IGetAllHotelQuery) {
     const { avgRating, hotelStar, limit, page, search, sort } =
-      query as GetAllHotelQuery;
+      query as IGetAllHotelQuery;
 
     const filter: Record<string, any> = {};
 
