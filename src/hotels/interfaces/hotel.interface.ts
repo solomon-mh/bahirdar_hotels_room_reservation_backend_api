@@ -25,4 +25,7 @@ export interface IHotel {
   };
   latitude?: number;
   longitude?: number;
+
+  createdAt?: Date;
+  updatedAt?: Date;
 }
