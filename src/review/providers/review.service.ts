@@ -27,4 +27,10 @@ export class ReviewService {
     const review = await ReviewModel.findByIdAndDelete(id);
     return review;
   }
+
+  // find one
+  async findOne(filter: Partial<IReview>) {
+    const review = await ReviewModel.findOne(filter);
+    return review;
+  }
 }

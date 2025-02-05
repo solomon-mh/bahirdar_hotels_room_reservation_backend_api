@@ -79,7 +79,20 @@ export class ReviewController {
         return;
       }
 
-      const review = await this.reviewService.createReview(createReviewDto);
+      let review = await this.reviewService.findOne({
+        hotel: createReviewDto.hotel,
+        user: createReviewDto.user,
+      });
+
+      if (review) {
+        res.status(400).json({
+          status: 'error',
+          message: 'You have already reviewed this hotel',
+        });
+        return;
+      }
+
+      review = await this.reviewService.createReview(createReviewDto);
 
       res.status(201).json({
         status: 'success',
