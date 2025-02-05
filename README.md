@@ -91,6 +91,11 @@
 | ------ | ------------------------------------------- | ----------------------------------------------- |
 | POST   | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
 | GET    | `/chapa/verify-booking-payment/{trx_ref}`   | verify payment                                  |
+| GET    | `/`                                         | get all payments                                |
+| POST   | `/`                                         | create payment                                  |
+| GET    | `/{id}`                                     | get payment by id                               |
+| PATCH  | `/{id}`                                     | update payment                                  |
+| DELETE | `/{id}`                                     | delete payment                                  |
 
 ## NOTIFICATION's
 
