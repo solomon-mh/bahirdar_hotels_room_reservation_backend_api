@@ -6,6 +6,7 @@ import { validateUpdateReviewDto } from './middlewares/validate-update-review-dt
 import { IUser } from '../users/interfaces/user.interface';
 import { Types } from 'mongoose';
 import { IReviewModel } from './review.model';
+import { getAllReviewsOfAHotelProvider } from './providers/get-all-reviews-a-hotel.provider';
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
@@ -185,5 +186,10 @@ export class ReviewController {
         message: (error as Error).message,
       });
     }
+  }
+
+  // GET ALL REVIEWS OF A HOTEL
+  getAllReviewsOfAHotel(req: Request, res: Response) {
+    getAllReviewsOfAHotelProvider(req, res);
   }
 }

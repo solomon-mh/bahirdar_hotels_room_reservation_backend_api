@@ -61,13 +61,14 @@
 
 > all review routes. baseurl `{{Backend_url}}/api/v1/reviews`
 
-| Method | URL     | Description           |
-| ------ | ------- | --------------------- |
-| GET    | `/`     | get all reviews       |
-| POST   | `/`     | Create a new review   |
-| GET    | `/{id}` | get review by id      |
-| PATCH  | `/{id}` | Update a review by id |
-| DELETE | `/{id}` | Delete a review by id |
+| Method | URL                | Description                |
+| ------ | ------------------ | -------------------------- |
+| GET    | `/`                | get all reviews            |
+| POST   | `/`                | Create a new review        |
+| GET    | `/{id}`            | get review by id           |
+| PATCH  | `/{id}`            | Update a review by id      |
+| DELETE | `/{id}`            | Delete a review by id      |
+| GET    | `/hotel/{hotelId}` | get all reviews of a hotel |
 
 ## FAVORITE's
 
