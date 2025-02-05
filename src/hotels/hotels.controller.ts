@@ -9,6 +9,7 @@ import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { UserRole } from '../users/enums/user-role.enum';
 import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
 import { HotelLocation } from './enums/hotel-location.enum';
+import { GetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -25,12 +26,16 @@ export class HotelsController {
   async getAllHotels(req: Request, res: Response) {
     console.log('get all hotels...');
     try {
-      const hotels = await this.hotelsService.findAllHotels();
+      const data = await this.hotelsService.findAllHotels(
+        req.query as GetAllHotelQuery
+      );
+
       res.status(200).json({
         status: 'success',
-        results: hotels.length,
+        results: data.hotels.length,
+        pagination: data.pagination,
         data: {
-          hotels,
+          hotels: data.hotels,
         },
       });
     } catch (err) {
