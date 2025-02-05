@@ -1,11 +1,50 @@
+import { getPaginationData } from '../../lib/utils/get-pagination-data.util';
+import { hotelSearchQueryHelper } from '../helpers/hotel-search-query.helper';
+import { mapSortParametersHelper } from '../helpers/map-sort-parameters.helper';
 import HotelModel from '../hotels.model';
+import { GetAllHotelQuery } from '../interfaces/get-all-hotel-query.interface';
 import { IHotel } from '../interfaces/hotel.interface';
 
 export class HotelsService {
   // find all hotels
-  async findAllHotels() {
-    const hotels = await HotelModel.find();
-    return hotels;
+  async findAllHotels(query: GetAllHotelQuery) {
+    const { avgRating, hotelStar, limit, page, search, sort } =
+      query as GetAllHotelQuery;
+
+    const filter: Record<string, any> = {};
+
+    if (avgRating) filter.avgRating = avgRating;
+    if (hotelStar) filter.hotelStar = hotelStar;
+
+    if (search) {
+      // search by name, address( city, subcity, woreda, street ) and summary,
+      filter.$or = hotelSearchQueryHelper(search);
+    }
+
+    // pagination
+    const { skip, _limit, totalPages, _page } = await getPaginationData(
+      limit,
+      page,
+      HotelModel
+    );
+
+    // sort
+    const _sort: Partial<Record<keyof IHotel, any>> =
+      mapSortParametersHelper(sort);
+
+    const hotels = await HotelModel.find(filter)
+      .sort(_sort)
+      .skip(skip)
+      .limit(_limit);
+
+    return {
+      pagination: {
+        totalPages,
+        limit: _limit,
+        page: _page,
+      },
+      hotels,
+    };
   }
   // find hotel
   async findHotel(id: string) {
