@@ -5,6 +5,7 @@ import { validateCreateRoomDto } from './middlewares/validate-create-room-dto.mi
 import { validateUpdateRoomDto } from './middlewares/validate-update-room-dto.middleware';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { IRoomModel } from './room.model';
+import { IGetAllRoomsQuery } from './interface/get-all-rooms-query.interface';
 
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
@@ -13,11 +14,17 @@ export class RoomsController {
   async getAllRooms(req: Request, res: Response) {
     console.log('get all rooms...');
     try {
-      const rooms = await this.roomsService.findAllRooms();
+      const data = await this.roomsService.findAllRooms(
+        req.query as IGetAllRoomsQuery
+      );
 
       res.status(200).json({
         status: 'success',
-        data: rooms,
+        results: data.rooms.length,
+        pagination: data.pagination,
+        data: {
+          rooms: data.rooms,
+        },
       });
     } catch (err) {
       console.log(err);
