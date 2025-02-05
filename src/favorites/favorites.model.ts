@@ -22,6 +22,8 @@ const FavoriteSchema = new Schema<IFavorite, IFavoriteModel>(
   }
 );
 
+FavoriteSchema.index({ user: 1, hotel: 1 }, { unique: true });
+
 const FavoriteModel = mongoose.model<IFavorite, IFavoriteModel>(
   'Favorite',
   FavoriteSchema
