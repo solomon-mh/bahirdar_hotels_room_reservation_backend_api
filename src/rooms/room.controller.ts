@@ -135,6 +135,21 @@ export class RoomsController {
         return;
       }
 
+      if (updateRoomDto.roomNumber) {
+        const room = await this.roomsService.findOne({
+          roomNumber: updateRoomDto.roomNumber,
+          hotel: updateRoomDto.hotel,
+        });
+
+        if (room && room._id.toString() !== req.params.id) {
+          res.status(400).json({
+            status: 'fail',
+            message: 'Room number already exists',
+          });
+          return;
+        }
+      }
+
       const files = req.files as Express.Multer.File[];
 
       if (files?.length) {

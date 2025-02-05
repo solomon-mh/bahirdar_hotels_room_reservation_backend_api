@@ -19,7 +19,6 @@ const RoomSchema = new Schema<IRoom, IRoomModel>(
     roomNumber: {
       type: String,
       required: true,
-      unique: true,
     },
     roomType: {
       type: String,
