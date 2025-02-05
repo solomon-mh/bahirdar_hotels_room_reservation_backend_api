@@ -1,6 +1,6 @@
 import { getPaginationDataUtil } from '../../lib/utils/get-pagination-data.util';
 import { hotelSearchQueryHelper } from '../helpers/hotel-search-query.helper';
-import { mapSortParametersHelper } from '../helpers/map-sort-parameters.helper';
+import { mapHotelSortParametersHelper } from '../helpers/map-hotel-sort-parameters.helper';
 import HotelModel from '../hotels.model';
 import { IGetAllHotelQuery } from '../interfaces/get-all-hotel-query.interface';
 import { IHotel } from '../interfaces/hotel.interface';
@@ -30,7 +30,7 @@ export class HotelsService {
 
     // sort
     const _sort: Partial<Record<keyof IHotel, any>> =
-      mapSortParametersHelper(sort);
+      mapHotelSortParametersHelper(sort);
 
     const hotels = await HotelModel.find(filter)
       .sort(_sort)

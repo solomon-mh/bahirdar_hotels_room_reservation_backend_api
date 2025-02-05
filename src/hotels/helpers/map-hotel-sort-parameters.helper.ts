@@ -1,7 +1,7 @@
 import { HotelSortEnum } from '../enums/hotel-sort.enum';
 import { IHotel } from '../interfaces/hotel.interface';
 
-export function mapSortParametersHelper(sort: string | undefined) {
+export function mapHotelSortParametersHelper(sort: string | undefined) {
   const _sort: Partial<Record<keyof IHotel, any>> = {};
 
   if (sort) {
