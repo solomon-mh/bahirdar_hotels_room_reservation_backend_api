@@ -1,4 +1,4 @@
-import { getPaginationData } from '../../lib/utils/get-pagination-data.util';
+import { getPaginationDataUtil } from '../../lib/utils/get-pagination-data.util';
 import { hotelSearchQueryHelper } from '../helpers/hotel-search-query.helper';
 import { mapSortParametersHelper } from '../helpers/map-sort-parameters.helper';
 import HotelModel from '../hotels.model';
@@ -22,7 +22,7 @@ export class HotelsService {
     }
 
     // pagination
-    const { skip, _limit, totalPages, _page } = await getPaginationData(
+    const { skip, _limit, totalPages, _page } = await getPaginationDataUtil(
       limit,
       page,
       HotelModel
