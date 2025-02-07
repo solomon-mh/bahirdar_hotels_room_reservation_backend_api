@@ -1,4 +1,6 @@
 import { IPayment } from '../interfaces/payment.interface';
+import { UpdatePaymentDto } from '../middleware/validate-update-payment-dto.middleware';
+import { CreatePaymentDto } from '../middleware/validate-create-payment-dto.middleware';
 import PaymentModel from '../payment.model';
 
 export class PaymentService {
@@ -13,12 +15,12 @@ export class PaymentService {
     return payment;
   }
   // create one
-  async createPayment(createPaymentDto: IPayment) {
+  async createPayment(createPaymentDto: CreatePaymentDto) {
     const payment = await PaymentModel.create(createPaymentDto);
     return payment;
   }
   // update one
-  async updatePayment(id: string, createPaymentDto: Partial<IPayment>) {
+  async updatePayment(id: string, createPaymentDto: UpdatePaymentDto) {
     const payment = await PaymentModel.findByIdAndUpdate(id, createPaymentDto, {
       new: true,
     });

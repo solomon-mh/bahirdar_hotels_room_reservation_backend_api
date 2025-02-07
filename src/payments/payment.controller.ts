@@ -1,6 +1,13 @@
 import { Request, Response } from 'express';
 import { PaymentService } from './providers/payment.service';
-import { IPayment } from './interfaces/payment.interface';
+import {
+  CreatePaymentDto,
+  validateCreatePaymentDto,
+} from './middleware/validate-create-payment-dto.middleware';
+import {
+  UpdatePaymentDto,
+  validateUpdatePaymentDto,
+} from './middleware/validate-update-payment-dto.middleware';
 
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
@@ -55,7 +62,21 @@ export class PaymentController {
     console.log('create payment...');
     try {
       // todo: validation
-      const createPaymentDto: IPayment = req.body;
+      const createPaymentDto: CreatePaymentDto = req.body;
+
+      const validationResult = validateCreatePaymentDto(createPaymentDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (err) => err.message
+        );
+        res.status(400).json({
+          status: 'fail',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
 
       const payment = await this.paymentService.createPayment(createPaymentDto);
 
@@ -78,7 +99,21 @@ export class PaymentController {
     try {
       const { id } = req.params;
 
-      const updatePaymentDto: Partial<IPayment> = req.body;
+      const updatePaymentDto: UpdatePaymentDto = req.body;
+
+      const validationResult = validateUpdatePaymentDto(updatePaymentDto);
+
+      if (validationResult.success === false) {
+        const validationErrors = validationResult.error.errors.map(
+          (err) => err.message
+        );
+        res.status(400).json({
+          status: 'fail',
+          message: 'Validation failed',
+          errors: validationErrors,
+        });
+        return;
+      }
 
       const payment = await this.paymentService.updatePayment(
         id,
