@@ -30,7 +30,7 @@ router.post(
   authController.restrictTo(UserRole.ADMIN),
   upload.fields([
     { name: HotelImageUploadNames.IMAGE_COVER, maxCount: 1 },
-    { name: HotelImageUploadNames.HOTEL_IMAGES, maxCount: 5 },
+    { name: HotelImageUploadNames.HOTEL_IMAGES, maxCount: 10 },
   ]),
   (req, res) => hotelsController.createHotel(req, res)
 );
@@ -40,7 +40,7 @@ router.patch(
   authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER),
   upload.fields([
     { name: 'imageCover', maxCount: 1 },
-    { name: 'hotelImages', maxCount: 5 },
+    { name: 'hotelImages', maxCount: 10 },
   ]),
   (req, res) => hotelsController.updateHotel(req, res)
 );
