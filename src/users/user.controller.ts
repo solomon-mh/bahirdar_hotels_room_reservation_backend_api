@@ -10,6 +10,7 @@ import { getManagerWithDetailProvider } from './providers/get-manager-with-detai
 import { getUserWithBookingProvider } from './providers/user-with-bookings.provider';
 import { getUserWithFavoritesProvider } from './providers/user-with-favorites.provider';
 import { verifyUserAccountProvider } from './providers/verify-user-account.provider';
+import { IGetAllUsersQuery } from './interfaces/get-all-users-query.interface';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -18,11 +19,14 @@ export class UsersController {
   async getAllUsers(req: Request, res: Response) {
     console.log('get all users...');
     try {
-      const users = await this.usersService.getAllUsers();
+      const data = await this.usersService.getAllUsers(
+        req.query as IGetAllUsersQuery
+      );
 
       res.status(200).json({
         status: 'success',
-        data: users,
+        pagination: data.pagination,
+        data: data.users,
       });
     } catch (err) {
       console.log(err);

@@ -59,6 +59,9 @@ const ReviewSchema = new Schema<IReview, IReviewModel, IReviewMethods>(
   }
 );
 
+// Prevent multiple reviews from the same user for the same hotel
+ReviewSchema.index({ hotel: 1, user: 1 }, { unique: true });
+
 // calculate avg rating and number of ratings for a hotel
 ReviewSchema.static(
   'calcAvgRating',

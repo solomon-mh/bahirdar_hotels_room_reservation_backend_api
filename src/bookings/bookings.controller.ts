@@ -10,6 +10,7 @@ import { IRoom } from '../rooms/interface/room.interface';
 import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
 import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-all-bookings-with-room-user-hotel-detail.provider';
 import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-hotel.provider';
+import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
 
 export class BookingsController {
   constructor(
@@ -21,10 +22,14 @@ export class BookingsController {
   async getAllBookings(req: Request, res: Response) {
     console.log('get all bookings...');
     try {
-      const bookings = await this.bookingsService.findAllBookings();
+      const data = await this.bookingsService.findAllBookings(
+        req.query as IGetAllBookingQuery
+      );
+
       res.status(200).json({
         status: 'success',
-        data: bookings,
+        pagination: data.pagination,
+        data: data.bookings,
       });
     } catch (err) {
       console.log(err);

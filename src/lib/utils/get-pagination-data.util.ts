@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-export async function getPaginationData<T>(
+export async function getPaginationDataUtil<T>(
   limit: string | number | undefined,
   page: string | number | undefined,
   model: Model<T>

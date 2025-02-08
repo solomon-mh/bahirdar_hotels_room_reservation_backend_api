@@ -34,4 +34,9 @@ export class FavoritesService {
 
     return favorite;
   }
+  // find one
+  async findOne(filter: Partial<IFavorite>) {
+    const favorite = await FavoriteModel.findOne(filter);
+    return favorite;
+  }
 }

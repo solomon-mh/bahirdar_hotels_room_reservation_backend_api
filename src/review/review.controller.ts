@@ -6,6 +6,7 @@ import { validateUpdateReviewDto } from './middlewares/validate-update-review-dt
 import { IUser } from '../users/interfaces/user.interface';
 import { Types } from 'mongoose';
 import { IReviewModel } from './review.model';
+import { getAllReviewsOfAHotelProvider } from './providers/get-all-reviews-a-hotel.provider';
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
@@ -79,7 +80,20 @@ export class ReviewController {
         return;
       }
 
-      const review = await this.reviewService.createReview(createReviewDto);
+      let review = await this.reviewService.findOne({
+        hotel: createReviewDto.hotel,
+        user: createReviewDto.user,
+      });
+
+      if (review) {
+        res.status(400).json({
+          status: 'error',
+          message: 'You have already reviewed this hotel',
+        });
+        return;
+      }
+
+      review = await this.reviewService.createReview(createReviewDto);
 
       res.status(201).json({
         status: 'success',
@@ -172,5 +186,10 @@ export class ReviewController {
         message: (error as Error).message,
       });
     }
+  }
+
+  // GET ALL REVIEWS OF A HOTEL
+  getAllReviewsOfAHotel(req: Request, res: Response) {
+    getAllReviewsOfAHotelProvider(req, res);
   }
 }

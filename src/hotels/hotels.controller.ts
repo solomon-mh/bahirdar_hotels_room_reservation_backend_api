@@ -9,7 +9,7 @@ import { uploadFileLocal } from '../lib/utils/file-upload.util';
 import { UserRole } from '../users/enums/user-role.enum';
 import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
 import { HotelLocation } from './enums/hotel-location.enum';
-import { GetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
+import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -27,16 +27,14 @@ export class HotelsController {
     console.log('get all hotels...');
     try {
       const data = await this.hotelsService.findAllHotels(
-        req.query as GetAllHotelQuery
+        req.query as IGetAllHotelQuery
       );
 
       res.status(200).json({
         status: 'success',
         results: data.hotels.length,
         pagination: data.pagination,
-        data: {
-          hotels: data.hotels,
-        },
+        data: data.hotels,
       });
     } catch (err) {
       console.log(err);

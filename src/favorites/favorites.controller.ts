@@ -69,13 +69,26 @@ export class FavoritesController {
 
         res.status(400).json({
           status: 'fail',
-          message: 'validation faild',
+          message: 'validation failed',
           errors: validationErrors,
         });
         return;
       }
 
-      const favorite = await this.favoritesService.create(createFavoriteDto);
+      let favorite = await this.favoritesService.findOne({
+        user: createFavoriteDto.user,
+        hotel: createFavoriteDto.hotel,
+      });
+
+      if (favorite) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Favorite already exists',
+        });
+        return;
+      }
+
+      favorite = await this.favoritesService.create(createFavoriteDto);
 
       res.status(201).json({
         status: 'success',
