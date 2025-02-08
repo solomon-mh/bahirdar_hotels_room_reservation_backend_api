@@ -3,7 +3,7 @@ import { IBooking } from './interfaces/booking.interface';
 import { BookingStatus } from './enums/booking-status.enum';
 import RoomModel from '../rooms/room.model';
 
-export interface IBookingModel extends Model<IBooking, Document> {}
+export interface IBookingModel extends Model<IBooking & Document> {}
 
 const BookingSchema: Schema<IBooking> = new Schema<IBooking>(
   {
