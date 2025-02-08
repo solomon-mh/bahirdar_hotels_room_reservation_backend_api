@@ -4,6 +4,15 @@ import { AddressInterface } from './address.interface';
 export const AddressSchema: Schema<AddressInterface> =
   new Schema<AddressInterface>(
     {
+      country: {
+        type: String,
+        trim: true,
+        required: [true, 'An address must have a country'],
+        minlength: [
+          3,
+          'A country name must have more or equal then 3 characters',
+        ],
+      },
       city: {
         type: String,
         trim: true,
