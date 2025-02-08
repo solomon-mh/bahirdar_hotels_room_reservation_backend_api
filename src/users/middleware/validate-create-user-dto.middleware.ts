@@ -5,6 +5,10 @@ import { UserRole } from '../enums/user-role.enum';
 
 export const AddressZodSchema = z.object(
   {
+    country: z
+      .string({ message: 'country is required' })
+      .min(3, { message: 'country should be at least 3 characters' })
+      .max(255, { message: 'country should be at most 255 characters' }),
     city: z
       .string({ message: 'city is required' })
       .min(4, { message: 'city should be at least 4 characters' })
