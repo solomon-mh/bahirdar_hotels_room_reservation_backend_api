@@ -18,6 +18,8 @@
 | GET    | `/current-user`                  | get the currently logged in user                                                                                |
 | GET    | `/onboarding-users`              | get all onboarding users                                                                                        |
 
+| GET | `verification-requests` | get all users that sent a verification request |
+
 ## HOTEL's
 
 > all hotel routes. baseurl `{{Backend_url}}/api/v1/hotels`

@@ -49,6 +49,10 @@ router.get('/onboarding-users', (req, res) =>
   usersController.getAllOnboardingUsers(req, res)
 );
 
+router.get('/verification-requests', (req, res) =>
+  usersController.getAllVerificationRequests(req, res)
+);
+
 router.get('/', (req, res) => usersController.getAllUsers(req, res));
 router.get('/:id', (req, res) => usersController.getUser(req, res));
 router.post('/', (req, res) => usersController.createUser(req, res));

@@ -12,6 +12,7 @@ import { getUserWithFavoritesProvider } from './providers/user-with-favorites.pr
 import { verifyUserAccountProvider } from './providers/verify-user-account.provider';
 import { IGetAllUsersQuery } from './interfaces/get-all-users-query.interface';
 import { getAllOnboardingUsersProvider } from './providers/onboarding-users.provider';
+import { getAllVerificationRequestsProvider } from './providers/verification-requested-user.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -231,5 +232,10 @@ export class UsersController {
   // get all onboarding users
   async getAllOnboardingUsers(req: Request, res: Response) {
     getAllOnboardingUsersProvider(req, res);
+  }
+
+  // get all verification requests
+  getAllVerificationRequests(req: Request, res: Response) {
+    getAllVerificationRequestsProvider(req, res);
   }
 }
