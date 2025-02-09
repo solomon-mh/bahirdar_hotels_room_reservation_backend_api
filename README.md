@@ -89,7 +89,7 @@
 
 | Method | URL                                         | Description                                     |
 | ------ | ------------------------------------------- | ----------------------------------------------- |
-| POST   | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
+| GET    | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
 | GET    | `/chapa/verify-booking-payment/{trx_ref}`   | verify payment                                  |
 | GET    | `/`                                         | get all payments                                |
 | POST   | `/`                                         | create payment                                  |

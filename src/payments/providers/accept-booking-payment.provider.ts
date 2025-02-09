@@ -4,6 +4,13 @@ import { IBookingDetail } from '../../lib/shared/booking-detail.interface';
 import { envConfig } from '../../lib/config/environment.config';
 // import axios from 'axios';
 
+export interface IChapa {
+  status: 'success' | 'failed';
+  data: {
+    checkout_url: string;
+  };
+}
+
 export async function acceptBookingPaymentProvider(
   req: Request,
   res: Response
@@ -38,10 +45,6 @@ export async function acceptBookingPaymentProvider(
     myHeaders.append('Authorization', `Bearer ${envConfig.CHAPA_API_KEY}`);
     myHeaders.append('Content-Type', 'application/json');
 
-    console.log(myHeaders);
-    console.log('Generated tx_ref:', tx_ref);
-    console.log(booking.user);
-
     const raw = JSON.stringify({
       amount,
       tx_ref,
@@ -75,17 +78,15 @@ export async function acceptBookingPaymentProvider(
       throw new Error('Network error on payment initialization');
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as IChapa;
     if (data.status === 'failed') {
       throw new Error('Failed to initialize payment');
     }
 
     res.status(200).json({
       status: 'success',
-      data: {
-        chapa: data,
-        booking,
-      },
+      checkout_url: data.data.checkout_url,
+      data: booking,
     });
   } catch (err) {
     console.log(err);

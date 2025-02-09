@@ -90,6 +90,7 @@ export async function verifySaveBookingPaymentProvider(
       };
 
       await PaymentModel.create(body);
+      console.log('payment verified and room booked successfully');
 
       res.status(200).send();
     }
