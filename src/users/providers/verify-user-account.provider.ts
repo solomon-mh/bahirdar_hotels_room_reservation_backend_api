@@ -7,10 +7,16 @@ export async function verifyUserAccountProvider(req: Request, res: Response) {
     const admin = req.user;
     const { id } = req.params;
 
-    const user = await UserModel.findByIdAndUpdate(id, {
-      isVerified: true,
-      verifiedBy: admin._id!,
-    });
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        isVerified: true,
+        verifiedBy: admin._id!,
+      },
+      {
+        new: true,
+      }
+    );
 
     if (!user) {
       res.status(400).json({
