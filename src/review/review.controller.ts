@@ -66,6 +66,15 @@ export class ReviewController {
       const user: IUser = req.user;
       createReviewDto.user = new Types.ObjectId(user._id!);
 
+      if (user.isOnboarding) {
+        res.status(400).json({
+          status: 'fail',
+          message:
+            'You need to complete your onboarding before you can review a hotel',
+        });
+        return;
+      }
+
       const validationResult = validateCreateReviewDto(createReviewDto);
 
       if (validationResult.success === false) {
