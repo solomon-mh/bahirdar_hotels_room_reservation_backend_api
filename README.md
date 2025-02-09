@@ -18,7 +18,8 @@
 | GET    | `/current-user`                  | get the currently logged in user                                                                                |
 | GET    | `/onboarding-users`              | get all onboarding users                                                                                        |
 
-| GET | `verification-requests` | get all users that sent a verification request |
+| GET | `/verification-requests` | get all users that sent a identity verification request |
+| PATCH | `/request-identity-verification` | request identity verification |
 
 ## HOTEL's
 
