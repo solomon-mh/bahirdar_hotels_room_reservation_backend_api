@@ -39,6 +39,10 @@ router.get('/manager-with-detail', (req, res) =>
   usersController.getManagerWithDetails(req, res)
 );
 
+router.patch('/request-identity-verification', (req, res) =>
+  usersController.requestIdentityVerification(req, res)
+);
+
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN));
 

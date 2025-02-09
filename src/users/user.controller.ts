@@ -13,6 +13,7 @@ import { verifyUserAccountProvider } from './providers/verify-user-account.provi
 import { IGetAllUsersQuery } from './interfaces/get-all-users-query.interface';
 import { getAllOnboardingUsersProvider } from './providers/onboarding-users.provider';
 import { getAllVerificationRequestsProvider } from './providers/verification-requested-user.provider';
+import { requestIdentityVerificationProvider } from './providers/request-identity-verification-request.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -237,5 +238,10 @@ export class UsersController {
   // get all verification requests
   getAllVerificationRequests(req: Request, res: Response) {
     getAllVerificationRequestsProvider(req, res);
+  }
+
+  // request identity verification
+  requestIdentityVerification(req: Request, res: Response) {
+    requestIdentityVerificationProvider(req, res);
   }
 }
