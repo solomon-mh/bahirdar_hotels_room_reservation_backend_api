@@ -16,6 +16,7 @@
 | POST   | `/complete-onboarding`           | to complete the onboarding process and to verify your account                                                   |
 | GET    | `/user-with-bookings?id=some_id` | get user with booking detail, the query id is not required admins use it to get the booking details of the user |
 | GET    | `/current-user`                  | get the currently logged in user                                                                                |
+| GET    | `/onboarding-users`              | get all onboarding users                                                                                        |
 
 ## HOTEL's
 
