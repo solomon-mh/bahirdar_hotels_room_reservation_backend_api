@@ -73,6 +73,15 @@ export class BookingsController {
       const user: IUser = req.user;
       createBookingDto.user = new Types.ObjectId(user._id!);
 
+      if (user.isOnboarding) {
+        res.status(400).json({
+          status: 'fail',
+          message:
+            'You need to complete your onboarding before you can book a hotel',
+        });
+        return;
+      }
+
       const validationResult = validateCreateBookingDto(createBookingDto);
 
       if (validationResult.success === false) {

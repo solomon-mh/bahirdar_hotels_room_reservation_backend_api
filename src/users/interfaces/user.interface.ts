@@ -24,10 +24,12 @@ export interface IUser {
 
   verifiedBy: Types.ObjectId;
 
-  isOnboarding?: boolean;
+  isOnboarding: boolean;
 
   passwordResetToken: string;
   passwordResetExpires: Date;
+
+  isVerificationRequested: boolean;
 
   hotel?: Types.ObjectId;
 

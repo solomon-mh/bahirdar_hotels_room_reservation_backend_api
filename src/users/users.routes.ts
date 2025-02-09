@@ -39,11 +39,22 @@ router.get('/manager-with-detail', (req, res) =>
   usersController.getManagerWithDetails(req, res)
 );
 
+router.patch('/request-identity-verification', (req, res) =>
+  usersController.requestIdentityVerification(req, res)
+);
+
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN));
 
 router.patch('/verify-user-account/:id', (req, res) =>
   usersController.verifyUserAccount(req, res)
+);
+router.get('/onboarding-users', (req, res) =>
+  usersController.getAllOnboardingUsers(req, res)
+);
+
+router.get('/verification-requests', (req, res) =>
+  usersController.getAllVerificationRequests(req, res)
 );
 
 router.get('/', (req, res) => usersController.getAllUsers(req, res));

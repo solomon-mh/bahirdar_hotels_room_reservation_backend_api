@@ -66,13 +66,21 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       type: Boolean,
       default: true,
     },
-
+    // todo: /
+    // isEmailVerified: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     hotel: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Hotel',
     },
 
     idPhoto: String,
+    isVerificationRequested: {
+      type: Boolean,
+      default: false,
+    },
     isVerified: {
       type: Boolean,
       default: false,
