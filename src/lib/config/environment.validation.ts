@@ -8,6 +8,7 @@ export const environmentSchema = z.object({
     .string()
     .default('mongodb://localhost:27017/HotelBookingFinalYearProjectDb'),
   BACKEND_URL: z.string().default('http://localhost:5000'),
+  FRONTEND_URL: z.string().default('http://localhost:5173'),
   JWT_SECRET: z.string({ message: 'JWT_SECRET is required' }),
   JWT_EXPIRES_IN: z.string({ message: 'JWT_EXPIRES_IN is required' }),
   JWT_COOKIE_EXPIRES_IN: z.coerce.number({
@@ -23,4 +24,6 @@ export const environmentSchema = z.object({
   RESET_PASSWORD_FRONTEND_URL: z.string({
     message: 'RESET_PASSWORD_FRONTEND_URL is required',
   }),
+  CHAPA_CALLBACK_URL: z.string({ message: 'CHAPA_CALLBACK_URL is required' }),
+  CHAPA_API_KEY: z.string({ message: 'CHAPA_API_KEY is required' }),
 });

@@ -6,6 +6,7 @@ import { BookingStatus } from '../../bookings/enums/booking-status.enum';
 import { IPayment } from '../interfaces/payment.interface';
 import { Types } from 'mongoose';
 import PaymentModel from '../payment.model';
+import { envConfig } from '../../lib/config/environment.config';
 
 export async function verifySaveBookingPaymentProvider(
   req: Request,
@@ -21,7 +22,7 @@ export async function verifySaveBookingPaymentProvider(
     }
 
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', `Bearer ${process.env.CHAPA_API_KEY}`);
+    myHeaders.append('Authorization', `Bearer ${envConfig.CHAPA_API_KEY}`);
     const requestOptions: any = {
       method: 'GET',
       headers: myHeaders,

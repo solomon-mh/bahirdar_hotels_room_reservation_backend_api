@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import BookingModel from '../../bookings/bookings.model';
 import { IBookingDetail } from '../../lib/shared/booking-detail.interface';
+import { envConfig } from '../../lib/config/environment.config';
+// import axios from 'axios';
 
 export async function acceptBookingPaymentProvider(
   req: Request,
@@ -20,35 +22,56 @@ export async function acceptBookingPaymentProvider(
       return;
     }
 
-    const tx_ref =
-      booking._id.toString() + 'id' + Date.now().toString().slice(-7);
+    if (booking.isPaid) {
+      res
+        .status(400)
+        .json({ status: 'fail', message: 'Booking already paid for' });
+      return;
+    }
+
+    const tx_ref = `${booking._id.toString()}id${Date.now()
+      .toString()
+      .slice(-5)}`;
     const amount = booking.totalPrice!.toString();
 
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', `Bearer ${process.env.CHAPA_API_KEY}`);
+    myHeaders.append('Authorization', `Bearer ${envConfig.CHAPA_API_KEY}`);
     myHeaders.append('Content-Type', 'application/json');
+
+    console.log(myHeaders);
+    console.log('Generated tx_ref:', tx_ref);
+    console.log(booking.user);
 
     const raw = JSON.stringify({
       amount,
       tx_ref,
-      callback_url: `${process.env.CHAPA_CALLBACK_URL}`,
-      return_url: `${process.env.FRONTEND_URL}/success/${tx_ref}`,
-      'customization[title]': 'Payment for Booking',
+      currency: 'ETB',
+      email: booking.user.email,
+      first_name: booking.user.firstName,
+      last_name: booking.user.lastName,
+      callback_url: `${envConfig.CHAPA_CALLBACK_URL}`,
+      return_url: `${envConfig.FRONTEND_URL}/payment/${tx_ref}`,
+      customization: {
+        title: 'Hotelify',
+      },
     });
-
-    const requestOptions: any = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
 
     const response = await fetch(
       'https://api.chapa.co/v1/transaction/initialize',
-      requestOptions
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${envConfig.CHAPA_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: raw,
+        redirect: 'follow',
+      }
     );
 
     if (!response.ok) {
+      const resBody = await response.json();
+      console.log(resBody);
       throw new Error('Network error on payment initialization');
     }
 

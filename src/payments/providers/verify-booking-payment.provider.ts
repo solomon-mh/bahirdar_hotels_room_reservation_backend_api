@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { envConfig } from '../../lib/config/environment.config';
 
 export async function verifyBookingPaymentProvider(
   req: Request,
@@ -9,7 +10,7 @@ export async function verifyBookingPaymentProvider(
     const { trx_ref } = req.params;
 
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', `Bearer ${process.env.CHAPA_API_KEY}`);
+    myHeaders.append('Authorization', `Bearer ${envConfig.CHAPA_API_KEY}`);
     const requestOptions: any = {
       method: 'GET',
       headers: myHeaders,
