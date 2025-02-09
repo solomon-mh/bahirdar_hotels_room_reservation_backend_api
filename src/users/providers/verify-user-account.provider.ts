@@ -10,10 +10,34 @@ export async function verifyUserAccountProvider(req: Request, res: Response) {
 
     const user = (await UserModel.findById(id)) as any as IUser;
 
+    if (!user) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'No user found when verifying',
+      });
+      return;
+    }
+
     if (!user.isVerificationRequested) {
       res.status(400).json({
         status: 'fail',
         message: 'User has not requested for verification',
+      });
+      return;
+    }
+
+    if (user.isOnboarding) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'User has not completed onboarding',
+      });
+      return;
+    }
+
+    if (user.isVerified) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'User is already verified',
       });
       return;
     }
@@ -28,14 +52,6 @@ export async function verifyUserAccountProvider(req: Request, res: Response) {
         new: true,
       }
     );
-
-    if (!user) {
-      res.status(400).json({
-        status: 'fail',
-        message: 'No user found when verifying',
-      });
-      return;
-    }
 
     res.status(200).json({
       status: 'success',

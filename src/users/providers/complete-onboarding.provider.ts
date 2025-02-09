@@ -46,7 +46,7 @@ export async function completeOnboardingProvider(req: Request, res: Response) {
     data.address = address;
     data.phoneNumber = phoneNumber;
 
-    const files = req.file as UserMulterFiles;
+    const files = req.files as UserMulterFiles;
 
     if (!files?.[UserPhoto.ID_PHOTO]) {
       res.status(400).json({
