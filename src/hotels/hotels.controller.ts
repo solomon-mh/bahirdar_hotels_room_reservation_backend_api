@@ -6,7 +6,6 @@ import { validateUpdateHotelDto } from './middlewares/validate-update-hotel-dto.
 import { UsersService } from '../users/providers/users.service';
 import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
-import { UserRole } from '../users/enums/user-role.enum';
 import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
 import { HotelLocation } from './enums/hotel-location.enum';
 import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';

@@ -30,7 +30,8 @@ router.post(
   '/complete-onboarding',
   upload.fields([
     { name: UserPhoto.PROFILE_PICTURE, maxCount: 1 },
-    { name: UserPhoto.ID_PHOTO, maxCount: 1 },
+    { name: UserPhoto.ID_PHOTO_BACK, maxCount: 1 },
+    { name: UserPhoto.ID_PHOTO_FRONT, maxCount: 1 },
   ]),
   (req, res) => usersController.completeOnboarding(req, res)
 );

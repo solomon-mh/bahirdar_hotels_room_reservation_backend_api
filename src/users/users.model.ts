@@ -76,7 +76,9 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
       ref: 'Hotel',
     },
 
-    idPhoto: String,
+    idPhoto_back: String,
+    idPhoto_front: String,
+
     isVerificationRequested: {
       type: Boolean,
       default: false,
