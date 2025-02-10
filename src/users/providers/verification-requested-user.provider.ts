@@ -10,6 +10,7 @@ export async function getAllVerificationRequestsProvider(
     const users = await UserModel.find({
       isVerificationRequested: true,
       isOnboarding: false,
+      isVerified: false,
     });
 
     res.status(200).json({
