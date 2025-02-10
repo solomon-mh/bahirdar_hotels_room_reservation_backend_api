@@ -19,8 +19,8 @@ export const AddressZodSchema = z.object(
       .max(255, { message: 'subcity should be at most 255 characters' }),
     woreda: z
       .string({ message: 'woreda is required' })
-      .min(1, { message: 'woreda should be at least 1 characters' })
-      .max(255, { message: 'woreda should be at most 255 characters' }),
+      .max(255, { message: 'woreda should be at most 255 characters' })
+      .default(''),
     street: z
       .string({ message: 'street is required' })
       .min(4, { message: 'street should be at least 4 characters' })

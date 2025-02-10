@@ -6,10 +6,10 @@ import { validateUpdateHotelDto } from './middlewares/validate-update-hotel-dto.
 import { UsersService } from '../users/providers/users.service';
 import { HotelImageUploadNames } from './enums/hotel-image-upload-names.enum';
 import { uploadFileLocal } from '../lib/utils/file-upload.util';
-import { UserRole } from '../users/enums/user-role.enum';
 import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider';
 import { HotelLocation } from './enums/hotel-location.enum';
 import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
+import { cascadeOnDeleteHotelProvider } from './providers/cascade-on-delete-hotel.provider';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -229,6 +229,24 @@ export class HotelsController {
   async deleteHotel(req: Request, res: Response) {
     console.log('delete hotel...');
     try {
+      const result = await cascadeOnDeleteHotelProvider(req.params.id);
+
+      if (result.status === 'fail') {
+        res.status(404).json({
+          status: 'fail',
+          message: result.message,
+        });
+        return;
+      }
+
+      if (result.status === 'error') {
+        res.status(500).json({
+          status: 'error',
+          message: result.message,
+        });
+        return;
+      }
+
       const hotel = await this.hotelsService.deleteHotel(req.params.id);
 
       if (!hotel) {
@@ -238,15 +256,6 @@ export class HotelsController {
         });
         return;
       }
-
-      // WE UPDATE THE MANAGER TO A USER AND DELETE THE LINKED HOTEL
-      await this.usersService.updateUser(
-        (hotel as unknown as IHotel).manager.toString(),
-        {
-          role: UserRole.USER,
-          hotel: undefined,
-        }
-      );
 
       res.status(204).json({
         status: 'success',

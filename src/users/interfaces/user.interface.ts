@@ -19,15 +19,18 @@ export interface IUser {
   profilePicture: string;
   address: AddressInterface;
 
-  idPhoto: string;
+  idPhoto_front: string;
+  idPhoto_back: string;
   isVerified: boolean;
 
   verifiedBy: Types.ObjectId;
 
-  isOnboarding?: boolean;
+  isOnboarding: boolean;
 
   passwordResetToken: string;
   passwordResetExpires: Date;
+
+  isVerificationRequested: boolean;
 
   hotel?: Types.ObjectId;
 

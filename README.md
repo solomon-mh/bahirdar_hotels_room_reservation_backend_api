@@ -16,6 +16,10 @@
 | POST   | `/complete-onboarding`           | to complete the onboarding process and to verify your account                                                   |
 | GET    | `/user-with-bookings?id=some_id` | get user with booking detail, the query id is not required admins use it to get the booking details of the user |
 | GET    | `/current-user`                  | get the currently logged in user                                                                                |
+| GET    | `/onboarding-users`              | get all onboarding users                                                                                        |
+
+| GET | `/verification-requests` | get all users that sent a identity verification request |
+| PATCH | `/request-identity-verification` | request identity verification |
 
 ## HOTEL's
 
@@ -89,7 +93,7 @@
 
 | Method | URL                                         | Description                                     |
 | ------ | ------------------------------------------- | ----------------------------------------------- |
-| POST   | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
+| GET    | `/chapa/accept-booking-payment/{bookingId}` | initiate payment with chapa payment integration |
 | GET    | `/chapa/verify-booking-payment/{trx_ref}`   | verify payment                                  |
 | GET    | `/`                                         | get all payments                                |
 | POST   | `/`                                         | create payment                                  |

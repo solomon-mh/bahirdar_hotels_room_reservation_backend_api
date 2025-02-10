@@ -25,7 +25,16 @@ export async function signupProvider(req: Request, res: Response) {
       return;
     }
 
-    const user = (await UserModel.create(signupDto)) as any as IUser;
+    let user = await UserModel.findOne({ username: signupDto.username }) as IUser;
+
+    if (user) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'username already exists please change your username',
+      })
+      return;
+    }
+    user = (await UserModel.create(signupDto)) as any as IUser;
 
     res.status(201).json({
       status: 'success',

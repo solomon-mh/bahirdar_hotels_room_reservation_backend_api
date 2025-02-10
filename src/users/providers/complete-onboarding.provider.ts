@@ -46,12 +46,20 @@ export async function completeOnboardingProvider(req: Request, res: Response) {
     data.address = address;
     data.phoneNumber = phoneNumber;
 
-    const files = req.file as UserMulterFiles;
+    const files = req.files as UserMulterFiles;
 
-    if (!files?.[UserPhoto.ID_PHOTO]) {
+    if (!files?.[UserPhoto.ID_PHOTO_BACK]) {
       res.status(400).json({
         status: 'fail',
-        message: 'identity photo is required',
+        message: 'id photo back is required',
+      });
+      return;
+    }
+
+    if (!files?.[UserPhoto.ID_PHOTO_FRONT]) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'id photo front is required',
       });
       return;
     }
@@ -64,10 +72,12 @@ export async function completeOnboardingProvider(req: Request, res: Response) {
       return;
     }
 
-    const idPhoto = files[UserPhoto.ID_PHOTO]![0];
+    const idPhoto_back = files[UserPhoto.ID_PHOTO_BACK]![0];
+    const idPhoto_front = files[UserPhoto.ID_PHOTO_FRONT]![0];
     const profilePicture = files[UserPhoto.PROFILE_PICTURE]![0];
 
-    data.idPhoto = uploadFileLocal(idPhoto);
+    data.idPhoto_back = uploadFileLocal(idPhoto_back);
+    data.idPhoto_front = uploadFileLocal(idPhoto_front);
     data.profilePicture = uploadFileLocal(profilePicture);
 
     const onboardedUser = usersService.updateUser(user._id!, data);

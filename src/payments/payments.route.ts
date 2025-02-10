@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.use((req, res, next) => authController.protect(req, res, next));
 
-router.post('/chapa/accept-booking-payment/:bookingId', (req, res) =>
+router.get('/chapa/accept-booking-payment/:bookingId', (req, res) =>
   chapaController.acceptBookingPayment(req, res)
 );
 router.get('/chapa/verify-booking-payment/:trx_ref', (req, res) =>
