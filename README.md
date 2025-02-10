@@ -61,6 +61,7 @@
 | GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id                      |
 | GET    | `/all-bookings-with-room-user-hotel-detail` | get all bookings with user, role, and hotel detail |
 | GET    | `/all-bookings-of-a-hotel/{hotelId}`        | get all bookings of a hotel                        |
+| GET    | `/all-bookings-of-a-room/{roomId}`          | get all bookings of a room                         |
 
 ## REVIEWS
 

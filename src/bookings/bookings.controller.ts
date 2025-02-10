@@ -11,6 +11,7 @@ import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-w
 import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-all-bookings-with-room-user-hotel-detail.provider';
 import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-hotel.provider';
 import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
+import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-room.provider';
 
 export class BookingsController {
   constructor(
@@ -224,5 +225,10 @@ export class BookingsController {
   // get all bookings of a hotel
   getAllBookingsOfAHotel(req: Request, res: Response) {
     getAllBookingsOfAHotelProvider(req, res);
+  }
+
+  // get all bookings of a room
+  getAllBookingsOfARoom(req: Request, res: Response) {
+    getAllBookingsOfARoomProvider(req, res);
   }
 }

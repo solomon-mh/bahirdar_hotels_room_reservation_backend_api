@@ -30,6 +30,10 @@ router.get(
     bookingsController.getAllBookingsWithRoomUserHotelDetail(req, res)
 );
 
+router.get('/all-bookings-of-a-room/:roomId', (req, res) =>
+  bookingsController.getAllBookingsOfARoom(req, res)
+);
+
 router.get(
   '/all-bookings-of-a-hotel/:hotelId',
   authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER, UserRole.CASHIER),
