@@ -20,6 +20,7 @@
 
 | GET | `/verification-requests` | get all users that sent a identity verification request |
 | PATCH | `/request-identity-verification` | request identity verification |
+| PATCH | `/decline-verification-request/{id}` | decline identity verification |
 
 ## HOTEL's
 

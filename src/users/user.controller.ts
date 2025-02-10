@@ -14,6 +14,7 @@ import { IGetAllUsersQuery } from './interfaces/get-all-users-query.interface';
 import { getAllOnboardingUsersProvider } from './providers/onboarding-users.provider';
 import { getAllVerificationRequestsProvider } from './providers/verification-requested-user.provider';
 import { requestIdentityVerificationProvider } from './providers/request-identity-verification-request.provider';
+import { declineVerificationRequestProvider } from './providers/decline-verification-request.provider';
 
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -243,5 +244,10 @@ export class UsersController {
   // request identity verification
   requestIdentityVerification(req: Request, res: Response) {
     requestIdentityVerificationProvider(req, res);
+  }
+
+  // decline user account verification
+  declineVerificationRequest(req: Request, res: Response) {
+    declineVerificationRequestProvider(req, res);
   }
 }
