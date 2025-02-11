@@ -12,6 +12,7 @@ import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-a
 import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-hotel.provider';
 import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
 import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-room.provider';
+import { getAllBookingsOfAUserProvider } from './providers/all-bookings-of-a-user.provider';
 
 export class BookingsController {
   constructor(
@@ -79,6 +80,14 @@ export class BookingsController {
           status: 'fail',
           message:
             'You need to complete your onboarding before you can book a hotel',
+        });
+        return;
+      }
+
+      if (!user.isVerified) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'you are account is not verified yet',
         });
         return;
       }
@@ -230,5 +239,10 @@ export class BookingsController {
   // get all bookings of a room
   getAllBookingsOfARoom(req: Request, res: Response) {
     getAllBookingsOfARoomProvider(req, res);
+  }
+
+  // get all bookings of a user
+  getAllBookingsOfAUser(req: Request, res: Response) {
+    getAllBookingsOfAUserProvider(req, res);
   }
 }

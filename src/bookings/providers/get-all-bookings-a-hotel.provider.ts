@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import BookingModel from '../bookings.model';
 import { Types } from 'mongoose';
 import HotelModel from '../../hotels/hotels.model';
-import { IGetAllQuery } from '../../lib/shared/get-all-query.interface';
 import { getPaginationDataUtil } from '../../lib/utils/get-pagination-data.util';
+import { IGetAllBookingsOfAHotel } from '../interfaces/get-all-bookings-a-hotel.interface';
 
 export async function getAllBookingsOfAHotelProvider(
   req: Request,
@@ -12,7 +12,8 @@ export async function getAllBookingsOfAHotelProvider(
   console.log('get all bookings of a hotel...');
   try {
     const { hotelId } = req.params;
-    const { limit, page } = req.query as IGetAllQuery;
+    const { limit, page, isPaid, room, status, numOfNight } =
+      req.query as IGetAllBookingsOfAHotel;
 
     const hotel = await HotelModel.findById(hotelId);
 
@@ -24,6 +25,14 @@ export async function getAllBookingsOfAHotelProvider(
       return;
     }
 
+    const filter: Record<string, any> = { hotel: new Types.ObjectId(hotelId) };
+
+    if (isPaid) filter.isPaid = Boolean(isPaid);
+    if (room) filter.room = new Types.ObjectId(room);
+    if (status) filter.status = status;
+    // > 3 days, > 4 days
+    if (numOfNight) filter.numOfNight = { $gte: Number(numOfNight) };
+
     // pagination
     const { skip, _limit, totalPages, _page } = await getPaginationDataUtil(
       limit,
@@ -34,9 +43,7 @@ export async function getAllBookingsOfAHotelProvider(
 
     const bookings = await BookingModel.aggregate([
       {
-        $match: {
-          hotel: new Types.ObjectId(hotelId),
-        },
+        $match: filter,
       },
       {
         $lookup: {
