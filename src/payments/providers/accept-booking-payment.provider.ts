@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import BookingModel from '../../bookings/bookings.model';
 import { IBookingDetail } from '../../lib/shared/booking-detail.interface';
 import { envConfig } from '../../lib/config/environment.config';
+import { BookingStatus } from '../../bookings/enums/booking-status.enum';
 // import axios from 'axios';
 
 export interface IChapa {
@@ -33,6 +34,15 @@ export async function acceptBookingPaymentProvider(
       res
         .status(400)
         .json({ status: 'fail', message: 'Booking already paid for' });
+      return;
+    }
+
+    //  check if the booking is rejected, if so return an error
+    if (booking.status === BookingStatus.REJECTED) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'Booking already rejected, booking for another time',
+      });
       return;
     }
 
