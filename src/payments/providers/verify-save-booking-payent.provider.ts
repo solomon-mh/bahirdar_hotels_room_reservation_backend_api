@@ -56,7 +56,6 @@ export async function verifySaveBookingPaymentProvider(
         {
           isPaid: true,
           paymentDate: new Date(),
-          status: BookingStatus.PAID,
         },
         {
           new: true,
