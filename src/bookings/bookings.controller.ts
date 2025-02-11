@@ -15,6 +15,7 @@ import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-ro
 import { getAllBookingsOfAUserProvider } from './providers/all-bookings-of-a-user.provider';
 import { rejectUserBookingProvider } from './providers/reject-user-booking.provider';
 import { cancelMyBookingProvider } from './providers/cancel-my-booking.provider';
+import { confirmUserBookingProvider } from './providers/confirm-user-booking.provider';
 
 export class BookingsController {
   constructor(
@@ -256,5 +257,10 @@ export class BookingsController {
   // cancel my booking
   cancelMyBooking(req: Request, res: Response) {
     cancelMyBookingProvider(req, res);
+  }
+
+  // confirm user booking
+  confirmUserBooking(req: Request, res: Response) {
+    confirmUserBookingProvider(req, res);
   }
 }

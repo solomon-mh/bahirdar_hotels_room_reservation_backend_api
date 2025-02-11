@@ -51,20 +51,21 @@
 
 > all booking routes. baseurl `{{Backend_url}}/api/v1/bookings`
 
-| Method | URL                                         | Description                                        |
-| ------ | ------------------------------------------- | -------------------------------------------------- |
-| GET    | `/`                                         | get all bookings                                   |
-| POST   | `/`                                         | Create a new booking                               |
-| GET    | `/{id}`                                     | get booking by id                                  |
-| PATCH  | `/{id}`                                     | Update a booking by id                             |
-| DELETE | `/{id}`                                     | Delete a booking by id                             |
-| GET    | `/booking-with-room-user-hotel-detail/{id}` | get booking with detail by id                      |
-| GET    | `/all-bookings-with-room-user-hotel-detail` | get all bookings with user, role, and hotel detail |
-| GET    | `/all-bookings-of-a-hotel/{hotelId}`        | get all bookings of a hotel                        |
-| GET    | `/all-bookings-of-a-room/{roomId}`          | get all bookings of a room                         |
-| GET    | `/all-bookings-of-a-user/{userId}`          | get all bookings of a user                         |
-| PATCH  | `/{bookingId}/reject-user-booking/{userId}` | reject user booking                                |
-| PATCH  | `/cancel-my-booking`                        | cancel your own booking                            |
+| Method | URL                                          | Description                                        |
+| ------ | -------------------------------------------- | -------------------------------------------------- |
+| GET    | `/`                                          | get all bookings                                   |
+| POST   | `/`                                          | Create a new booking                               |
+| GET    | `/{id}`                                      | get booking by id                                  |
+| PATCH  | `/{id}`                                      | Update a booking by id                             |
+| DELETE | `/{id}`                                      | Delete a booking by id                             |
+| GET    | `/booking-with-room-user-hotel-detail/{id}`  | get booking with detail by id                      |
+| GET    | `/all-bookings-with-room-user-hotel-detail`  | get all bookings with user, role, and hotel detail |
+| GET    | `/all-bookings-of-a-hotel/{hotelId}`         | get all bookings of a hotel                        |
+| GET    | `/all-bookings-of-a-room/{roomId}`           | get all bookings of a room                         |
+| GET    | `/all-bookings-of-a-user/{userId}`           | get all bookings of a user                         |
+| PATCH  | `/{bookingId}/reject-user-booking/{userId}`  | reject user booking                                |
+| PATCH  | `/cancel-my-booking`                         | cancel your own booking                            |
+| PATCH  | `/{bookingId}/confirm-user-booking/{userId}` | confirm user booking                               |
 
 ## REVIEWS
 
