@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "build": "tsc"
+    "build": "yarn install & npx tsc"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
