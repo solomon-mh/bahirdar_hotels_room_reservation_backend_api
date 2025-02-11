@@ -1,20 +1,32 @@
 import { Request, Response } from 'express';
 import BookingModel from '../bookings.model';
 import { Types } from 'mongoose';
-import HotelModel from '../../hotels/hotels.model';
 import { IGetAllQuery } from '../../lib/shared/get-all-query.interface';
 import { getPaginationDataUtil } from '../../lib/utils/get-pagination-data.util';
+import RoomModel from '../../rooms/room.model';
+import HotelModel from '../../hotels/hotels.model';
+import { IRoom } from '../../rooms/interface/room.interface';
 
-export async function getAllBookingsOfAHotelProvider(
+export async function getAllBookingsOfARoomProvider(
   req: Request,
   res: Response
 ) {
-  console.log('get all bookings of a hotel...');
+  console.log('get all bookings of a room...');
   try {
-    const { hotelId } = req.params;
+    const { roomId } = req.params;
     const { limit, page } = req.query as IGetAllQuery;
 
-    const hotel = await HotelModel.findById(hotelId);
+    const room = (await RoomModel.findById(roomId)) as any as IRoom;
+
+    if (!room) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'Room not found',
+      });
+      return;
+    }
+
+    const hotel = await HotelModel.findById(room.hotel);
 
     if (!hotel) {
       res.status(400).json({
@@ -23,32 +35,21 @@ export async function getAllBookingsOfAHotelProvider(
       });
       return;
     }
-
     // pagination
     const { skip, _limit, totalPages, _page } = await getPaginationDataUtil(
       limit,
       page,
       BookingModel,
-      { hotel: new Types.ObjectId(hotelId) }
+      { room: new Types.ObjectId(roomId) }
     );
 
     const bookings = await BookingModel.aggregate([
       {
         $match: {
-          hotel: new Types.ObjectId(hotelId),
+          room: new Types.ObjectId(roomId),
         },
       },
-      {
-        $lookup: {
-          from: 'rooms',
-          localField: 'room',
-          foreignField: '_id',
-          as: 'room',
-        },
-      },
-      {
-        $unwind: '$room',
-      },
+
       {
         $lookup: {
           from: 'users',
@@ -80,6 +81,7 @@ export async function getAllBookingsOfAHotelProvider(
         page: _page,
         limit: _limit,
       },
+      room,
       hotel,
       data: bookings,
     });
