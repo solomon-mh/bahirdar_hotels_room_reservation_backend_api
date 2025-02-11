@@ -69,6 +69,13 @@ router.patch(
   (req, res) => bookingsController.checkinUserBooking(req, res)
 );
 
+// checkout user booking
+router.patch(
+  '/:bookingId/checkout-user-booking/:userId',
+  authController.restrictTo(UserRole.MANAGER, UserRole.CASHIER),
+  (req, res) => bookingsController.checkoutUserBooking(req, res)
+);
+
 router.patch(
   '/cancel-my-booking',
   authController.restrictTo(UserRole.USER),

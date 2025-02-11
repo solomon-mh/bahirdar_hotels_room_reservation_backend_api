@@ -17,6 +17,7 @@ import { rejectUserBookingProvider } from './providers/reject-user-booking.provi
 import { cancelMyBookingProvider } from './providers/cancel-my-booking.provider';
 import { confirmUserBookingProvider } from './providers/confirm-user-booking.provider';
 import { checkinUserBookingProvider } from './providers/checkin-user-booking.provider';
+import { checkoutUserBookingProvider } from './providers/checkout-user-booking.provider';
 
 export class BookingsController {
   constructor(
@@ -268,5 +269,10 @@ export class BookingsController {
   // checkin-user-booking.provider
   checkinUserBooking(req: Request, res: Response) {
     checkinUserBookingProvider(req, res);
+  }
+
+  // checkout-user-booking.provider
+  checkoutUserBooking(req: Request, res: Response) {
+    checkoutUserBookingProvider(req, res);
   }
 }
