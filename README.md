@@ -66,6 +66,7 @@
 | PATCH  | `/{bookingId}/reject-user-booking/{userId}`  | reject user booking                                |
 | PATCH  | `/cancel-my-booking`                         | cancel your own booking                            |
 | PATCH  | `/{bookingId}/confirm-user-booking/{userId}` | confirm user booking                               |
+| PATCH  | `/{bookingId}/checkin-user-booking/{userId}` | check in user on arrival to the hotel              |
 
 ## REVIEWS
 
