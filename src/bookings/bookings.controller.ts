@@ -83,6 +83,14 @@ export class BookingsController {
         return;
       }
 
+      if (!user.isVerified) {
+        res.status(400).json({
+          status: 'fail',
+          message: 'you are account is not verified yet',
+        });
+        return;
+      }
+
       const validationResult = validateCreateBookingDto(createBookingDto);
 
       if (validationResult.success === false) {
