@@ -55,6 +55,11 @@ router.patch(
   authController.restrictTo(UserRole.MANAGER, UserRole.CASHIER),
   (req, res) => bookingsController.rejectUserBooking(req, res)
 );
+router.patch(
+  '/cancel-my-booking',
+  authController.restrictTo(UserRole.USER),
+  (req, res) => bookingsController.cancelMyBooking(req, res)
+);
 
 // admin routes
 router.use(authController.restrictTo(UserRole.ADMIN));

@@ -63,8 +63,8 @@
 | GET    | `/all-bookings-of-a-hotel/{hotelId}`        | get all bookings of a hotel                        |
 | GET    | `/all-bookings-of-a-room/{roomId}`          | get all bookings of a room                         |
 | GET    | `/all-bookings-of-a-user/{userId}`          | get all bookings of a user                         |
-
-| PATCH | `/{bookingId}/reject-user-booking/{userId}` | reject user booking |
+| PATCH  | `/{bookingId}/reject-user-booking/{userId}` | reject user booking                                |
+| PATCH  | `/cancel-my-booking`                        | cancel your own booking                            |
 
 ## REVIEWS
 

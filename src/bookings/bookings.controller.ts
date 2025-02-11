@@ -14,6 +14,7 @@ import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
 import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-room.provider';
 import { getAllBookingsOfAUserProvider } from './providers/all-bookings-of-a-user.provider';
 import { rejectUserBookingProvider } from './providers/reject-user-booking.provider';
+import { cancelMyBookingProvider } from './providers/cancel-my-booking.provider';
 
 export class BookingsController {
   constructor(
@@ -250,5 +251,10 @@ export class BookingsController {
   // reject user booking
   rejectUserBooking(req: Request, res: Response) {
     rejectUserBookingProvider(req, res);
+  }
+
+  // cancel my booking
+  cancelMyBooking(req: Request, res: Response) {
+    cancelMyBookingProvider(req, res);
   }
 }
