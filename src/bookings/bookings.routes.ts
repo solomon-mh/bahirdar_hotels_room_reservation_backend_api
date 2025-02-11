@@ -39,11 +39,26 @@ router.get(
   authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER, UserRole.CASHIER),
   (req, res) => bookingsController.getAllBookingsOfAHotel(req, res)
 );
+// get all bookings of a user
+router.get(
+  '/all-bookings-of-a-user/:userId',
+  authController.restrictTo(UserRole.USER, UserRole.ADMIN),
+  (req, res) => bookingsController.getAllBookingsOfAUser(req, res)
+);
 
 router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
 router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   bookingsController.createBooking(req, res)
 );
+
+/* 
+// todo: 
+patch: /confirm-user-booking/:userId
+patch: /checkin-user-booking/:userId
+patch: /checkout-user-booking/:userId
+patch: /cancel-user-booking/:userId
+patch: /cancel-my-booking
+*/
 
 // admin routes
 router.use(authController.restrictTo(UserRole.ADMIN));
