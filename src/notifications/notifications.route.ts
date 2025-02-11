@@ -9,4 +9,8 @@ const notificationsController = new NotificationsController(
   notificationsService
 );
 
+router.get('/', (req, res) =>
+  notificationsController.getAllNotifications(req, res)
+);
+
 export const notificationsRoutes = router;

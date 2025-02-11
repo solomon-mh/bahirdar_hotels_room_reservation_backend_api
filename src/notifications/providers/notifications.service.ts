@@ -1,1 +1,5 @@
-export class NotificationsService {}
+export class NotificationsService {
+  async getAllNotifications() {
+    return 'all notifications';
+  }
+}
