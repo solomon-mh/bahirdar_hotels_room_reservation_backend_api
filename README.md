@@ -4,23 +4,22 @@
 
 > all user routes. baseurl `{{Backend_url}}/api/v1/users`
 
-| Method | URL                              | Description                                                                                                     |
-| ------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| GET    | `/`                              | get all users                                                                                                   |
-| POST   | `/`                              | Create a new user                                                                                               |
-| GET    | `/{id}`                          | get user by id                                                                                                  |
-| PATCH  | `/{id}`                          | Update a user by id                                                                                             |
-| DELETE | `/{id}`                          | Delete a user by id                                                                                             |
-| PATCH  | `/verify-user-account/{id}`      | verify user account                                                                                             |
-| GET    | `/manager-with-detail`           | get manager and cashier with hotel with detail                                                                  |
-| POST   | `/complete-onboarding`           | to complete the onboarding process and to verify your account                                                   |
-| GET    | `/user-with-bookings?id=some_id` | get user with booking detail, the query id is not required admins use it to get the booking details of the user |
-| GET    | `/current-user`                  | get the currently logged in user                                                                                |
-| GET    | `/onboarding-users`              | get all onboarding users                                                                                        |
-
-| GET | `/verification-requests` | get all users that sent a identity verification request |
-| PATCH | `/request-identity-verification` | request identity verification |
-| PATCH | `/decline-verification-request/{id}` | decline identity verification |
+| Method | URL                                  | Description                                                                                                     |
+| ------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| GET    | `/`                                  | get all users                                                                                                   |
+| POST   | `/`                                  | Create a new user                                                                                               |
+| GET    | `/{id}`                              | get user by id                                                                                                  |
+| PATCH  | `/{id}`                              | Update a user by id                                                                                             |
+| DELETE | `/{id}`                              | Delete a user by id                                                                                             |
+| PATCH  | `/verify-user-account/{id}`          | verify user account                                                                                             |
+| GET    | `/manager-with-detail`               | get manager and cashier with hotel with detail                                                                  |
+| POST   | `/complete-onboarding`               | to complete the onboarding process and to verify your account                                                   |
+| GET    | `/user-with-bookings?id=some_id`     | get user with booking detail, the query id is not required admins use it to get the booking details of the user |
+| GET    | `/current-user`                      | get the currently logged in user                                                                                |
+| GET    | `/onboarding-users`                  | get all onboarding users                                                                                        |
+| GET    | `/verification-requests`             | get all users that sent a identity verification request                                                         |
+| PATCH  | `/request-identity-verification`     | request identity verification                                                                                   |
+| PATCH  | `/decline-verification-request/{id}` | decline identity verification                                                                                   |
 
 ## HOTEL's
 
