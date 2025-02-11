@@ -64,6 +64,8 @@
 | GET    | `/all-bookings-of-a-room/{roomId}`          | get all bookings of a room                         |
 | GET    | `/all-bookings-of-a-user/{userId}`          | get all bookings of a user                         |
 
+| PATCH | `/{bookingId}/reject-user-booking/{userId}` | reject user booking |
+
 ## REVIEWS
 
 > all review routes. baseurl `{{Backend_url}}/api/v1/reviews`

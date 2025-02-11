@@ -50,15 +50,11 @@ router.get('/:id', (req, res) => bookingsController.getBooking(req, res));
 router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   bookingsController.createBooking(req, res)
 );
-
-/* 
-// todo: 
-patch: /confirm-user-booking/:userId
-patch: /checkin-user-booking/:userId
-patch: /checkout-user-booking/:userId
-patch: /cancel-user-booking/:userId
-patch: /cancel-my-booking
-*/
+router.patch(
+  '/:bookingId/reject-user-booking/:userId',
+  authController.restrictTo(UserRole.MANAGER, UserRole.CASHIER),
+  (req, res) => bookingsController.rejectUserBooking(req, res)
+);
 
 // admin routes
 router.use(authController.restrictTo(UserRole.ADMIN));

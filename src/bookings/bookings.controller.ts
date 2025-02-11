@@ -13,6 +13,7 @@ import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-h
 import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
 import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-room.provider';
 import { getAllBookingsOfAUserProvider } from './providers/all-bookings-of-a-user.provider';
+import { rejectUserBookingProvider } from './providers/reject-user-booking.provider';
 
 export class BookingsController {
   constructor(
@@ -244,5 +245,10 @@ export class BookingsController {
   // get all bookings of a user
   getAllBookingsOfAUser(req: Request, res: Response) {
     getAllBookingsOfAUserProvider(req, res);
+  }
+
+  // reject user booking
+  rejectUserBooking(req: Request, res: Response) {
+    rejectUserBookingProvider(req, res);
   }
 }
