@@ -63,7 +63,6 @@ export async function acceptBookingPaymentProvider(
       first_name: booking.user.firstName,
       last_name: booking.user.lastName,
       callback_url: `${envConfig.CHAPA_CALLBACK_URL}`,
-      return_url: `${envConfig.FRONTEND_URL}/payment/${tx_ref}`,
       customization: {
         title: 'Hotelify',
       },

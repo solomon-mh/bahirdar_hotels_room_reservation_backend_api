@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import BookingModel from '../../bookings/bookings.model';
 import { IBookingDetail } from '../../lib/shared/booking-detail.interface';
 import { IVerifyPayment } from '../interfaces/verify-payment.interface';
-import { BookingStatus } from '../../bookings/enums/booking-status.enum';
 import { IPayment } from '../interfaces/payment.interface';
 import { Types } from 'mongoose';
 import PaymentModel from '../payment.model';
