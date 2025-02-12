@@ -28,13 +28,13 @@ router.use((req, res, next) => authController.protect(req, res, next));
 // create cashier
 router.patch(
   '/:hotelId/create-cashiers/:userId',
-  authController.restrictTo(UserRole.ADMIN),
+  authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER),
   (req, res) => hotelsController.createCashier(req, res)
 );
 // delete cashier
 router.patch(
   '/:hotelId/delete-cashiers/:userId',
-  authController.restrictTo(UserRole.ADMIN),
+  authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER),
   (req, res) => hotelsController.deleteCashier(req, res)
 );
 
