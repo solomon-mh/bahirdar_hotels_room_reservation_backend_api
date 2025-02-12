@@ -46,16 +46,14 @@ export async function personalRecommendationsProvider(
       })
       .limit(6)) as unknown as IHotel[];
 
-    const hotels = [...bookedHotels, ...favoriteHotels, ...popularHotels].map(
-      (hotel) => ({ ...hotel, _id: hotel._id!.toString() })
-    );
+    const hotels = [...bookedHotels, ...favoriteHotels, ...popularHotels];
 
     /* 
       if their is a duplicate hotel, the same hotel twice, i want them to be removed
     */
     const uniqueHotels = hotels.filter(
       (hotel, index, self) =>
-        index === self.findIndex((t) => t._id === hotel._id)
+        index === self.findIndex((t) => t.name === hotel.name)
     );
 
     res.status(200).json({
