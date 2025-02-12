@@ -26,10 +26,29 @@ export async function hotelStatsProvider(req: Request, res: Response) {
     const allReviews = await ReviewModel.countDocuments({
       hotel: new Types.ObjectId(id),
     });
+
     // group by month
-    const allBookings = await BookingModel.countDocuments({
-      hotel: new Types.ObjectId(id),
-    });
+    const allBookings = await BookingModel.aggregate([
+      {
+        $match: { hotel: new Types.ObjectId(id) },
+      },
+      {
+        $group: {
+          _id: '$status',
+          numOfBookings: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Optional: Sort by status alphabetically
+      },
+      {
+        $project: {
+          _id: 0,
+          status: '$_id',
+          numOfBookings: 1,
+        },
+      },
+    ]);
 
     res.status(200).json({
       status: 'success',
@@ -37,8 +56,8 @@ export async function hotelStatsProvider(req: Request, res: Response) {
       data: {
         allRooms,
         allUsers,
-        allBookings,
         allReviews,
+        allBookings,
       },
     });
   } catch (err) {

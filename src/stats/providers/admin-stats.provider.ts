@@ -19,7 +19,24 @@ export async function adminStatsProvider(req: Request, res: Response) {
     const allRooms = await RoomModel.countDocuments();
     const allUsers = await UserModel.countDocuments();
     // group by month
-    const allBookings = await BookingModel.countDocuments();
+    const allBookings = await BookingModel.aggregate([
+      {
+        $group: {
+          _id: '$status',
+          numOfBookings: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Optional: Sort by status alphabetically
+      },
+      {
+        $project: {
+          _id: 0,
+          status: '$_id',
+          numOfBookings: 1,
+        },
+      },
+    ]);
 
     res.status(200).json({
       status: 'success',

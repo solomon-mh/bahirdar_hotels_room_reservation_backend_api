@@ -12,9 +12,28 @@ export async function userStatsProvider(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
-    const allBookings = await BookingModel.countDocuments({
-      user: new Types.ObjectId(id),
-    });
+    const allBookings = await BookingModel.aggregate([
+      {
+        $match: { user: new Types.ObjectId(id) },
+      },
+      {
+        $group: {
+          _id: '$status',
+          numOfBookings: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Optional: Sort by status alphabetically
+      },
+      {
+        $project: {
+          _id: 0,
+          status: '$_id',
+          numOfBookings: 1,
+        },
+      },
+    ]);
+
     const allReviews = await ReviewModel.countDocuments({
       user: new Types.ObjectId(id),
     });
@@ -23,8 +42,8 @@ export async function userStatsProvider(req: Request, res: Response) {
       status: 'success',
       message: 'get all user stats',
       data: {
-        allBookings,
         allReviews,
+        allBookings,
       },
     });
   } catch (err) {
