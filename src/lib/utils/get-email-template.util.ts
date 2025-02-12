@@ -96,9 +96,7 @@ export function getEmailHtmlTemplate(user: IUser, resetToken: string) {
     (user as any as IUser).lastName
   },</p>
                           <p>
-                            We received a request to reset your password for your
-                            account at
-                            <strong>Aurora General Business PLC (AGB)</strong>.
+                            We received a request to reset your password for your account at <strong>Bahir Dar Hotels Management (Hotelify)</strong>.
                           </p>
                           <p>
                             To reset your password, please click the button below. This
@@ -126,9 +124,7 @@ export function getEmailHtmlTemplate(user: IUser, resetToken: string) {
                             our support team. We're here to help!
                           </p>
                           <p>
-                            Aurora General Business PLC (AGB)
-                            <!-- Best regards,<br />
-                            The AGB Team -->
+                            Hotelify Team
                           </p>
                         </td>
                       </tr>

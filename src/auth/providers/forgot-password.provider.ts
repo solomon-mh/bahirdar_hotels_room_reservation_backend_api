@@ -47,7 +47,7 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
 
           For any questions or assistance, feel free to reach out to our support team. We're here to help!
 
-          Hotelify()`;
+          Hotelify Team`;
 
       // const html = `<h1>Forgot your password?</h1><p>Submit a PATCH request with your new password and passwordConfirm to: <a href="${envConfig.RESET_PASSWORD_FRONTEND_URL}/${resetToken}" target='_blank'>${resetURL}</a></p>`;
       const html = getEmailHtmlTemplate(
