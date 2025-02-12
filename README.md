@@ -127,3 +127,11 @@
 | GET    | `/admin`       | get admin stats like number of hotels, users, rooms, reviews, bookings               |
 | GET    | `/hotels/{id}` | get hotel stats like number of hotel rooms, users, reviews and booking on that hotel |
 | GET    | `/users/{id}`  | get user stats like number of bookings, reviews                                      |
+
+## RECOMMENDATIONS's
+
+> all recommendation routes. baseurl `{{Backend_url}}/api/v1/recommendations`
+
+| Method | URL                         | Description                                                        |
+| ------ | --------------------------- | ------------------------------------------------------------------ |
+| GET    | `/personal-recommendations` | get personalized feed based on booking history and favorite hotels |
