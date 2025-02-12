@@ -25,14 +25,16 @@
 
 > all hotel routes. baseurl `{{Backend_url}}/api/v1/hotels`
 
-| Method | URL                | Description                          |
-| ------ | ------------------ | ------------------------------------ |
-| GET    | `/`                | get all hotels                       |
-| POST   | `/`                | Create a new hotel                   |
-| GET    | `/{id}`            | get hotel by id                      |
-| PATCH  | `/{id}`            | Update a hotel by id                 |
-| DELETE | `/{id}`            | Delete a hotel by id                 |
-| GET    | `/with-rooms/{id}` | get hotel with all rooms by hotel id |
+| Method | URL                                   | Description                          |
+| ------ | ------------------------------------- | ------------------------------------ |
+| GET    | `/`                                   | get all hotels                       |
+| POST   | `/`                                   | Create a new hotel                   |
+| GET    | `/{id}`                               | get hotel by id                      |
+| PATCH  | `/{id}`                               | Update a hotel by id                 |
+| DELETE | `/{id}`                               | Delete a hotel by id                 |
+| GET    | `/with-rooms/{id}`                    | get hotel with all rooms by hotel id |
+| PATCH  | `/{hotelId}/create-cashiers/{userId}` | create a cashier                     |
+| PATCH  | `/{hotelId}/delete-cashiers/{userId}` | delete a cashier                     |
 
 ## ROOM's
 

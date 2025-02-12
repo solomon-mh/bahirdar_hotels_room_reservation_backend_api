@@ -10,6 +10,8 @@ import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider
 import { HotelLocation } from './enums/hotel-location.enum';
 import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
 import { cascadeOnDeleteHotelProvider } from './providers/cascade-on-delete-hotel.provider';
+import { deleteCasherProvider } from './providers/delete-casher.provider';
+import { createCasherProvider } from './providers/create-casher.provider';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -273,5 +275,15 @@ export class HotelsController {
   // get hotel with rooms
   getHotelWithRooms(req: Request, res: Response) {
     getHotelWithRoomsProvider(req, res);
+  }
+
+  // create cashier
+  createCashier(req: Request, res: Response) {
+    createCasherProvider(req, res);
+  }
+
+  // delete cashier
+  deleteCashier(req: Request, res: Response) {
+    deleteCasherProvider(req, res);
   }
 }
