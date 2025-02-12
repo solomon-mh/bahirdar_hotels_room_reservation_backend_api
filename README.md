@@ -132,6 +132,7 @@
 
 > all recommendation routes. baseurl `{{Backend_url}}/api/v1/recommendations`
 
-| Method | URL                         | Description                                                        |
-| ------ | --------------------------- | ------------------------------------------------------------------ |
-| GET    | `/personal-recommendations` | get personalized feed based on booking history and favorite hotels |
+| Method | URL                         | Description                                                                                 |
+| ------ | --------------------------- | ------------------------------------------------------------------------------------------- |
+| GET    | `/personal-recommendations` | get personalized feed based on booking history and favorite hotels                          |
+| GET    | `/popular-hotels`           | get most popular hotels based on the average rating they are given from their own customers |
