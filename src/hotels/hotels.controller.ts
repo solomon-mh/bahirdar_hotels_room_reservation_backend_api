@@ -10,8 +10,8 @@ import { getHotelWithRoomsProvider } from './providers/hotel-with-rooms.provider
 import { HotelLocation } from './enums/hotel-location.enum';
 import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
 import { cascadeOnDeleteHotelProvider } from './providers/cascade-on-delete-hotel.provider';
-import { deleteCasherProvider } from './providers/delete-casher.provider';
-import { createCasherProvider } from './providers/create-casher.provider';
+import { deleteCasherProvider } from './providers/cashiers/delete-casher.provider';
+import { createCasherProvider } from './providers/cashiers/create-casher.provider';
 import { allHotelCashiersProvider } from './providers/all-hotel-cashiers.provider';
 
 // Define MulterFiles type

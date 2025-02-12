@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import UserModel from '../../users/users.model';
-import { IUser } from '../../users/interfaces/user.interface';
-import { UserRole } from '../../users/enums/user-role.enum';
+import UserModel from '../../../users/users.model';
+import { IUser } from '../../../users/interfaces/user.interface';
+import { UserRole } from '../../../users/enums/user-role.enum';
 import { Types } from 'mongoose';
-import HotelModel from '../hotels.model';
+import HotelModel from '../../hotels.model';
 
 export async function createCasherProvider(req: Request, res: Response) {
   console.log('create-casher.provider...');

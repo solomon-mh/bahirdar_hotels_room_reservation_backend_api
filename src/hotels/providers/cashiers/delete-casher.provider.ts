@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import HotelModel from '../hotels.model';
-import UserModel from '../../users/users.model';
-import { IUser } from '../../users/interfaces/user.interface';
-import { UserRole } from '../../users/enums/user-role.enum';
+import HotelModel from '../../hotels.model';
+import UserModel from '../../../users/users.model';
+import { IUser } from '../../../users/interfaces/user.interface';
+import { UserRole } from '../../../users/enums/user-role.enum';
 
 export async function deleteCasherProvider(req: Request, res: Response) {
   console.log('delete-casher.provider...');
