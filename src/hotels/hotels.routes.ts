@@ -25,6 +25,19 @@ router.get('/:id', (req, res) => hotelsController.getHotel(req, res));
 // protected routes
 router.use((req, res, next) => authController.protect(req, res, next));
 
+// create cashier
+router.patch(
+  '/:hotelId/create-cashiers/:userId',
+  authController.restrictTo(UserRole.ADMIN),
+  (req, res) => hotelsController.createCashier(req, res)
+);
+// delete cashier
+router.patch(
+  '/:hotelId/delete-cashiers/:userId',
+  authController.restrictTo(UserRole.ADMIN),
+  (req, res) => hotelsController.deleteCashier(req, res)
+);
+
 router.post(
   '/',
   authController.restrictTo(UserRole.ADMIN),
