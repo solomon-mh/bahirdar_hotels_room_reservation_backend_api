@@ -12,6 +12,7 @@ import { IGetAllHotelQuery } from './interfaces/get-all-hotel-query.interface';
 import { cascadeOnDeleteHotelProvider } from './providers/cascade-on-delete-hotel.provider';
 import { deleteCasherProvider } from './providers/delete-casher.provider';
 import { createCasherProvider } from './providers/create-casher.provider';
+import { allHotelCashiersProvider } from './providers/all-hotel-cashiers.provider';
 
 // Define MulterFiles type
 export type MulterFiles = {
@@ -285,5 +286,10 @@ export class HotelsController {
   // delete cashier
   deleteCashier(req: Request, res: Response) {
     deleteCasherProvider(req, res);
+  }
+
+  // get all cashiers
+  getAllHotelCashiers(req: Request, res: Response) {
+    allHotelCashiersProvider(req, res);
   }
 }

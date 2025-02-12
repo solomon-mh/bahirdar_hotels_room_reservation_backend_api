@@ -20,6 +20,13 @@ router.get('/', (req, res) => hotelsController.getAllHotels(req, res));
 router.get('/with-rooms/:id', (req, res) =>
   hotelsController.getHotelWithRooms(req, res)
 );
+// get all cashiers
+router.get(
+  '/:hotelId/all-cashiers',
+  (req, res, next) => authController.protect(req, res, next),
+  (req, res) => hotelsController.getAllHotelCashiers(req, res)
+);
+
 router.get('/:id', (req, res) => hotelsController.getHotel(req, res));
 
 // protected routes

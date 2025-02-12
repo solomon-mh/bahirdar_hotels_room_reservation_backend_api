@@ -35,6 +35,7 @@
 | GET    | `/with-rooms/{id}`                    | get hotel with all rooms by hotel id |
 | PATCH  | `/{hotelId}/create-cashiers/{userId}` | create a cashier                     |
 | PATCH  | `/{hotelId}/delete-cashiers/{userId}` | delete a cashier                     |
+| GET    | `/{hotelId}/all-cashiers`             | get all hotel cashiers               |
 
 ## ROOM's
 
