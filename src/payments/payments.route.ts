@@ -13,6 +13,10 @@ const paymentController = new PaymentController(paymentService);
 
 const router = express.Router();
 
+router.get('/chapa/verify-save-booking-payment', (req, res) =>
+  chapaController.verifySaveBookingPayment(req, res)
+);
+
 router.use((req, res, next) => authController.protect(req, res, next));
 
 router.get('/chapa/accept-booking-payment/:bookingId', (req, res) =>
@@ -20,9 +24,6 @@ router.get('/chapa/accept-booking-payment/:bookingId', (req, res) =>
 );
 router.get('/chapa/verify-booking-payment/:trx_ref', (req, res) =>
   chapaController.verifyBookingPayment(req, res)
-);
-router.get('/chapa/verify-save-booking-payment', (req, res) =>
-  chapaController.verifySaveBookingPayment(req, res)
 );
 
 router.use(authController.restrictTo(UserRole.ADMIN));
