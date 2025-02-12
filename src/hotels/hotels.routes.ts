@@ -39,8 +39,8 @@ router.patch(
   '/:id',
   authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER),
   upload.fields([
-    { name: 'imageCover', maxCount: 1 },
-    { name: 'hotelImages', maxCount: 10 },
+    { name: HotelImageUploadNames.IMAGE_COVER, maxCount: 1 },
+    { name: HotelImageUploadNames.HOTEL_IMAGES, maxCount: 10 },
   ]),
   (req, res) => hotelsController.updateHotel(req, res)
 );

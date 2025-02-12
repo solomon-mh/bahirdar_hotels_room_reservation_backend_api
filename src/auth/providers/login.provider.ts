@@ -36,6 +36,7 @@ export async function loginProvider(req: Request, res: Response) {
       ),
       httpOnly: true,
       secure: envConfig.NODE_ENV === 'production',
+      sameSite: 'none',
     });
 
     res.status(200).json({

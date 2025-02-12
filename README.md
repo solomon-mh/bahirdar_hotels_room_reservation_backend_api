@@ -114,3 +114,13 @@
 
 | Method | URL | Description |
 | ------ | --- | ----------- |
+
+## Stats
+
+> all stat routes. baseurl `{{Backend_url}}/api/v1/stats`
+
+| Method | URL            | Description                                                                          |
+| ------ | -------------- | ------------------------------------------------------------------------------------ |
+| GET    | `/admin`       | get admin stats like number of hotels, users, rooms, reviews, bookings               |
+| GET    | `/hotels/{id}` | get hotel stats like number of hotel rooms, users, reviews and booking on that hotel |
+| GET    | `/users/{id}`  | get user stats like number of bookings, reviews                                      |
