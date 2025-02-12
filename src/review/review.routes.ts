@@ -21,10 +21,8 @@ router.post('/', authController.restrictTo(UserRole.USER), (req, res) =>
   reviewController.createReview(req, res)
 );
 
-router.get(
-  '/hotel/:hotelId',
-  authController.restrictTo(UserRole.ADMIN, UserRole.CASHIER, UserRole.MANAGER),
-  (req, res) => reviewController.getAllReviewsOfAHotel(req, res)
+router.get('/hotel/:hotelId', (req, res) =>
+  reviewController.getAllReviewsOfAHotel(req, res)
 );
 
 router.patch(

@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { IReview } from './interfaces/review.interface';
 import { ReviewService } from './providers/review.service';
-import { validateCreateReviewDto } from './middlewares/validate-create-review-dto.middleware';
+import {
+  CreateReviewDto,
+  validateCreateReviewDto,
+} from './middlewares/validate-create-review-dto.middleware';
 import { validateUpdateReviewDto } from './middlewares/validate-update-review-dto.middleware';
 import { IUser } from '../users/interfaces/user.interface';
 import { Types } from 'mongoose';
 import { IReviewModel } from './review.model';
 import { getAllReviewsOfAHotelProvider } from './providers/get-all-reviews-a-hotel.provider';
+import BookingModel from '../bookings/bookings.model';
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
@@ -61,10 +65,10 @@ export class ReviewController {
   async createReview(req: Request, res: Response) {
     console.log('Create review...');
     try {
-      const createReviewDto: IReview = req.body;
-
       const user: IUser = req.user;
-      createReviewDto.user = new Types.ObjectId(user._id!);
+      const createReviewDto: CreateReviewDto = req.body;
+
+      createReviewDto.user = user._id!.toString();
 
       if (user.isOnboarding) {
         res.status(400).json({
@@ -89,9 +93,23 @@ export class ReviewController {
         return;
       }
 
-      let review = await this.reviewService.findOne({
+      const booking = await BookingModel.findOne({
         hotel: createReviewDto.hotel,
         user: createReviewDto.user,
+        isPaid: true,
+      });
+
+      if (!booking) {
+        res.status(200).json({
+          status: 'fail',
+          message: 'user should book a room before giving a review to a hotel',
+        });
+        return;
+      }
+
+      let review = await this.reviewService.findOne({
+        hotel: new Types.ObjectId(createReviewDto.hotel),
+        user: new Types.ObjectId(createReviewDto.user),
       });
 
       if (review) {

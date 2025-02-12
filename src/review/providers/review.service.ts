@@ -1,4 +1,5 @@
 import { IReview } from '../interfaces/review.interface';
+import { CreateReviewDto } from '../middlewares/validate-create-review-dto.middleware';
 import ReviewModel from '../review.model';
 
 export class ReviewService {
@@ -13,7 +14,7 @@ export class ReviewService {
     return review;
   }
   // create review
-  async createReview(data: IReview) {
+  async createReview(data: CreateReviewDto) {
     const review = await ReviewModel.create(data);
     return review;
   }
