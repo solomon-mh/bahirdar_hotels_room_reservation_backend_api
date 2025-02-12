@@ -48,19 +48,6 @@ export async function verifySaveBookingPaymentProvider(
         .populate('user')
         .populate('hotel')) as any as IBookingDetail;
 
-      // todo: /
-      // update booking
-      await BookingModel.findByIdAndUpdate(
-        bookingId,
-        {
-          isPaid: true,
-          paymentDate: new Date(),
-        },
-        {
-          new: true,
-        }
-      );
-
       // record payment on payments table
       const body: IPayment = {
         hotelId: new Types.ObjectId(booking.hotel._id),
@@ -87,8 +74,22 @@ export async function verifySaveBookingPaymentProvider(
         numOfNights: booking.numOfNights!,
       };
 
-      await PaymentModel.create(body);
+      const newPayment = (await PaymentModel.create(body)) as IPayment;
       console.log('payment verified and room booked successfully');
+
+      // todo: /
+      // update booking
+      await BookingModel.findByIdAndUpdate(
+        bookingId,
+        {
+          isPaid: true,
+          paymentDate: new Date(),
+          payment: new Types.ObjectId(newPayment._id),
+        },
+        {
+          new: true,
+        }
+      );
 
       res.status(200).send();
     }

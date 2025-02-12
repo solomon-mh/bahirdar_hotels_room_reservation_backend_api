@@ -6,6 +6,7 @@ export interface IBooking {
 
   user: Types.ObjectId;
   room: Types.ObjectId;
+  payment: Types.ObjectId;
   checkIn: Date;
   checkOut: Date;
   status: BookingStatus;

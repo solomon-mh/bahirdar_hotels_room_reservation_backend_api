@@ -17,6 +17,10 @@ const BookingSchema: Schema<IBooking> = new Schema<IBooking>(
       ref: 'Room',
       required: true,
     },
+    payment: {
+      type: Schema.Types.ObjectId,
+      ref: 'Payment',
+    },
     checkIn: {
       type: Date,
       required: true,
