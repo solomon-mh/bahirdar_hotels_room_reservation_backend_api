@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import UserModel from '../../users/users.model';
 import sendEmail from '../../lib/utils/mail.util';
 import { envConfig } from '../../lib/config/environment.config';
+import { IUser } from '../../users/interfaces/user.interface';
+import { getEmailHtmlTemplate } from '../../lib/utils/get-email-template.util';
 
 export const forgotPasswordProvider = async (req: Request, res: Response) => {
   try {
@@ -30,11 +32,28 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
     await user.save({ validateBeforeSave: false });
 
     try {
-      const resetURL = `${envConfig.BACKEND_URL}/api/users/resetPassword/${resetToken}`;
+      const message = `
+          Dear ${(user as any as IUser).firstName} ${
+        (user as any as IUser).lastName
+      },
 
-      const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+          We received a request to reset your password for your account at Bahir Dar Hotels Management (Hotelify).
 
-      const html = `<h1>Forgot your password?</h1><p>Submit a PATCH request with your new password and passwordConfirm to: <a href="${envConfig.RESET_PASSWORD_FRONTEND_URL}/${resetToken}" target='_blank'>${resetURL}</a></p>`;
+          To reset your password, please use the link below. This link will expire in 10 minutes for your security:
+
+          ${envConfig.RESET_PASSWORD_FRONTEND_URL}/${resetToken}
+
+          If you did not request a password reset, please disregard this email. Your account is safe, and no action is needed.
+
+          For any questions or assistance, feel free to reach out to our support team. We're here to help!
+
+          Hotelify()`;
+
+      // const html = `<h1>Forgot your password?</h1><p>Submit a PATCH request with your new password and passwordConfirm to: <a href="${envConfig.RESET_PASSWORD_FRONTEND_URL}/${resetToken}" target='_blank'>${resetURL}</a></p>`;
+      const html = getEmailHtmlTemplate(
+        user as any as IUser,
+        resetToken as string
+      );
 
       await sendEmail({
         email: (user as any).email as string,
@@ -53,5 +72,10 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
       status: 'success',
       message: 'token is sent to an email',
     });
-  } catch (err) {}
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: (err as Error).message,
+    });
+  }
 };
