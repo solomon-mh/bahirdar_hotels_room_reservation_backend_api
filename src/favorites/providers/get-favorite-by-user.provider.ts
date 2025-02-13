@@ -10,7 +10,7 @@ export async function getFavoriteByUserProvider(req: Request, res: Response) {
 
     const favorites = await FavoriteModel.find({
       user: new Types.ObjectId(user._id),
-    });
+    }).populate('hotel');
 
     res.status(200).json({
       status: 'success',
