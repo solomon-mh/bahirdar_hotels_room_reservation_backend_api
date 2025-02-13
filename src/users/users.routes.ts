@@ -36,10 +36,6 @@ router.post(
   (req, res) => usersController.completeOnboarding(req, res)
 );
 
-router.patch('/:id', upload.single('image'), (req, res) =>
-  usersController.updateUser(req, res)
-);
-
 router.get('/manager-with-detail', (req, res) =>
   usersController.getManagerWithDetails(req, res)
 );
@@ -48,9 +44,13 @@ router.patch('/request-identity-verification', (req, res) =>
   usersController.requestIdentityVerification(req, res)
 );
 
+router.patch('/:id', upload.single('image'), (req, res) =>
+  usersController.updateUser(req, res)
+);
+
 // restrict routes
 router.use(authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER));
-router.get("/", (req, res) => usersController.getAllUsers(req, res));
+router.get('/', (req, res) => usersController.getAllUsers(req, res));
 
 router.use(authController.restrictTo(UserRole.ADMIN));
 
