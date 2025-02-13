@@ -45,6 +45,9 @@ router.patch('/request-identity-verification', (req, res) =>
 );
 
 // restrict routes
+router.use(authController.restrictTo(UserRole.ADMIN, UserRole.MANAGER));
+router.get("/", (req, res) => usersController.getAllUsers(req, res));
+
 router.use(authController.restrictTo(UserRole.ADMIN));
 
 router.patch('/verify-user-account/:id', (req, res) =>
@@ -63,7 +66,6 @@ router.get('/verification-requests', (req, res) =>
   usersController.getAllVerificationRequests(req, res)
 );
 
-router.get('/', (req, res) => usersController.getAllUsers(req, res));
 router.get('/:id', (req, res) => usersController.getUser(req, res));
 router.post('/', (req, res) => usersController.createUser(req, res));
 router.patch('/:id', upload.single('image'), (req, res) =>

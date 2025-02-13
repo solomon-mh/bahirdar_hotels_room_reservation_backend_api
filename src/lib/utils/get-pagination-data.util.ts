@@ -11,7 +11,7 @@ export async function getPaginationDataUtil<T>(
   totalPages: number;
   _page: number;
 }> {
-  const _limit = limit ? +limit : 20;
+  const _limit = limit ? +limit : 10;
   const _page = page ? +page : 1;
   const skip = (_page - 1) * _limit;
   const totalProducts = condition
