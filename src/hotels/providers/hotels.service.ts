@@ -13,7 +13,7 @@ export class HotelsService {
 
     const filter: Record<string, any> = {};
 
-    if (avgRating) filter.avgRating = avgRating;
+    if (avgRating) filter.avgRating = { $gte: Number(avgRating) };
     if (hotelStar) filter.hotelStar = hotelStar;
 
     if (search) {
