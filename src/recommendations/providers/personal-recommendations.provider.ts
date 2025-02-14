@@ -58,7 +58,7 @@ export async function personalRecommendationsProvider(
 
     res.status(200).json({
       status: 'success',
-      data: uniqueHotels.slice(0, 9),
+      data: uniqueHotels.slice(0, 6),
     });
   } catch (err) {
     console.log(err);
