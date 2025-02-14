@@ -3,16 +3,18 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { StatusCodes } from 'http-status-codes';
-import { userRoutes } from './users/users.routes';
-import { hotelRoutes } from './hotels/hotels.routes';
-import { roomRoutes } from './rooms/room.routes';
-import { bookingRoutes } from './bookings/bookings.routes';
-import { reviewRoutes } from './review/review.routes';
+import { userRoutes } from './users/users.route';
+import { hotelRoutes } from './hotels/hotels.route';
+import { roomRoutes } from './rooms/rooms.route';
+import { bookingRoutes } from './bookings/bookings.route';
+import { reviewRoutes } from './review/review.route';
 import { authRoutes } from './auth/auth.route';
 import { favoritesRoutes } from './favorites/favorites.route';
 import { paymentRoutes } from './payments/payments.route';
 import { statRoutes } from './stats/stats.route';
 import { recommendationRoutes } from './recommendations/recommendations.route';
+import swaggerDocs from './swagger';
+import { envConfig } from './lib/config/environment.config';
 
 export function createApp() {
   const app = express();
@@ -50,6 +52,8 @@ export function createApp() {
   app.use('/api/v1/payments', paymentRoutes);
   app.use('/api/v1/stats', statRoutes);
   app.use('/api/v1/recommendations', recommendationRoutes);
+
+  swaggerDocs(app, envConfig.PORT);
 
   // not found route
   app.all('*', (req: Request, res: Response) => {

@@ -16,6 +16,15 @@ const authController = new AuthController();
 
 const upload = multerUpload({ dirName: 'hotels', isImage: true });
 
+/**
+ * @openapi
+ * /api/v1/hotels
+ *  get:
+ *    summary: Get all hotels
+ *    operationId: getAllHotels
+ *    tags:
+ *      - hotels
+ */
 router.get('/', (req, res) => hotelsController.getAllHotels(req, res));
 router.get('/with-rooms/:id', (req, res) =>
   hotelsController.getHotelWithRooms(req, res)
