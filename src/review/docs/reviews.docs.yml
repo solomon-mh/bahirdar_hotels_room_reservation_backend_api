@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Reviews API
+  version: 3.0.0
+tags:
+  - name: Reviews
+    description: Reviews API
+paths:
+  /api/v1/reviews:
+    get:
+      summary: Get all reviews
+      description: Get all reviews
+      operationId: getAllReviews
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: an object with pagination and list of reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IReviewResponse'
+        '500':
+          description: Internal server error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IReviewResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        hotel:
+          type: string
+          # $ref: '../../hotels/docs/hotels.docs.yml#/components/schemas/IHotelResponse'
+        user:
+          type: string
+        comment:
+          type: string
+        rating:
+          type: number
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    CreateReviewDto:
+      type: object
+      required:
+        - hotel
+        - comment
+        - rating
+      properties:
+        hotel:
+          type: string
+        comment:
+          type: string
+        rating:
+          type: number
+    UpdateReviewDto:
+      type: object
+      properties:
+        hotel:
+          type: string
+        comment:
+          type: string
+        rating:
+          type: number

@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  title: Payments API
+  version: 3.0.0
+tags:
+  - name: Payments
+    description: Payments API
+paths:
+  /api/v1/payments:
+    get:
+      summary: Get all payments
+      description: Get all payments
+      operationId: getAllPayments
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: list of payments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IPaymentResponse'
+        '500':
+          description: Internal server error'
+    post:
+      summary: Create a payment
+      description: Create a payment
+      operationId: createPayment
+      tags:
+        - Payments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentDto'
+      responses:
+        '201':
+          description: a payment object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    IPaymentResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        hotelId:
+          type: string
+        roomId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        phoneNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        hotelName:
+          type: string
+        hotelSummary:
+          type: string
+        roomNumber:
+          type: string
+        roomType:
+          type: string
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
+        totalPrice:
+          type: number
+        pricePerNight:
+          type: number
+        numOfNights:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreatePaymentDto:
+      type: object
+      required:
+        - hotelId
+        - roomId
+        - firstName
+        - lastName
+        - email
+        - dateOfBirth
+        - phoneNumber
+        - gender
+        - hotelName
+        - hotelSummary
+        - roomNumber
+        - roomType
+        - roomFacilities
+        - capacity
+        - checkIn
+        - checkOut
+        - totalPrice
+        - pricePerNight
+        - numOfNights
+      properties:
+        hotelId:
+          type: string
+        roomId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        phoneNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        hotelName:
+          type: string
+        hotelSummary:
+          type: string
+        roomNumber:
+          type: string
+        roomType:
+          type: string
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
+        totalPrice:
+          type: number
+        pricePerNight:
+          type: number
+        numOfNights:
+          type: number
+    UpdatePaymentDto:
+      type: object
+      properties:
+        hotelId:
+          type: string
+        roomId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        phoneNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        hotelName:
+          type: string
+        hotelSummary:
+          type: string
+        roomNumber:
+          type: string
+        roomType:
+          type: string
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
+        totalPrice:
+          type: number
+        pricePerNight:
+          type: number
+        numOfNights:
+          type: number

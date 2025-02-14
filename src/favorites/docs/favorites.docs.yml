@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Favorites API
+  version: 3.0.0
+tags:
+  - name: Favorites
+    description: Favorites API
+paths:
+  /api/v1/favorites:
+    get:
+      summary: Get all favorites
+      description: Get all favorites
+      operationId: getAllFavorites
+      tags:
+        - Favorites
+      responses:
+        '200':
+          description: list of favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IFavoriteResponse'
+        '500':
+          description: Internal server error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IFavoriteResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        hotel:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateFavoriteDto:
+      type: object
+      required:
+        - hotel
+      properties:
+        hotel:
+          type: string
+    UpdateFavoriteDto:
+      type: object
+      properties:
+        hotel:
+          type: string

@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: Users API
+  version: 3.0.0
+tags:
+  - name: Users
+    description: Users API
+paths:
+  /api/v1/users:
+    get:
+      summary: Get all users
+      description: Get all users
+      operationId: getAllUsers
+      tags:
+        - Users
+      responses:
+        '200':
+          description: an object with pagination and list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IUserResponse'
+        '500':
+          description: Internal server error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IAddress:
+      type: object
+      properties:
+        country:
+          type: string
+        city:
+          type: string
+        subcity:
+          type: string
+        woreda:
+          type: string
+        street:
+          type: string
+    IUserResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        email:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        phoneNumber:
+          type: string
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+            - manager
+            - cashier
+        profilePicture:
+          type: string
+        address:
+          type: object
+          $ref: '#/components/schemas/IAddress'
+        idPhoto_front:
+          type: string
+        idPhoto_back:
+          type: string
+        isVerified:
+          type: boolean
+        isOnboarding:
+          type: boolean
+        isVerificationRequested:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateUserDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - username
+        - dateOfBirth
+        - email
+        - phoneNumber
+        - password
+        - passwordConfirm
+        - address
+        - profilePicture
+        - idPhoto_front
+        - idPhoto_back
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+        passwordConfirm:
+          type: string
+        address:
+          type: string
+          $ref: '#/components/schemas/IAddress'
+        profilePicture:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        idPhoto_front:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        idPhoto_back:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+        passwordConfirm:
+          type: string
+        address:
+          type: string
+          $ref: '#/components/schemas/IAddress'
+        profilePicture:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        idPhoto_front:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        idPhoto_back:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        isVerified:
+          type: boolean
+        isOnboarding:
+          type: boolean
+        isVerificationRequested:
+          type: boolean
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+            - manager
+            - cashier
+    OnboardingDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - dateOfBirth
+        - gender
+        - phoneNumber
+        - address
+        - idPhoto_front
+        - idPhoto_back
+        - profilePicture
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        phoneNumber:
+          type: string
+        address:
+          type: string
+          $ref: '#/components/schemas/IAddress'
+        idPhoto_front:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        idPhoto_back:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1
+        profilePicture:
+          type: array
+          items:
+            type: string
+            format: binary
+            maximum: 1

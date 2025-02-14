@@ -1,0 +1,267 @@
+openapi: 3.0.0
+info:
+  title: Hotels API
+  version: 3.0.0
+tags:
+  - name: Hotels
+    description: Hotels API
+paths:
+  /api/v1/hotels:
+    get:
+      summary: Get all hotels
+      description: Get all hotels
+      operationId: getAllHotels
+      tags:
+        - Hotels
+      responses:
+        '200':
+          description: an object with pagination and list of hotels
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IHotelResponse'
+        '500':
+          description: Internal server error'
+
+    post:
+      summary: Create a hotel
+      description: Create a hotel
+      operationId: createHotel
+      tags:
+        - Hotels
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateHotelDto'
+      responses:
+        '201':
+          description: a hotel object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/hotels/with-rooms/{id}:
+    get:
+      summary: Get a hotel with rooms by id
+      operationId: getHotelWithRooms
+      description: Get a hotel by id and with all rooms available at that hotel
+      tags:
+        - Hotels
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a hotel object with rooms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    $ref: '#/components/schemas/IHotelResponse'
+                  rooms:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IHotelResponse'
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+  /api/v1/hotels/{id}:
+    get:
+      summary: Get a hotel by id
+      description: Get a hotel by id
+      operationId: getHotel
+      tags:
+        - Hotels
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a hotel object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IHotelResponse'
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IAddress:
+      type: object
+      properties:
+        country:
+          type: string
+        city:
+          type: string
+        subcity:
+          type: string
+        woreda:
+          type: string
+        street:
+          type: string
+    IHotelResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        hotelStar:
+          type: number
+        imageCover:
+          type: string
+        hotelImages:
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+        description:
+          type: string
+        facilities:
+          type: array
+          items:
+            type: string
+        address:
+          $ref: '#/components/schemas/IAddress'
+        location:
+          type: object
+          properties:
+            type:
+              type: string
+            coordinates:
+              type: array
+              items:
+                type: number
+        manager:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    CreateHotelDto:
+      type: object
+      required:
+        - name
+        - hotelStar
+        - imageCover
+        - hotelImages
+        - address
+        - summary
+        - description
+        - facilities
+        - manager
+        - latitude
+        - longitude
+      properties:
+        name:
+          type: string
+        hotelStar:
+          type: number
+        imageCover:
+          type: array
+          items:
+            type: string
+            format: binary
+            description: Image Cover for a hotel
+            maximum: 1
+        hotelImages:
+          type: array
+          items:
+            type: string
+            format: binary
+            minimum: 1
+            maximum: 10
+            description: Array of hotel images (multiple file upload)
+        address:
+          $ref: '#/components/schemas/IAddress'
+        summary:
+          type: string
+        description:
+          type: string
+        facilities:
+          type: array
+          items:
+            type: string
+        manager:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+    UpdateHotelDto:
+      type: object
+      properties:
+        name:
+          type: string
+        hotelStar:
+          type: number
+        imageCover:
+          type: array
+          items:
+            type: string
+            format: binary
+            description: Image Cover for a hotel
+            maximum: 1
+        hotelImages:
+          type: array
+          items:
+            type: string
+            format: binary
+            description: Array of hotel images (multiple file upload)
+            minimum: 1
+            maximum: 10
+        address:
+          $ref: '#/components/schemas/IAddress'
+        summary:
+          type: string
+        description:
+          type: string
+        facilities:
+          type: array
+          items:
+            type: string
+        manager:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number

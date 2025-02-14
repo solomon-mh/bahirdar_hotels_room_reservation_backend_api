@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 3.0.0
+tags:
+  - name: Auth
+    description: Auth API
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: Login a user
+      description: Login a user
+      operationId: login
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: a user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginDto'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/auth/signup:
+    post:
+      summary: Signup a user
+      description: Signup a user
+      operationId: signup
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupDto'
+      responses:
+        '201':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/auth/logout:
+    post:
+      summary: Logout a user
+      description: Logout a user
+      operationId: logout
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    LoginDto:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    SignupDto:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - passwordConfirm
+        - phoneNumber
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        passwordConfirm:
+          type: string
+        phoneNumber:
+          type: string
+    ForgotPasswordDto:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+    ResetPasswordDto:
+      type: object
+      required:
+        - password
+        - passwordConfirm
+      properties:
+        password:
+          type: string
+        passwordConfirm:
+          type: string
+    UpdatePasswordDto:
+      type: object
+      required:
+        - currentPassword
+        - newPassword
+        - passwordConfirm
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+        passwordConfirm:
+          type: string

@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: Rooms API
+  version: 3.0.0
+tags:
+  - name: Rooms
+    description: Rooms API
+paths:
+  /api/v1/rooms:
+    get:
+      summary: Get all rooms
+      description: Get all rooms
+      operationId: getAllRooms
+      tags:
+        - Rooms
+      responses:
+        '200':
+          description: an object with pagination and list of rooms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IRoomResponse'
+        '500':
+          description: Internal server error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IRoomResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        hotel:
+          type: string
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        description:
+          type: string
+        pricePerNight:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+        roomType:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateRoomDto:
+      type: object
+      required:
+        - hotel
+        - roomFacilities
+        - capacity
+        - description
+        - pricePerNight
+        - images
+        - roomType
+        - roomNumber
+      properties:
+        hotel:
+          type: string
+        roomType:
+          type: string
+        roomNumber:
+          type: number
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        description:
+          type: string
+        pricePerNight:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+            minimum: 1
+            maximum: 5
+            description: Image Cover for a room at least one image is required
+    UpdateRoomDto:
+      type: object
+      properties:
+        roomType:
+          type: string
+        roomNumber:
+          type: number
+        roomFacilities:
+          type: array
+          items:
+            type: string
+        capacity:
+          type: number
+        description:
+          type: string
+        pricePerNight:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+            minimum: 1
+            maximum: 5
+            description: Image Cover for a room at least one image is required

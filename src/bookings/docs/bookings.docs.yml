@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Bookings API
+  version: 3.0.0
+
+tags:
+  - name: Bookings
+    description: Bookings API
+paths:
+  /api/v1/bookings:
+    get:
+      summary: Get all bookings
+      description: Get all bookings
+      operationId: getAllBookings
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: an object with pagination and list of bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IBookingResponse'
+        '500':
+          description: Internal server error'
+
+    post:
+      summary: Create a booking
+      description: Create a booking
+      operationId: createBooking
+      tags:
+        - Bookings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingDto'
+      responses:
+        '201':
+          description: a booking object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IBookingResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        room:
+          type: string
+        payment:
+          type: string
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
+        status:
+          type: string
+        isPaid:
+          type: boolean
+        numOfNights:
+          type: number
+        hotel:
+          type: string
+        totalPrice:
+          type: number
+        pricePerNight:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateBookingDto:
+      type: object
+      required:
+        - room
+        - checkIn
+        - checkOut
+      properties:
+        room:
+          type: string
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
+    UpdateBookingDto:
+      properties:
+        room:
+          type: string
+        checkIn:
+          type: string
+          format: date-time
+        checkOut:
+          type: string
+          format: date-time
