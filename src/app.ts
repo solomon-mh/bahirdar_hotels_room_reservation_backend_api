@@ -24,6 +24,7 @@ export function createApp() {
       origin: [
         'https://hotel-booking-app-frontend-seven.vercel.app',
         'http://localhost:5173',
+        'http://localhost:8081',
       ],
       credentials: true,
     })
