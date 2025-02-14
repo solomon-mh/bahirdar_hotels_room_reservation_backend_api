@@ -7,7 +7,7 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Hotel Booking App Backend API',
+      title: 'Bahir Dar Hotels Room Reservation System Backend API',
       version,
       summary: 'summary of our api',
       description: 'description of the application',
