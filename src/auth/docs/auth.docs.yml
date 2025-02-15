@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Auth API
+  title: Authentication API
   version: 3.0.0
 tags:
   - name: Auth
-    description: Auth API
+    description: Authentication API
 paths:
   /api/v1/auth/login:
     post:
@@ -13,13 +13,16 @@ paths:
       operationId: login
       tags:
         - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: true
+              $ref: '#/components/schemas/LoginDto'
       responses:
         '200':
           description: a user object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginDto'
         '400':
           description: Invalid input
         '500':
@@ -36,6 +39,7 @@ paths:
         content:
           application/json:
             schema:
+              required: true
               $ref: '#/components/schemas/SignupDto'
       responses:
         '201':
@@ -44,18 +48,94 @@ paths:
           description: Invalid input
         '500':
           description: Internal server error
-  /api/auth/logout:
+  /api/v1/auth/logout:
     post:
       summary: Logout a user
       description: Logout a user
       operationId: logout
       tags:
         - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: a user object
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+  /api/v1/auth/forgot-password:
+    post:
+      summary: Forgot password
+      description: Forgot password
+      operationId: forgotPassword
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: true
+              $ref: '#/components/schemas/ForgotPasswordDto'
       responses:
         '200':
           description: a user object
         '400':
           description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/auth/reset-password/{resetToken}:
+    post:
+      summary: Reset password
+      description: Reset password
+      operationId: resetPassword
+      tags:
+        - Auth
+      parameters:
+        - in: path
+          name: resetToken
+          required: true
+          schema:
+            type: string
+          description: Reset token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: true
+              $ref: '#/components/schemas/ResetPasswordDto'
+      responses:
+        '200':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/auth/update-my-password:
+    post:
+      summary: Update my password
+      description: update my password route for logged in users to update their own password
+      operationId: updateMyPassword
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: true
+              $ref: '#/components/schemas/UpdatePasswordDto'
+      responses:
+        '200':
+          description: a user object
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
         '500':
           description: Internal server error
 
