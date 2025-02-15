@@ -53,6 +53,117 @@ paths:
         '500':
           description: Internal server error
 
+  /api/v1/payments/{id}:
+    get:
+      summary: Get a payment by id
+      description: Get a payment by id
+      operationId: getPaymentById
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: a payment object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IPaymentResponse'
+        '404':
+          description: Payment not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a payment by id
+      description: Update a payment by id
+      operationId: updatePaymentById
+      tags:
+        - Payments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePaymentDto'
+      responses:
+        '200':
+          description: a payment object
+        '400':
+          description: Invalid input
+        '404':
+          description: Payment not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a payment by id
+      description: Delete a payment by id
+      operationId: deletePaymentById
+      tags:
+        - Payments
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Payment deleted
+        '404':
+          description: Payment not found
+        '500':
+          description: Internal server error
+  /api/v1/payments/chapa/verify-save-booking-payment:
+    get:
+      summary: Verify and save booking payment.
+      description: Verify and save booking payment. this api routes is the callback api for successful payment with chapa payment get way
+      operationId: verifyAndSaveBookingPayment
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: Payment verified and saved successfully
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /api/v1/payments/chapa/accept-booking-payment/{bookingId}:
+    get:
+      summary: Accept booking payment.
+      description: Accept booking payment. with this api endpoint you can initialize the payment and get checkout url from chapa
+      operationId: acceptBookingPayment
+      security:
+        - bearerAuth: []
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: Payment accepted successfully
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/payments/chapa/verify-booking-payment/{trx_ref}:
+    get:
+      summary: Verify booking payment
+      description: Verify booking payment.
+      security:
+        - bearerAuth: []
+      tags:
+        - Payments
+      operationId: verifyBookingPayment
+      parameters:
+        - name: trx_ref
+          in: path
+          required: true
+          description: transaction reference
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment verified successfully
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
 components:
   securitySchemes:
     bearerAuth:
