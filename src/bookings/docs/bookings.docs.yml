@@ -2,7 +2,8 @@ openapi: 3.0.0
 info:
   title: Bookings API
   version: 3.0.0
-
+security:
+  - bearerAuth: []
 tags:
   - name: Bookings
     description: Bookings API
@@ -12,6 +13,8 @@ paths:
       summary: Get all bookings
       description: Get all bookings
       operationId: getAllBookings
+      security:
+        - bearerAuth: []
       tags:
         - Bookings
       responses:
@@ -52,6 +55,309 @@ paths:
           description: a booking object
         '400':
           description: Invalid input
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/{id}:
+    get:
+      summary: Get a booking by id
+      operationId: getBooking
+      description: Get a booking by id
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a booking
+      operationId: updateBooking
+      description: Update a booking
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBookingDto'
+      responses:
+        '200':
+          description: a booking object
+        '400':
+          description: Invalid input
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a booking
+      operationId: deleteBooking
+      description: Delete a booking
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/booking-with-room-user-hotel-detail/{id}:
+    get:
+      summary: Get a booking with room, user and hotel details by id
+      operationId: getBookingWithRoomUserHotelDetail
+      description: Get a booking by id and with room, user and hotel details
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: a booking object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IBookingResponse'
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/all-bookings-with-room-user-hotel-detail:
+    get:
+      summary: Get all bookings with room, user and hotel details
+      operationId: getAllBookingsWithRoomUserHotelDetail
+      description: Get all bookings with room, user and hotel details
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: an object with pagination and list of bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IBookingResponse'
+        '500':
+          description: Internal server error'
+
+  /api/v1/bookings/all-bookings-of-a-room/{roomId}:
+    get:
+      summary: Get all bookings of a room
+      operationId: getAllBookingsOfARoom
+      description: Get all bookings of a room
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          description: Room id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: an object with pagination and list of bookings
+        '500':
+          description: Internal server error'
+
+  /api/v1/bookings/all-bookings-of-a-hotel/{hotelId}:
+    get:
+      summary: Get all bookings of a hotel
+      operationId: getAllBookingsOfAHotel
+      description: Get all bookings of a hotel
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: hotelId
+          in: path
+          required: true
+          description: Hotel id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: an object with pagination and list of bookings
+        '500':
+          description: Internal server error'
+
+  /api/v1/bookings/all-bookings-of-a-user/{userId}:
+    get:
+      summary: Get all bookings of a user
+      operationId: getAllBookingsOfAUser
+      description: Get all bookings of a user
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: an object with pagination and list of bookings
+        '500':
+          description: Internal server error'
+
+  /api/v1/bookings/{bookingId}/reject-user-booking/{userId}:
+    patch:
+      summary: Reject a user booking
+      operationId: rejectUserBooking
+      description: Reject a user booking for managers and cashiers to manage their booking
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/{bookingId}/checkin-user-booking/{userId}:
+    patch:
+      summary: Checkin a user booking
+      operationId: checkinUserBooking
+      description: Checkin a user booking for managers and cashiers to manage their booking
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/{bookingId}/checkout-user-booking/{userId}:
+    patch:
+      summary: Checkout a user booking
+      operationId: checkoutUserBooking
+      description: Checkout a user booking for managers and cashiers to manage their booking
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          description: Booking id
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
+        '500':
+          description: Internal server error
+
+  /api/v1/bookings/cancel-my-booking:
+    patch:
+      summary: Cancel my booking
+      operationId: cancelMyBooking
+      description: Cancel my booking | allows users to cancel their booking before paying
+      security:
+        - bearerAuth: []
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: a booking object
+        '404':
+          description: Booking not found
         '500':
           description: Internal server error
 
