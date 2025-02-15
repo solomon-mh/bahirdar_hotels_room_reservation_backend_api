@@ -53,42 +53,6 @@ paths:
           description: Invalid input
         '500':
           description: Internal server error
-  /api/v1/hotels/with-rooms/{id}:
-    get:
-      summary: Get a hotel with rooms by id
-      operationId: getHotelWithRooms
-      description: Get a hotel by id and with all rooms available at that hotel
-      tags:
-        - Hotels
-      parameters:
-        - name: id
-          in: path
-          description: ID of the hotel to get
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: a hotel object with rooms
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  results:
-                    type: number
-                  data:
-                    $ref: '#/components/schemas/IHotelResponse'
-                  rooms:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/IHotelResponse'
-        '404':
-          description: Hotel not found
-        '500':
-          description: Internal server error
 
   /api/v1/hotels/{id}:
     get:
@@ -111,6 +75,164 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IHotelResponse'
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+    patch:
+      summary: Update a hotel by id
+      description: Update a hotel by id
+      operationId: updateHotel
+      tags:
+        - Hotels
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateHotelDto'
+      responses:
+        '200':
+          description: a hotel object
+        '400':
+          description: Invalid input
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+    delete:
+      summary: Delete a hotel by id
+      description: Delete a hotel by id
+      operationId: deleteHotel
+      tags:
+        - Hotels
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Hotel deleted
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+  /api/v1/hotels/with-rooms/{id}:
+    get:
+      summary: Get a hotel with rooms by id
+      operationId: getHotelWithRooms
+      description: Get a hotel by id and with all rooms available at that hotel
+      tags:
+        - Hotels
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a hotel object with rooms
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+  /api/v1/hotels/{hotelId}/all-cashiers:
+    get:
+      summary: Get all cashiers of a hotel
+      operationId: getAllCashiersOfHotel
+      description: Get all cashiers of a hotel
+      tags:
+        - Hotels
+      parameters:
+        - name: hotelId
+          in: path
+          description: ID of the hotel to get cashiers
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: fetch all cashiers of a hotel
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+  /api/v1/hotels/{hotelId}/create-cashiers/{userId}:
+    patch:
+      summary: Create a cashier for a hotel
+      operationId: createCashierForHotel
+      description: Create a cashier for a hotel
+      tags:
+        - Hotels
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: hotelId
+          in: path
+          description: ID of the hotel to create cashier
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID of the user to create cashier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a cashier object
+        '404':
+          description: Hotel not found
+        '500':
+          description: Internal server error
+
+  /api/v1/hotels/{hotelId}/delete-cashiers/{userId}:
+    patch:
+      summary: Delete a cashier for a hotel
+      operationId: deleteCashierForHotel
+      description: Delete a cashier for a hotel
+      tags:
+        - Hotels
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: hotelId
+          in: path
+          description: ID of the hotel to delete cashier
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID of the user to delete cashier
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Cashier deleted
         '404':
           description: Hotel not found
         '500':
