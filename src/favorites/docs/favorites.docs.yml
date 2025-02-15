@@ -31,7 +31,129 @@ paths:
                       $ref: '#/components/schemas/IFavoriteResponse'
         '500':
           description: Internal server error'
-
+    post:
+      summary: Create a favorite
+      description: Create a favorite
+      operationId: createFavorite
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFavoriteDto'
+      responses:
+        '201':
+          description: a favorite object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/favorites/{id}:
+    get:
+      summary: Get a favorite by id
+      description: Get a favorite by id
+      operationId: getFavoriteById
+      tags:
+        - Favorites
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: favorite id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a favorite object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IFavoriteResponse'
+        '404':
+          description: favorite not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a favorite by id
+      description: Update a favorite by id
+      operationId: updateFavoriteById
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: favorite id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFavoriteDto'
+      responses:
+        '200':
+          description: a favorite object
+        '404':
+          description: favorite not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a favorite by id
+      description: Delete a favorite by id
+      operationId: deleteFavoriteById
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: favorite id
+          schema:
+            type: string
+      responses:
+        '204':
+          description: favorite deleted
+        '404':
+          description: favorite not found
+        '500':
+          description: Internal server error
+  /api/v1/favorites/user:
+    get:
+      summary: Get all favorites by user
+      description: Get all favorites by user
+      operationId: getAllFavoritesByUser
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: list of favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: number
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IFavoriteResponse'
+        '500':
+          description: Internal server error'
 components:
   securitySchemes:
     bearerAuth:
