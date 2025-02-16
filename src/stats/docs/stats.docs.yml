@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Stats API
+  version: 3.0.0
+tags:
+  - name: Stats
+    description: Stats API
+paths:
+  /api/v1/stats/admin:
+    # getAdminStats
+    get:
+      summary: Get admin stats
+      description: Get admin stats
+      operationId: getAdminStats
+      security:
+        - bearerAuth: []
+      tags:
+        - Stats
+      responses:
+        '200':
+          description: an object with admin stats
+        '500':
+          description: Internal server error'
+  /api/v1/stats/hotels/{id}:
+    get:
+      summary: Get hotel stats
+      description: Get hotel stats
+      operationId: getHotelStats
+      security:
+        - bearerAuth: []
+      tags:
+        - Stats
+      responses:
+        '200':
+          description: an object with hotel stats
+        '500':
+          description: Internal server error'
+  /api/v1/stats/users/{id}:
+    # getUserStats
+    get:
+      summary: Get user stats
+      description: Get user stats
+      operationId: getUserStats
+      security:
+        - bearerAuth: []
+      tags:
+        - Stats
+      responses:
+        '200':
+          description: an object with user stats
+        '500':
+          description: Internal server error'
