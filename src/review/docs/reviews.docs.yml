@@ -16,21 +16,136 @@ paths:
       responses:
         '200':
           description: an object with pagination and list of reviews
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  results:
-                    type: number
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/IReviewResponse'
         '500':
           description: Internal server error'
+    post:
+      summary: Create a review
+      description: Create a review
+      operationId: createReview
+      tags:
+        - Reviews
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReviewDto'
+      responses:
+        '201':
+          description: a review object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /api/v1/reviews/{id}:
+    get:
+      summary: Get a review by id
+      description: Get a review by id
+      operationId: getReviewById
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the review to get
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a review object
+        '404':
+          description: Review not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a review
+      description: Update a review
+      operationId: updateReview
+      tags:
+        - Reviews
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the review to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReviewDto'
+      responses:
+        '200':
+          description: a review object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a review
+      description: Delete a review
+      operationId: deleteReview
+      tags:
+        - Reviews
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the review to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Review deleted
+        '500':
+          description: Internal server error
+
+  /api/v1/reviews/hotel/{hotelId}:
+    get:
+      summary: Get all reviews of a hotel
+      description: Get all reviews of a hotel
+      operationId: getAllReviewsOfAHotel
+      tags:
+        - Reviews
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: hotelId
+          in: path
+          required: true
+          description: ID of the hotel to get reviews
+          schema:
+            type: string
+      responses:
+        '200':
+          description: an object with pagination and list of reviews
+        '500':
+          description: Internal server error
+
+  /api/v1/reviews/user:
+    get:
+      summary: Get all reviews of a user
+      description: Get all reviews of a user
+      operationId: getAllReviewsOfAUser
+      tags:
+        - Reviews
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: an object with pagination and list of reviews
+        '500':
+          description: Internal server error
 
 components:
   securitySchemes:
