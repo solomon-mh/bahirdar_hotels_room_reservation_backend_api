@@ -83,6 +83,7 @@
 | PATCH  | `/{id}`            | Update a review by id      |
 | DELETE | `/{id}`            | Delete a review by id      |
 | GET    | `/hotel/{hotelId}` | get all reviews of a hotel |
+| GET    | `/user`            | get all reviews of a user  |
 
 ## FAVORITE's
 

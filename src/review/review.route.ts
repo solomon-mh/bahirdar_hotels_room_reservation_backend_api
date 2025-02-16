@@ -25,6 +25,10 @@ router.get('/hotel/:hotelId', (req, res) =>
   reviewController.getAllReviewsOfAHotel(req, res)
 );
 
+router.get('/user', (req, res) =>
+  reviewController.getAllReviewsOfAUser(req, res)
+);
+
 router.patch(
   '/:id',
   authController.restrictTo(UserRole.USER, UserRole.ADMIN),

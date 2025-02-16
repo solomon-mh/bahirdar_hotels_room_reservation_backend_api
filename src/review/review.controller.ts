@@ -11,6 +11,7 @@ import { Types } from 'mongoose';
 import { IReviewModel } from './review.model';
 import { getAllReviewsOfAHotelProvider } from './providers/get-all-reviews-a-hotel.provider';
 import BookingModel from '../bookings/bookings.model';
+import { getAllReviewsOfAUserProvider } from './providers/get-all-reviews-of-a-user.provider';
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
@@ -218,5 +219,10 @@ export class ReviewController {
   // GET ALL REVIEWS OF A HOTEL
   getAllReviewsOfAHotel(req: Request, res: Response) {
     getAllReviewsOfAHotelProvider(req, res);
+  }
+
+  // GET ALL REVIEWS OF A USER
+  getAllReviewsOfAUser(req: Request, res: Response) {
+    getAllReviewsOfAUserProvider(req, res);
   }
 }
