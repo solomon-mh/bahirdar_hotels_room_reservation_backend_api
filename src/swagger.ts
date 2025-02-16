@@ -19,11 +19,11 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         url: 'http://localhost:5000',
-        // description: 'run you app locally and test it',
+        description: 'run you app locally and test it',
       },
       {
-        url: 'http://backend_url.api.com',
-        // description: 'deployed version of our application',
+        url: 'https://hotel-booking-app-backend-ac8s.onrender.com',
+        description: 'deployed version of our application',
       },
     ],
   },
