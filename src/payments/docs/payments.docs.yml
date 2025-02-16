@@ -131,6 +131,13 @@ paths:
       operationId: acceptBookingPayment
       security:
         - bearerAuth: []
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          description: booking id
+          schema:
+            type: string
       tags:
         - Payments
       responses:
