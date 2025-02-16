@@ -1,4 +1,4 @@
-# Hotel Booking App Backend url
+# Bahir Dar Hotels Room Reservation System Backend API
 
 ## USER's
 
