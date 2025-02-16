@@ -13,24 +13,253 @@ paths:
       operationId: getAllUsers
       tags:
         - Users
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: an object with pagination and list of users
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  results:
-                    type: number
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/IUserResponse'
+          description: list of users
         '500':
           description: Internal server error'
+    post:
+      summary: Create a user
+      description: Create a user
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /api/v1/users/{id}:
+    get:
+      summary: Get a user by id
+      description: Get a user by id
+      operationId: getUserById
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a user by id
+      description: Update a user by id
+      operationId: updateUserById
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a user by id
+      description: Delete a user by id
+      operationId: deleteUserById
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /api/v1/users/current-user:
+    get:
+      summary: Get current user
+      description: Get currently logged in user
+      operationId: getCurrentUser
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /api/v1/users/user-with-bookings:
+    get:
+      summary: Get user with bookings
+      description: Get user with bookings
+      operationId: getUserWithBookings
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /api/v1/users/complete-onboarding:
+    post:
+      summary: Complete onboarding
+      description: Complete onboarding
+      operationId: completeOnboarding
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingDto'
+      responses:
+        '200':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/users/request-identity-verification:
+    post:
+      summary: Request identity verification
+      description: Request identity verification
+      operationId: requestIdentityVerification
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: a user object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/users/verify-user-account/{id}:
+    patch:
+      summary: Verify user account
+      description: Verify user account
+      operationId: verifyUserAccount
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /api/v1/users/decline-verification-request/{id}:
+    patch:
+      summary: Decline verification request
+      description: Decline verification request
+      operationId: declineVerificationRequest
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: a user object
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /api/v1/users/onboarding-users:
+    get:
+      summary: Get onboarding users
+      description: Get onboarding users
+      operationId: getOnboardingUsers
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: list of users
+        '500':
+          description: Internal server error
+
+  /api/v1/users/verification-requests:
+    get:
+      summary: Get verification requests
+      description: Get verification requests
+      operationId: getVerificationRequests
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: list of users
+        '500':
+          description: Internal server error
 
 components:
   securitySchemes:
