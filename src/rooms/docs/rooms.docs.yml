@@ -31,6 +31,104 @@ paths:
                       $ref: '#/components/schemas/IRoomResponse'
         '500':
           description: Internal server error'
+    post:
+      summary: Create a room
+      description: Create a room
+      operationId: createRoom
+      tags:
+        - Rooms
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomDto'
+      responses:
+        '201':
+          description: a room object
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /api/v1/rooms/{id}:
+    get:
+      summary: Get a room by id
+      description: Get a room by id
+      operationId: getRoomById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the room to get
+          schema:
+            type: string
+      tags:
+        - Rooms
+      responses:
+        '200':
+          description: a room object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRoomResponse'
+        '404':
+          description: Room not found
+        '500':
+          description: Internal server error
+    patch:
+      summary: Update a room by id
+      description: Update a room by id
+      operationId: updateRoomById
+      tags:
+        - Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the room to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoomDto'
+      responses:
+        '200':
+          description: a room object
+        '400':
+          description: Invalid input
+        '404':
+          description: Room not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a room by id
+      description: Delete a room by id
+      operationId: deleteRoomById
+      tags:
+        - Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the room to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Room deleted
+        '404':
+          description: Room not found
+        '500':
+          description: Internal server error
 
 components:
   securitySchemes:
