@@ -1,26 +1,27 @@
-import { Request, Response } from 'express';
-import ReviewModel from '../review.model';
+import { Request, Response } from "express";
+import ReviewModel from "../review.model";
+import { IUser } from "../../users/interfaces/user.interface";
 
 export async function getAllReviewsOfAUserProvider(
   req: Request,
   res: Response
 ) {
-  console.log('get-all-reviews-of-a-user.provider...');
+  console.log("get-all-reviews-of-a-user.provider...");
   try {
-    const user = req.user;
+    const user = req.user as IUser;
 
     const reviews = await ReviewModel.find({ user: user._id }).populate(
-      'hotel'
+      "hotel"
     );
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: reviews,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: 'error',
+      status: "error",
       message: (err as Error).message,
     });
   }
