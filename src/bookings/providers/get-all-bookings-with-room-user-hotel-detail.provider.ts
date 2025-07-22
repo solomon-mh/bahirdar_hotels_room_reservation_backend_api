@@ -1,17 +1,18 @@
-import { Request, Response } from 'express';
-import BookingModel from '../bookings.model';
-import { UserRole } from '../../users/enums/user-role.enum';
-import { Types } from 'mongoose';
-import { IGetAllBookingQuery } from '../interfaces/get-all-bookings.interface';
-import { getPaginationDataUtil } from '../../lib/utils/get-pagination-data.util';
+import { Request, Response } from "express";
+import BookingModel from "../bookings.model";
+import { UserRole } from "../../users/enums/user-role.enum";
+import { Types } from "mongoose";
+import { IGetAllBookingQuery } from "../interfaces/get-all-bookings.interface";
+import { getPaginationDataUtil } from "../../lib/utils/get-pagination-data.util";
 
 export async function getAllBookingsWithRoomUserHotelDetailProvider(
   req: Request,
   res: Response
 ) {
-  console.log('get all bookings with room user hotel detail provider...');
+  console.log("get all bookings with room user hotel detail provider...");
   try {
     const account = req.user;
+    if (!account) throw new Error("Account not found");
 
     const { isPaid, room, status, numOfNight, paymentDate, limit, page } =
       req.query as IGetAllBookingQuery;
@@ -41,18 +42,18 @@ export async function getAllBookingsWithRoomUserHotelDetailProvider(
             .sort({ updatedAt: -1 })
             .skip(skip)
             .limit(_limit)
-            .populate('room')
-            .populate('user')
-            .populate('hotel')
+            .populate("room")
+            .populate("user")
+            .populate("hotel")
         : await BookingModel.find(filter)
             .sort({ updatedAt: -1 })
             .skip(skip)
             .limit(_limit)
-            .populate('room')
-            .populate('user');
+            .populate("room")
+            .populate("user");
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       pagination: {
         totalPages,
         limit: _limit,
@@ -63,7 +64,7 @@ export async function getAllBookingsWithRoomUserHotelDetailProvider(
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: 'error',
+      status: "error",
       message: (err as Error).message,
     });
   }
