@@ -27,10 +27,10 @@ export function setupGoogleStrategy() {
                 email: profile.emails?.[0].value,
               },
             ],
-          })) as any as IUser;
+          })) as any;
           if (user && !user.googleId) {
             user.googleId = profile.id;
-            // await user.save();
+            await user.save();
           }
           if (!user) {
             user = (await UserModel.create({
@@ -42,7 +42,10 @@ export function setupGoogleStrategy() {
             })) as any as IUser;
           }
 
-          const token = createJWT({ id: user._id!, role: user.role });
+          const token = createJWT({
+            id: user._id!.toString(),
+            role: user.role,
+          });
           done(null, { token, user });
         } catch (error) {
           done(error);
