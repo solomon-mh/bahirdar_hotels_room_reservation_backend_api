@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from 'express';
-import { IUser } from '../users/interfaces/user.interface';
-import { protectRoutes } from './providers/protect.provider';
-import { updateMyPasswordProvider } from './providers/update-my-password.provider';
-import { loginProvider } from './providers/login.provider';
-import { forgotPasswordProvider } from './providers/forgot-password.provider';
-import { resetPasswordProvider } from './providers/reset-password.provider';
-import { signupProvider } from './providers/signup.provider';
-import { envConfig } from '../lib/config/environment.config';
+import { NextFunction, Request, Response } from "express";
+import { IUser } from "../users/interfaces/user.interface";
+import { protectRoutes } from "./providers/protect.provider";
+import { updateMyPasswordProvider } from "./providers/update-my-password.provider";
+import { loginProvider } from "./providers/login.provider";
+import { forgotPasswordProvider } from "./providers/forgot-password.provider";
+import { resetPasswordProvider } from "./providers/reset-password.provider";
+import { signupProvider } from "./providers/signup.provider";
+import { envConfig } from "../lib/config/environment.config";
 
 declare global {
   namespace Express {
     interface Request {
-      user: IUser;
+      user?: IUser;
     }
   }
 }
@@ -22,14 +22,14 @@ export class AuthController {
   }
 
   public logout(req: Request, res: Response) {
-    res.cookie('token', 'loggedOut', {
+    res.cookie("token", "loggedOut", {
       expires: new Date(Date.now()),
       httpOnly: true,
-      secure: envConfig.NODE_ENV === 'production',
+      secure: envConfig.NODE_ENV === "production",
     });
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
     });
   }
 
@@ -45,10 +45,10 @@ export class AuthController {
   // RESTRICT ACCESS TO ROUTES
   public restrictTo(...roles: string[]) {
     return (req: Request, res: Response, next: NextFunction) => {
-      if (!roles.includes(req.user.role)) {
+      if (!req.user?.role || !roles.includes(req.user.role as string)) {
         res.status(403).json({
-          status: 'fail',
-          message: 'You do not have permission to perform this action',
+          status: "fail",
+          message: "You do not have permission to perform this action",
         });
         return;
       }
