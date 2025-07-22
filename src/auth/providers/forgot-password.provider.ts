@@ -1,19 +1,18 @@
-import { Request, Response } from 'express';
-import UserModel from '../../users/users.model';
-import sendEmail from '../../lib/utils/mail.util';
-import { envConfig } from '../../lib/config/environment.config';
-import { IUser } from '../../users/interfaces/user.interface';
-import { getEmailHtmlTemplate } from '../../lib/utils/get-email-template.util';
+import { Request, Response } from "express";
+import UserModel from "../../users/users.model";
+import sendEmail from "../../lib/utils/mail.util";
+import { envConfig } from "../../lib/config/environment.config";
+import { IUser } from "../../users/interfaces/user.interface";
+import { getEmailHtmlTemplate } from "../../lib/utils/get-email-template.util";
 
 export const forgotPasswordProvider = async (req: Request, res: Response) => {
   try {
-    console.log('forgot password...');
     const { email } = req.body;
 
     if (!email) {
       res.status(400).json({
-        status: 'fail',
-        message: 'Please provide your email address',
+        status: "fail",
+        message: "Please provide your email address",
       });
       return;
     }
@@ -22,8 +21,8 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
 
     if (!user) {
       res.status(404).json({
-        status: 'fail',
-        message: 'There is no user found with that email address',
+        status: "fail",
+        message: "There is no user found with that email address",
       });
       return;
     }
@@ -57,7 +56,7 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
 
       await sendEmail({
         email: (user as any).email as string,
-        subject: 'Your password reset token (valid for 10 min)',
+        subject: "Your password reset token (valid for 10 min)",
         message,
         html,
       });
@@ -65,16 +64,16 @@ export const forgotPasswordProvider = async (req: Request, res: Response) => {
       (user as any).passwordResetToken = undefined;
       (user as any).passwordResetExpires = undefined;
       await user.save({ validateBeforeSave: false });
-      throw new Error('There was an error sending an email. Try again later');
+      throw new Error("There was an error sending an email. Try again later");
     }
 
     res.status(200).json({
-      status: 'success',
-      message: 'token is sent to an email',
+      status: "success",
+      message: "token is sent to an email",
     });
   } catch (err) {
     res.status(500).json({
-      status: 'fail',
+      status: "fail",
       message: (err as Error).message,
     });
   }
