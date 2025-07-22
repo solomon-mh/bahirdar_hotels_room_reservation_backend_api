@@ -6,6 +6,7 @@ import { envConfig } from "../environment.config";
 import UserModel from "../../../users/users.model";
 import { createJWT } from "../../utils/token.util";
 import { IUser } from "../../../users/interfaces/user.interface";
+import { UserRole } from "../../../users/enums/user-role.enum";
 
 export function setupGoogleStrategy() {
   passport.use(
@@ -18,10 +19,18 @@ export function setupGoogleStrategy() {
       async (_accessToken, _refreshToken, profile, done) => {
         try {
           let user = (await UserModel.findOne({
-            googleId: profile.id,
+            $or: [
+              {
+                googleId: profile.id,
+              },
+              {
+                email: profile.emails?.[0].value,
+              },
+            ],
           })) as any as IUser;
-          if (user) {
-            return done(null, user);
+          if (user && !user.googleId) {
+            user.googleId = profile.id;
+            // await user.save();
           }
           if (!user) {
             user = (await UserModel.create({
@@ -29,6 +38,7 @@ export function setupGoogleStrategy() {
               username: profile.displayName.toLocaleLowerCase(),
               googleId: profile.id,
               image: profile.photos?.[0]?.value,
+              role: UserRole.USER,
             })) as any as IUser;
           }
 
