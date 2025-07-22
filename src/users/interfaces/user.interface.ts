@@ -1,7 +1,7 @@
-import { Types } from 'mongoose';
-import { AddressInterface } from '../../lib/shared/address.interface';
-import { Gender } from '../../lib/shared/gender.enum';
-import { UserRole } from '../enums/user-role.enum';
+import { Types } from "mongoose";
+import { AddressInterface } from "../../lib/shared/address.interface";
+import { Gender } from "../../lib/shared/gender.enum";
+import { UserRole } from "../enums/user-role.enum";
 
 export interface IUser {
   _id?: string;
@@ -18,6 +18,8 @@ export interface IUser {
   role: UserRole;
   profilePicture: string;
   address: AddressInterface;
+
+  googleId?: string;
 
   idPhoto_front: string;
   idPhoto_back: string;
