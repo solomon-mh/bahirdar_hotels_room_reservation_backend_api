@@ -1,34 +1,34 @@
-import { Request, Response } from 'express';
-import { IReview } from './interfaces/review.interface';
-import { ReviewService } from './providers/review.service';
+import { Request, Response } from "express";
+import { IReview } from "./interfaces/review.interface";
+import { ReviewService } from "./providers/review.service";
 import {
   CreateReviewDto,
   validateCreateReviewDto,
-} from './middlewares/validate-create-review-dto.middleware';
-import { validateUpdateReviewDto } from './middlewares/validate-update-review-dto.middleware';
-import { IUser } from '../users/interfaces/user.interface';
-import { Types } from 'mongoose';
-import { IReviewModel } from './review.model';
-import { getAllReviewsOfAHotelProvider } from './providers/get-all-reviews-a-hotel.provider';
-import BookingModel from '../bookings/bookings.model';
-import { getAllReviewsOfAUserProvider } from './providers/get-all-reviews-of-a-user.provider';
+} from "./middlewares/validate-create-review-dto.middleware";
+import { validateUpdateReviewDto } from "./middlewares/validate-update-review-dto.middleware";
+import { IUser } from "../users/interfaces/user.interface";
+import { Types } from "mongoose";
+import { IReviewModel } from "./review.model";
+import { getAllReviewsOfAHotelProvider } from "./providers/get-all-reviews-a-hotel.provider";
+import BookingModel from "../bookings/bookings.model";
+import { getAllReviewsOfAUserProvider } from "./providers/get-all-reviews-of-a-user.provider";
 
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   // get all reviews
   async getAllReviews(req: Request, res: Response) {
-    console.log('Get all reviews...');
+    console.log("Get all reviews...");
     try {
       const reviews = await this.reviewService.findAllReviews();
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: reviews,
       });
     } catch (error) {
-      console.log('Error getting all reviews', error);
+      console.log("Error getting all reviews", error);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (error as Error).message,
       });
     }
@@ -36,27 +36,27 @@ export class ReviewController {
 
   // get review
   async getReview(req: Request, res: Response) {
-    console.log('Get review...');
+    console.log("Get review...");
     const { id } = req.params;
     try {
       const review = await this.reviewService.findReview(id);
 
       if (!review) {
         res.status(404).json({
-          status: 'error',
-          message: 'Review not found',
+          status: "error",
+          message: "Review not found",
         });
         return;
       }
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: review,
       });
     } catch (error) {
-      console.log('Error getting review', error);
+      console.log("Error getting review", error);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (error as Error).message,
       });
     }
@@ -64,18 +64,18 @@ export class ReviewController {
 
   // create review
   async createReview(req: Request, res: Response) {
-    console.log('Create review...');
+    console.log("Create review...");
     try {
-      const user: IUser = req.user;
+      const user: IUser = req.user as IUser;
       const createReviewDto: CreateReviewDto = req.body;
 
       createReviewDto.user = user._id!.toString();
 
       if (user.isOnboarding) {
         res.status(400).json({
-          status: 'fail',
+          status: "fail",
           message:
-            'You need to complete your onboarding before you can review a hotel',
+            "You need to complete your onboarding before you can review a hotel",
         });
         return;
       }
@@ -87,8 +87,8 @@ export class ReviewController {
           (error) => error.message
         );
         res.status(400).json({
-          status: 'error',
-          message: 'Validation failed',
+          status: "error",
+          message: "Validation failed",
           errors: validationErrors,
         });
         return;
@@ -102,8 +102,8 @@ export class ReviewController {
 
       if (!booking) {
         res.status(200).json({
-          status: 'fail',
-          message: 'user should book a room before giving a review to a hotel',
+          status: "fail",
+          message: "user should book a room before giving a review to a hotel",
         });
         return;
       }
@@ -115,8 +115,8 @@ export class ReviewController {
 
       if (review) {
         res.status(400).json({
-          status: 'error',
-          message: 'You have already reviewed this hotel',
+          status: "error",
+          message: "You have already reviewed this hotel",
         });
         return;
       }
@@ -124,13 +124,13 @@ export class ReviewController {
       review = await this.reviewService.createReview(createReviewDto);
 
       res.status(201).json({
-        status: 'success',
+        status: "success",
         data: review,
       });
     } catch (error) {
-      console.log('Error creating review', error);
+      console.log("Error creating review", error);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (error as Error).message,
       });
     }
@@ -138,7 +138,7 @@ export class ReviewController {
 
   // update review
   async updateReview(req: Request, res: Response) {
-    console.log('Update review...');
+    console.log("Update review...");
     const { id } = req.params;
     try {
       const updateReviewDto: Partial<IReview> = req.body;
@@ -150,8 +150,8 @@ export class ReviewController {
           (error) => error.message
         );
         res.status(400).json({
-          status: 'error',
-          message: 'Validation failed',
+          status: "error",
+          message: "Validation failed",
           errors: validationErrors,
         });
         return;
@@ -161,8 +161,8 @@ export class ReviewController {
 
       if (!review) {
         res.status(404).json({
-          status: 'error',
-          message: 'Review not found',
+          status: "error",
+          message: "Review not found",
         });
         return;
       }
@@ -172,13 +172,13 @@ export class ReviewController {
       Review.calcAvgRating(review.hotel);
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: review,
       });
     } catch (error) {
-      console.log('Error updating review', error);
+      console.log("Error updating review", error);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (error as Error).message,
       });
     }
@@ -186,15 +186,15 @@ export class ReviewController {
 
   // delete review
   async deleteReview(req: Request, res: Response) {
-    console.log('Delete review...');
+    console.log("Delete review...");
     const { id } = req.params;
     try {
       const review = await this.reviewService.deleteReview(id);
 
       if (!review) {
         res.status(404).json({
-          status: 'error',
-          message: 'Review not found',
+          status: "error",
+          message: "Review not found",
         });
         return;
       }
@@ -204,13 +204,13 @@ export class ReviewController {
       Review.calcAvgRating(review.hotel);
 
       res.status(200).json({
-        status: 'success',
-        message: 'Review deleted successfully',
+        status: "success",
+        message: "Review deleted successfully",
       });
     } catch (error) {
-      console.log('Error deleting review', error);
+      console.log("Error deleting review", error);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (error as Error).message,
       });
     }
