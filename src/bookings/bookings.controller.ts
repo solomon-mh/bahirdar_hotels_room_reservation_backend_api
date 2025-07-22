@@ -1,23 +1,23 @@
-import { Request, Response } from 'express';
-import { BookingsService } from './providers/bookings.service';
-import { IBooking } from './interfaces/booking.interface';
-import { IUser } from '../users/interfaces/user.interface';
-import { Types } from 'mongoose';
-import { validateCreateBookingDto } from './middlewares/validate-create-bookings-dto.middleware';
-import { validateUpdateBookingDto } from './middlewares/validate-update-booking-dto.middleware';
-import { RoomsService } from '../rooms/providers/room.service';
-import { IRoom } from '../rooms/interface/room.interface';
-import { getBookingWithRoomUserHotelDetailProvider } from './providers/booking-with-room-user-hotel-detail.provider';
-import { getAllBookingsWithRoomUserHotelDetailProvider } from './providers/get-all-bookings-with-room-user-hotel-detail.provider';
-import { getAllBookingsOfAHotelProvider } from './providers/get-all-bookings-a-hotel.provider';
-import { IGetAllBookingQuery } from './interfaces/get-all-bookings.interface';
-import { getAllBookingsOfARoomProvider } from './providers/get-all-bookings-a-room.provider';
-import { getAllBookingsOfAUserProvider } from './providers/all-bookings-of-a-user.provider';
-import { rejectUserBookingProvider } from './providers/reject-user-booking.provider';
-import { cancelMyBookingProvider } from './providers/cancel-my-booking.provider';
-import { confirmUserBookingProvider } from './providers/confirm-user-booking.provider';
-import { checkinUserBookingProvider } from './providers/checkin-user-booking.provider';
-import { checkoutUserBookingProvider } from './providers/checkout-user-booking.provider';
+import { Request, Response } from "express";
+import { BookingsService } from "./providers/bookings.service";
+import { IBooking } from "./interfaces/booking.interface";
+import { IUser } from "../users/interfaces/user.interface";
+import { Types } from "mongoose";
+import { validateCreateBookingDto } from "./middlewares/validate-create-bookings-dto.middleware";
+import { validateUpdateBookingDto } from "./middlewares/validate-update-booking-dto.middleware";
+import { RoomsService } from "../rooms/providers/room.service";
+import { IRoom } from "../rooms/interface/room.interface";
+import { getBookingWithRoomUserHotelDetailProvider } from "./providers/booking-with-room-user-hotel-detail.provider";
+import { getAllBookingsWithRoomUserHotelDetailProvider } from "./providers/get-all-bookings-with-room-user-hotel-detail.provider";
+import { getAllBookingsOfAHotelProvider } from "./providers/get-all-bookings-a-hotel.provider";
+import { IGetAllBookingQuery } from "./interfaces/get-all-bookings.interface";
+import { getAllBookingsOfARoomProvider } from "./providers/get-all-bookings-a-room.provider";
+import { getAllBookingsOfAUserProvider } from "./providers/all-bookings-of-a-user.provider";
+import { rejectUserBookingProvider } from "./providers/reject-user-booking.provider";
+import { cancelMyBookingProvider } from "./providers/cancel-my-booking.provider";
+import { confirmUserBookingProvider } from "./providers/confirm-user-booking.provider";
+import { checkinUserBookingProvider } from "./providers/checkin-user-booking.provider";
+import { checkoutUserBookingProvider } from "./providers/checkout-user-booking.provider";
 
 export class BookingsController {
   constructor(
@@ -27,72 +27,72 @@ export class BookingsController {
 
   // get all bookings
   async getAllBookings(req: Request, res: Response) {
-    console.log('get all bookings...');
+    console.log("get all bookings...");
     try {
       const data = await this.bookingsService.findAllBookings(
         req.query as IGetAllBookingQuery
       );
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         pagination: data.pagination,
         data: data.bookings,
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (err as Error).message,
       });
     }
   }
   // get booking
   async getBooking(req: Request, res: Response) {
-    console.log('get booking...');
+    console.log("get booking...");
     try {
       const booking = await this.bookingsService.findBooking(req.params.id);
 
       if (!booking) {
         res.status(404).json({
-          status: 'error',
-          message: 'Booking not found',
+          status: "error",
+          message: "Booking not found",
         });
         return;
       }
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: booking,
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (err as Error).message,
       });
     }
   }
   // create booking
   async createBooking(req: Request, res: Response) {
-    console.log('create booking...');
+    console.log("create booking...");
     try {
       const createBookingDto: IBooking = req.body;
-      const user: IUser = req.user;
+      const user: IUser = req.user as IUser;
       createBookingDto.user = new Types.ObjectId(user._id!);
 
       if (user.isOnboarding) {
         res.status(400).json({
-          status: 'fail',
+          status: "fail",
           message:
-            'You need to complete your onboarding before you can book a hotel',
+            "You need to complete your onboarding before you can book a hotel",
         });
         return;
       }
 
       if (!user.isVerified) {
         res.status(400).json({
-          status: 'fail',
-          message: 'you are account is not verified yet',
+          status: "fail",
+          message: "you are account is not verified yet",
         });
         return;
       }
@@ -104,8 +104,8 @@ export class BookingsController {
           (error) => error.message
         );
         res.status(400).json({
-          status: 'error',
-          message: 'Validation failed',
+          status: "error",
+          message: "Validation failed",
           errors: validationErrors,
         });
         return;
@@ -117,8 +117,8 @@ export class BookingsController {
 
       if (!room) {
         res.status(404).json({
-          status: 'error',
-          message: 'Room not found',
+          status: "error",
+          message: "Room not found",
         });
         return;
       }
@@ -129,20 +129,20 @@ export class BookingsController {
       });
 
       res.status(201).json({
-        status: 'success',
+        status: "success",
         data: booking,
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (err as Error).message,
       });
     }
   }
   // update booking
   async updateBooking(req: Request, res: Response) {
-    console.log('update booking...');
+    console.log("update booking...");
     try {
       const updateBookingDto: Partial<IBooking> = req.body;
 
@@ -153,8 +153,8 @@ export class BookingsController {
           (error) => error.message
         );
         res.status(400).json({
-          status: 'error',
-          message: 'Validation failed',
+          status: "error",
+          message: "Validation failed",
           errors: validationErrors,
         });
         return;
@@ -167,8 +167,8 @@ export class BookingsController {
 
         if (!room) {
           res.status(404).json({
-            status: 'error',
-            message: 'Room not found',
+            status: "error",
+            message: "Room not found",
           });
           return;
         }
@@ -181,46 +181,46 @@ export class BookingsController {
 
       if (!booking) {
         res.status(404).json({
-          status: 'error',
-          message: 'Booking not found',
+          status: "error",
+          message: "Booking not found",
         });
         return;
       }
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: booking,
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (err as Error).message,
       });
     }
   }
   // delete booking
   async deleteBooking(req: Request, res: Response) {
-    console.log('delete booking...');
+    console.log("delete booking...");
     try {
       const booking = await this.bookingsService.deleteBooking(req.params.id);
 
       if (!booking) {
         res.status(404).json({
-          status: 'error',
-          message: 'Booking not found',
+          status: "error",
+          message: "Booking not found",
         });
         return;
       }
 
       res.status(204).json({
-        status: 'success',
+        status: "success",
         data: null,
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: (err as Error).message,
       });
     }
