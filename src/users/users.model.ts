@@ -1,13 +1,13 @@
-import crypto from 'crypto';
-import bcrypt from 'bcryptjs';
-import mongoose, { Schema, Model, Document } from 'mongoose';
-import validator from 'validator';
+import crypto from "crypto";
+import bcrypt from "bcryptjs";
+import mongoose, { Schema, Model, Document } from "mongoose";
+import validator from "validator";
 
-import { IUser } from './interfaces/user.interface';
-import { Gender } from '../lib/shared/gender.enum';
-import { UserRole } from './enums/user-role.enum';
-import { DEFAULT_USER_AVATAR } from '../lib/constants/constants';
-import { AddressSchema } from '../lib/shared/address.schema';
+import { IUser } from "./interfaces/user.interface";
+import { Gender } from "../lib/shared/gender.enum";
+import { UserRole } from "./enums/user-role.enum";
+import { DEFAULT_USER_AVATAR } from "../lib/constants/constants";
+import { AddressSchema } from "../lib/shared/address.schema";
 
 export interface IUserModel extends Model<IUser & Document> {}
 
@@ -24,7 +24,7 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     username: {
       type: String,
       trim: true,
-      required: [true, 'Username is required'],
+      required: [true, "Username is required"],
       unique: true,
     },
     dateOfBirth: {
@@ -37,17 +37,24 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     email: {
       type: String,
       trim: true,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
-      validate: [validator.isEmail, 'Please provide a valid email'],
+      validate: [validator.isEmail, "Please provide a valid email"],
     },
     phoneNumber: {
       type: String,
       trim: true,
     },
+    googleId: { type: String, required: false, unique: true, sparse: true },
     password: {
       type: String,
-      required: [true, 'Password is required'],
+      required: [
+        function (this: IUser) {
+          // Password is required if googleId is not present
+          return !this.googleId;
+        },
+        "Password is required",
+      ],
     },
     role: {
       type: String,
@@ -73,7 +80,7 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     // },
     hotel: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Hotel',
+      ref: "Hotel",
     },
 
     idPhoto_back: String,
@@ -89,7 +96,7 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
     },
     verifiedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
 
     passwordResetToken: String,
@@ -101,9 +108,9 @@ const UserSchema: Schema<IUser> = new Schema<IUser>(
 );
 
 // Hash the password before save
-UserSchema.pre('save', async function (next) {
+UserSchema.pre("save", async function (next) {
   // Only run this function if password was actually modified
-  if (!this.isModified('password')) return next();
+  if (!this.isModified("password")) return next();
 
   // Hash the password with cost of 12
   const salt = await bcrypt.genSalt(12);
@@ -114,12 +121,12 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken = crypto.randomBytes(32).toString("hex");
 
   this.passwordResetToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(resetToken)
-    .digest('hex');
+    .digest("hex");
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
@@ -127,7 +134,7 @@ UserSchema.methods.createPasswordResetToken = function () {
 };
 
 const UserModel: Model<IUserModel> = mongoose.model<IUserModel>(
-  'User',
+  "User",
   UserSchema
 );
 
