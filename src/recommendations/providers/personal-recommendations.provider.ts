@@ -1,14 +1,15 @@
-import { Request, Response } from 'express';
-import BookingModel from '../../bookings/bookings.model';
-import FavoriteModel from '../../favorites/favorites.model';
-import HotelModel from '../../hotels/hotels.model';
-import { IBooking } from '../../bookings/interfaces/booking.interface';
-import { IHotel } from '../../hotels/interfaces/hotel.interface';
+import { Request, Response } from "express";
+import BookingModel from "../../bookings/bookings.model";
+import FavoriteModel from "../../favorites/favorites.model";
+import HotelModel from "../../hotels/hotels.model";
+import { IBooking } from "../../bookings/interfaces/booking.interface";
+import { IHotel } from "../../hotels/interfaces/hotel.interface";
+import { IUser } from "../../users/interfaces/user.interface";
 
-interface IPopulatedBooking extends Omit<IBooking, 'hotel'> {
+interface IPopulatedBooking extends Omit<IBooking, "hotel"> {
   hotel: IHotel;
 }
-interface IPopulatedFavorite extends Omit<IBooking, 'hotel'> {
+interface IPopulatedFavorite extends Omit<IBooking, "hotel"> {
   hotel: IHotel;
 }
 
@@ -16,9 +17,9 @@ export async function personalRecommendationsProvider(
   req: Request,
   res: Response
 ) {
-  console.log('personal-recommendations.provider...');
+  console.log("personal-recommendations.provider...");
   try {
-    const user = req.user;
+    const user = req.user as IUser;
     /* 
     i want to get a personalized recommendation of hotels on my home page
     i want to see hotels that i have booked in the past
@@ -28,10 +29,10 @@ export async function personalRecommendationsProvider(
     and finally to get the top 6 hotels based on the above criteria
    */
     const bookings = (await BookingModel.find({ user: user._id }).populate(
-      'hotel'
+      "hotel"
     )) as unknown as IPopulatedBooking[];
     const favorites = (await FavoriteModel.find({ user: user._id }).populate(
-      'hotel'
+      "hotel"
     )) as unknown as IPopulatedFavorite[];
 
     const bookedHotels = bookings.map((booking) => booking.hotel);
@@ -57,13 +58,13 @@ export async function personalRecommendationsProvider(
     );
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: uniqueHotels.slice(0, 6),
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: 'error',
+      status: "error",
       message: (err as Error).message,
     });
   }
