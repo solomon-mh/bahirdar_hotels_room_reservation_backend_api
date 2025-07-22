@@ -35,7 +35,7 @@ export function setupGoogleStrategy() {
           if (!user) {
             user = (await UserModel.create({
               email: profile.emails?.[0].value,
-              username: profile.displayName.toLocaleLowerCase(),
+              username: profile.displayName.toLocaleLowerCase().trim(),
               googleId: profile.id,
               image: profile.photos?.[0]?.value,
               role: UserRole.USER,
